@@ -3804,7 +3804,7 @@ activePopup = null;
 
 #    print(f"✅ Added merc data for cluster {cluster}:")
 #    print(merc_count)
-
+ 
     dt = datetime.now()
     # format it to a string
     timeStamp = dt.strftime('%Y-%m-%d %H:%M')
