@@ -26,6 +26,6 @@ from doitallHCv2 import GetAllhcCharData, GethcClassCharData, MakehcHome, GethcN
 #GethcChargers()
 #GethcOffensiveAuraItemsEquipped()
 #MakehcClassPages()
-GitHubSync()
+#GitHubSync()
 
 print("✅ All Hardcore scripts executed successfully!")
