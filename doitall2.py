@@ -18,7 +18,7 @@ from doitallHCv2 import GetAllhcCharData, GethcClassCharData, MakehcHome, GethcN
 
 #GetAllhcCharData()
 #GethcClassCharData()
-#MakehcHome()
+MakehcHome()
 #GethcDashers()
 #GethcNonZon()
 #GethcUniqueProjectiles()

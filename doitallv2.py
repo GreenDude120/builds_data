@@ -283,7 +283,7 @@ def MakeHome():
                     return "Weapons and Shields"
             
             worn_category_map = {
-                "ring1": "Ring", "ring2": "RingsBody ",
+                "ring1": "Rings", "ring2": "Rings",
                 "body": "Armor",
                 "gloves": "Gloves",
                 "belt": "Belts",
@@ -368,11 +368,11 @@ def MakeHome():
 
         return class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users
 
-    def process_files_in_folder_for_magic_rare(folder):
-        magic_counters = {category: Counter() for category in crafted_counters}
-        rare_counters = {category: Counter() for category in crafted_counters}
-        magic_users = {category: {} for category in crafted_counters}
-        rare_users = {category: {} for category in crafted_counters}
+    def process_files_in_folder_for_magic_rare(folder, magic_counters, rare_counters):
+        magic_counters = {category: Counter() for category in magic_counters}
+        rare_counters = {category: Counter() for category in rare_counters}
+        magic_users = {category: {} for category in magic_counters}
+        rare_users = {category: {} for category in rare_counters}
         def categorize_worn_slot(worn_category, text_tag):
             if worn_category in ["sweapon1", "weapon1", "sweapon2", "weapon2"]:
                 if text_tag == "Arrows":
@@ -383,7 +383,7 @@ def MakeHome():
                     return "Weapons and Shields"
             
             worn_category_map = {
-                "ring1": "Ring", "ring2": "RingsBody ",
+                "ring1": "Rings", "ring2": "Rings",
                 "body": "Armor",
                 "gloves": "Gloves",
                 "belt": "Belts",
@@ -599,7 +599,7 @@ def MakeHome():
 
     # Process the files in the data folder
     class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users = process_files_in_folder(data_folder)
-    magic_counters, magic_users, rare_counters, rare_users = process_files_in_folder_for_magic_rare(data_folder)
+    magic_counters, magic_users, rare_counters, rare_users = process_files_in_folder_for_magic_rare(data_folder, magic_counters, rare_counters)
 
     # Print the class counts
     print("Class Counts:")
@@ -632,7 +632,18 @@ def MakeHome():
 
     # Load custom font
      # Load custom font
-    armory = FontProperties(fname='armory/font/avqest.ttf')  # Update path if needed
+#    armory = FontProperties(fname='armory/font/avqest.ttf')  # Update path if needed
+#    armory = FontProperties(fname='pod-stats\armory\font\avqest.ttf')  # Update path if needed
+    # Define the relative path to the font
+    import matplotlib.font_manager as fm
+    # Get the directory of the script
+    script_dir = os.path.dirname(__file__)
+
+    # Construct the relative path to the font
+    font_path = os.path.join(script_dir, "pod-stats", "armory", "font", "avqest.ttf")
+
+    # Load the font
+    armory = fm.FontProperties(fname=font_path)
 
     def make_autopct(values):
         def my_autopct(pct):
@@ -650,7 +661,7 @@ def MakeHome():
 
     # Create the pie chart
     wedges, texts, autotexts = plt.pie(
-        counts, labels=classes, autopct=make_autopct(counts), startangle=250, 
+        counts, labels=classes, autopct=make_autopct(counts), startangle=300, 
         colors=plt.cm.Paired.colors, radius=1.4, textprops={'fontsize': 30, 'color': 'white', 'fontproperties': armory}
     )
 
@@ -670,12 +681,13 @@ def MakeHome():
     plt.axis('equal')  # Ensures the pie chart is circular
 
     # Save the plot with transparent background
-    plt.savefig("pod-stats/charts/class_distribution.png", dpi=300, bbox_inches='tight', transparent=True)
+#    plt.savefig("pod-stats/charts/class_distribution.png", dpi=300, bbox_inches='tight', transparent=True) # Linux
+    plt.savefig(r"pod-stats\charts\class_distribution.png", dpi=300, bbox_inches='tight', transparent=True) # Windows
 
     print("Plot saved as class_distribution.png")
 
     # Display the plot
-    plt.show()
+#    plt.show()
 
 
     # Get the most common items
@@ -894,20 +906,25 @@ def MakeHome():
     craft_user_count = sum(len(users) for users in crafted_users.values())
 
 
-    def generate_magic_list_items(magic_counters, magic_users):
+    def generate_magic_list_items(magic_counter, magic_users):
         items_html = ""
 
-        for worn_category, counter in magic_counters.items():
+        for worn_category, counter in magic_counter.items():
             if not counter:  # Skip empty categories
                 continue
             
-            # Collect all characters in this category
-            category_users = []
+            # Use a set to ensure unique character names
+            unique_category_users = set()
+            category_users_info = []  # Store full character info after deduplication
+
             for item, count in counter.items():
-                category_users.extend(magic_users.get(worn_category, {}).get(item, []))
+                for user in magic_users.get(worn_category, {}).get(item, []):
+                    if user["name"] not in unique_category_users:
+                        unique_category_users.add(user["name"])  # Add name to the set
+                        category_users_info.append(user)  # Keep full user data
 
             # Skip categories with no users
-            if not category_users:
+            if not category_users_info:
                 continue
 
             # Create the list of all users in this category
@@ -926,7 +943,7 @@ def MakeHome():
                 <div class="character">
                     <div class="popup hidden"></div> <!-- No iframe inside initially -->
                 </div>
-                """ for char in category_users
+                """ for char in category_users_info
             )
 
             # Create a collapsible button for each category
@@ -934,15 +951,22 @@ def MakeHome():
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>Magic {worn_category} ({len(category_users)} users)</strong>
+                <strong>Magic {worn_category} ({len(category_users_info)} users)</strong>
             </button>
             <div class="content">
-                {character_list_html if category_users else "<p>No characters using magic items in this category.</p>"}
+                {character_list_html if category_users_info else "<p>No characters using Magic items in this category.</p>"}
             </div>
             """
 
         return items_html
-    magic_user_count = sum(len(users) for users in magic_users.values())
+    # Count unique character names across all rare items
+    unique_magic_users = set()
+    for category_users in magic_users.values():
+        for item_users in category_users.values():
+            for user in item_users:
+                unique_magic_users.add(user["name"])  # Add only the character's name to the set
+
+    magic_user_count = len(unique_magic_users)  # Unique count of characters wearing rare items
 
 
     def generate_rare_list_items(rare_counter, rare_users):
@@ -952,13 +976,18 @@ def MakeHome():
             if not counter:  # Skip empty categories
                 continue
             
-            # Collect all characters in this category
-            category_users = []
+            # Use a set to ensure unique character names
+            unique_category_users = set()
+            category_users_info = []  # Store full character info after deduplication
+
             for item, count in counter.items():
-                category_users.extend(rare_users.get(worn_category, {}).get(item, []))
+                for user in rare_users.get(worn_category, {}).get(item, []):
+                    if user["name"] not in unique_category_users:
+                        unique_category_users.add(user["name"])  # Add name to the set
+                        category_users_info.append(user)  # Keep full user data
 
             # Skip categories with no users
-            if not category_users:
+            if not category_users_info:
                 continue
 
             # Create the list of all users in this category
@@ -977,7 +1006,7 @@ def MakeHome():
                 <div class="character">
                     <div class="popup hidden"></div> <!-- No iframe inside initially -->
                 </div>
-                """ for char in category_users
+                """ for char in category_users_info
             )
 
             # Create a collapsible button for each category
@@ -985,15 +1014,22 @@ def MakeHome():
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>Rare {worn_category} ({len(category_users)} users)</strong>
+                <strong>Rare {worn_category} ({len(category_users_info)} users)</strong>
             </button>
             <div class="content">
-                {character_list_html if category_users else "<p>No characters using Rare items in this category.</p>"}
+                {character_list_html if category_users_info else "<p>No characters using Rare items in this category.</p>"}
             </div>
             """
 
         return items_html
-    rare_user_count = sum(len(users) for users in rare_users.values())
+    # Count unique character names across all rare items
+    unique_rare_users = set()
+    for category_users in rare_users.values():
+        for item_users in category_users.values():
+            for user in item_users:
+                unique_rare_users.add(user["name"])  # Add only the character's name to the set
+
+    rare_user_count = len(unique_rare_users)  # Unique count of characters wearing rare items
 
     def socket_html(sorted_runes, sorted_excluding_runes, all_other_items):
         def extract_element(item):
@@ -1370,6 +1406,7 @@ def MakeHome():
 <div class="main">
 <br><br><br><br><br><br><br><br><br><br><br><br><br>
         <h1>PoD SOFTCORE STATS </h1>
+
         <!-- Embed the Plotly pie chart -->
     <!--     <h2>Pick a class below for more detail</h2>-->
     <!--     <iframe src="cluster_analysis_report.html"></iframe>  -->
