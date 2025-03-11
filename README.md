@@ -146,5 +146,3 @@ pip install pandas
 pip install scikit-learn
 pip install plotly
 pip install jinja2
-pip install matplotlib
-pip install kaleido

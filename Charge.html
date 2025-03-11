@@ -4,10 +4,16 @@
     <head>
         <title>Charge Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="not-main">
+    <body class="main">
 
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
         <div class="top-buttons">
             <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
@@ -36,49 +42,49 @@
         <!--<h2>35.29% of Charge's Main Skills:<br>
                 <div class="skillbar-container">
                     <div class="skill-row">
-                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Charge (120)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Might.png" alt="Might" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Might (94)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Vigor.png" alt="Vigor" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 499.98px; min-width: 300px;">
-                                <span class="skill-label">Vigor (67)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
                         <img src="icons/Salvation.png" alt="Salvation" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 499.98px; min-width: 300px;">
-                                <span class="skill-label">Salvation (61)</span>
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Salvation (120)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Charge (94)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Resist Fire.png" alt="Resist Fire" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 333.35px, 500px); min-width: 300px;">
+                                <span class="skill-label">Resist Fire (79)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Resist Lightning.png" alt="Resist Lightning" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 250.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Resist Lightning (60)</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 </h2>
-        <p class="indented-skills"><strong>Other Skills:<br></strong> <img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='normal-skill'>Holy Freeze 50.0% (60)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 33.33% (26)</span><br><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> <span class='highlight-100'>Blessed Hammer 100.0% (25)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (21)</span><br><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> <span class='normal-skill'>Fanaticism 16.67% (20)</span><br><img src='icons/Resist Fire.png' alt='Resist Fire' width='20' height='20'> <span class='normal-skill'>Resist Fire 16.67% (20)</span></p> -->
+        <p class="indented-skills"><strong>Other Skills:<br></strong> <img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> <span class='normal-skill'>Holy Shock 50.0% (48)</span><br><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='highlight-100'>Holy Freeze 100.0% (44)</span><br><img src='icons/Conviction.png' alt='Conviction' width='20' height='20'> <span class='normal-skill'>Conviction 50.0% (41)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (37)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 16.67% (20)</span><br><img src='icons/Might.png' alt='Might' width='20' height='20'> <span class='highlight-100'>Might 100.0% (18)</span></p> -->
         <div class="class-intro">
         <div id="skills" class="skills-container">
             <div class="column">
@@ -86,43 +92,43 @@
                     <h2>35.29% of Charge's Main Skills:<br>
                 <div class="skillbar-container">
                     <div class="skill-row">
-                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Charge (120)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Might.png" alt="Might" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Might (94)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Vigor.png" alt="Vigor" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 499.98px; min-width: 300px;">
-                                <span class="skill-label">Vigor (67)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
                         <img src="icons/Salvation.png" alt="Salvation" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 499.98px; min-width: 300px;">
-                                <span class="skill-label">Salvation (61)</span>
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Salvation (120)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Charge (94)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Resist Fire.png" alt="Resist Fire" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 333.35px, 500px); min-width: 300px;">
+                                <span class="skill-label">Resist Fire (79)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Resist Lightning.png" alt="Resist Lightning" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 250.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Resist Lightning (60)</span>
                             </div>
                         </div>
                     </div>
@@ -132,7 +138,7 @@
             </div>
 <!--            <div class="column">
                 <ul id="other-skills">
-                    <h2>Other common skills in this group:</h2> <img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='normal-skill'>Holy Freeze 50.0% (60)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 33.33% (26)</span><br><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> <span class='highlight-100'>Blessed Hammer 100.0% (25)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (21)</span><br><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> <span class='normal-skill'>Fanaticism 16.67% (20)</span><br><img src='icons/Resist Fire.png' alt='Resist Fire' width='20' height='20'> <span class='normal-skill'>Resist Fire 16.67% (20)</span>
+                    <h2>Other common skills in this group:</h2> <img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> <span class='normal-skill'>Holy Shock 50.0% (48)</span><br><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='highlight-100'>Holy Freeze 100.0% (44)</span><br><img src='icons/Conviction.png' alt='Conviction' width='20' height='20'> <span class='normal-skill'>Conviction 50.0% (41)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (37)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 16.67% (20)</span><br><img src='icons/Might.png' alt='Might' width='20' height='20'> <span class='highlight-100'>Might 100.0% (18)</span>
                 </ul>
             </div> -->
         </div>
@@ -142,30 +148,30 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>All Skills</strong></button>
                 <div class="content">
-                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' width='20' height='20'> Charge 100.0% (120)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' width='20' height='20'> Might 100.0% (94)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' width='20' height='20'> Vigor 83.33% (68)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' width='20' height='20'> Salvation 83.33% (62)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> Holy Freeze 50.0% (60)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> Resist Cold 33.33% (26)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> Blessed Hammer 100.0% (25)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> Holy Shield 100.0% (21)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Fire.png' alt='Resist Fire' width='20' height='20'> Resist Fire 16.67% (20)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> Fanaticism 16.67% (20)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentration.png' alt='Concentration' width='20' height='20'> Concentration 33.33% (15)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> Holy Shock 16.67% (8)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' width='20' height='20'> Smite 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' width='20' height='20'> Holy Bolt 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' width='20' height='20'> Cleansing 83.33% (5)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' width='20' height='20'> Prayer 83.33% (5)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' width='20' height='20'> Defiance 83.33% (5)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' width='20' height='20'> Holy Fire 50.0% (3)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' width='20' height='20'> Dashing Strike 50.0% (3)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Aim.png' alt='Blessed Aim' width='20' height='20'> Blessed Aim 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Zeal.png' alt='Zeal' width='20' height='20'> Zeal 16.67% (2)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Redemption.png' alt='Redemption' width='20' height='20'> Redemption 16.67% (1)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' width='20' height='20'> Resist Lightning 16.67% (1)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sacrifice.png' alt='Sacrifice' width='20' height='20'> Sacrifice 16.67% (1)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div></div></div></div>
+                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' class='skill-icon'> Salvation 100.0% (120)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' class='skill-icon'> Charge 100.0% (95)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Fire.png' alt='Resist Fire' class='skill-icon'> Resist Fire 66.67% (80)</div><div class='skill-mini-bar' style='width: 266.68px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' class='skill-icon'> Resist Lightning 50.0% (60)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shock.png' alt='Holy Shock' class='skill-icon'> Holy Shock 50.0% (48)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' class='skill-icon'> Holy Freeze 100.0% (44)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Conviction.png' alt='Conviction' class='skill-icon'> Conviction 50.0% (41)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' class='skill-icon'> Holy Shield 100.0% (37)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Cold.png' alt='Resist Cold' class='skill-icon'> Resist Cold 16.67% (20)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' class='skill-icon'> Might 100.0% (18)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' class='skill-icon'> Blessed Hammer 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' class='skill-icon'> Holy Bolt 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' class='skill-icon'> Smite 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' class='skill-icon'> Holy Fire 100.0% (6)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' class='skill-icon'> Dashing Strike 83.33% (5)</div><div class='skill-mini-bar' style='width: 333.32px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Precision.png' alt='Precision' class='skill-icon'> Precision 50.0% (3)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sanctuary.png' alt='Sanctuary' class='skill-icon'> Sanctuary 50.0% (3)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' class='skill-icon'> Cleansing 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' class='skill-icon'> Defiance 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' class='skill-icon'> Prayer 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' class='skill-icon'> Vigor 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Redemption.png' alt='Redemption' class='skill-icon'> Redemption 33.33% (2)</div><div class='skill-mini-bar' style='width: 133.32px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Zeal.png' alt='Zeal' class='skill-icon'> Zeal 16.67% (1)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sacrifice.png' alt='Sacrifice' class='skill-icon'> Sacrifice 16.67% (1)</div><div class='skill-mini-bar' style='width: 66.68px;'></div></div></div></div></div></div>
                 </div>
 
                 <button type="button" class="collapsible small-collapsible">
@@ -173,7 +179,7 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>Most Common Equipment:</strong></button>
                 <div class="content">
-                    <div><strong>Amulet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Highlord's Wrath</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Mara's Kaleidoscope</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Angelic Wings</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Metalgrid</span> 16.67% (1)<br><strong>Ring</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Ring</span> 41.67% (5)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Wisp Projector</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Raven Frost</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dwarf Star</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Angelic Halo</span> 8.33% (1)<br><strong>Boots</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Gore Rider</span> 66.67% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Marrowwalk</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>War Traveler</span> 16.67% (1)<br><strong>Gloves</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dracul's Grasp</span> 50.00% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Steelrend</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Laying of Hands</span> 16.67% (1)<br><strong>Armor</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Chains of Honor</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Fortitude</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Enigma</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Leviathan</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 16.67% (1)<br><strong>Helmet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Guillaume's Face</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Vampire Gaze</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nightwing's Veil</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Harlequin Crest</span> 16.67% (1)<br><strong>Belt</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 83.33% (5)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Snowclash</span> 16.67% (1)<br><strong>Left hand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Grief</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Azurewrath</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Demon Limb</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Breath of the Dying</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Silence</span> 8.33% (1)<br><strong>Offhand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Spirit</span> 40.00% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Phoenix</span> 20.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Stormshield</span> 20.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Herald of Zakarum</span> 10.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 10.00% (1)</div>
+                    <div><strong>Boots</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>War Traveler</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Aldur's Advance</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Sandstorm Trek</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Natalya's Soul</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Marrowwalk</span> 16.67% (1)<br><strong>Amulet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Highlord's Wrath</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Mara's Kaleidoscope</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Crescent Moon</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Metalgrid</span> 16.67% (1)<br><strong>Belt</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Arachnid Mesh</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nightsmoke</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>String of Ears</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Snowclash</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 16.67% (1)<br><strong>Helmet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Harlequin Crest</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Andariel's Visage</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dream</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Steel Shade</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Guillaume's Face</span> 16.67% (1)<br><strong>Gloves</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Laying of Hands</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dracul's Grasp</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Soul Drainer</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Steelrend</span> 16.67% (1)<br><strong>Armor</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 50.00% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Tal Rasha's Guardianship</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Enigma</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Chains of Honor</span> 16.67% (1)<br><strong>Ring</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Ring</span> 33.33% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Raven Frost</span> 33.33% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dwarf Star</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nagelring</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Wisp Projector</span> 8.33% (1)<br><strong>Left hand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Hand of Justice</span> 33.33% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Demon Limb</span> 16.67% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Lightsabre</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Naj's Puzzler</span> 8.33% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Long Staff</span> 8.33% (1)<br><strong>Offhand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 44.44% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Spirit</span> 33.33% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Medusa's Gaze</span> 11.11% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dream</span> 11.11% (1)</div>
                 </div>
 <!--            
                 <button type="button" class="collapsible small-collapsible">
@@ -181,7 +187,7 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>ALL Equipment:</strong></button>
                 <div class="content">
-                    <div><strong>Amulet</strong>: <span style='color: #edcd74;'>Highlord's Wrath</span> 33.33%, <span style='color: #edcd74;'>Mara's Kaleidoscope</span> 33.33%, <span style='color: #45a823;'>Angelic Wings</span> 16.67%, <span style='color: #edcd74;'>Metalgrid</span> 16.67%<br><strong>Ring</strong>: <span style='color: yellow;'>Rare Ring</span> 41.67%, <span style='color: #edcd74;'>Wisp Projector</span> 16.67%, <span style='color: #edcd74;'>Raven Frost</span> 16.67%, <span style='color: #edcd74;'>Dwarf Star</span> 16.67%, <span style='color: #45a823;'>Angelic Halo</span> 8.33%<br><strong>Boots</strong>: <span style='color: #edcd74;'>Gore Rider</span> 66.67%, <span style='color: #edcd74;'>Marrowwalk</span> 16.67%, <span style='color: #edcd74;'>War Traveler</span> 16.67%<br><strong>Gloves</strong>: <span style='color: #edcd74;'>Dracul's Grasp</span> 50.00%, <span style='color: #edcd74;'>Steelrend</span> 33.33%, <span style='color: #45a823;'>Laying of Hands</span> 16.67%<br><strong>Armor</strong>: <span style='color: #edcd74;'>Chains of Honor</span> 33.33%, <span style='color: #edcd74;'>Fortitude</span> 16.67%, <span style='color: #edcd74;'>Enigma</span> 16.67%, <span style='color: #edcd74;'>Leviathan</span> 16.67%, <span style='color: #edcd74;'>Dragon</span> 16.67%<br><strong>Helmet</strong>: <span style='color: #45a823;'>Guillaume's Face</span> 33.33%, <span style='color: #edcd74;'>Vampire Gaze</span> 33.33%, <span style='color: #edcd74;'>Nightwing's Veil</span> 16.67%, <span style='color: #edcd74;'>Harlequin Crest</span> 16.67%<br><strong>Belt</strong>: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 83.33%, <span style='color: #edcd74;'>Snowclash</span> 16.67%<br><strong>Left hand</strong>: <span style='color: #edcd74;'>Grief</span> 16.67%, <span style='color: #edcd74;'>Azurewrath</span> 8.33%, <span style='color: #edcd74;'>Demon Limb</span> 8.33%, <span style='color: #edcd74;'>Breath of the Dying</span> 8.33%, <span style='color: #edcd74;'>Silence</span> 8.33%, <span style='color: #edcd74;'>Djinn Slayer</span> 8.33%, <span style='color: #edcd74;'>Death</span> 8.33%, <span style='color: #edcd74;'>Fleshripper</span> 8.33%, <span style='color: #edcd74;'>Phoenix</span> 8.33%, <span style='color: #edcd74;'>Spirit</span> 8.33%, <span style='color: #edcd74;'>Hand of Justice</span> 8.33%<br><strong>Offhand</strong>: <span style='color: #edcd74;'>Spirit</span> 40.00%, <span style='color: #edcd74;'>Phoenix</span> 20.00%, <span style='color: #edcd74;'>Stormshield</span> 20.00%, <span style='color: #edcd74;'>Herald of Zakarum</span> 10.00%, <span style='color: #edcd74;'>Dragon</span> 10.00%</div>
+                    <div><strong>Boots</strong>: <span style='color: #edcd74;'>War Traveler</span> 33.33%, <span style='color: #45a823;'>Aldur's Advance</span> 16.67%, <span style='color: #edcd74;'>Sandstorm Trek</span> 16.67%, <span style='color: #45a823;'>Natalya's Soul</span> 16.67%, <span style='color: #edcd74;'>Marrowwalk</span> 16.67%<br><strong>Amulet</strong>: <span style='color: #edcd74;'>Highlord's Wrath</span> 33.33%, <span style='color: #edcd74;'>Mara's Kaleidoscope</span> 33.33%, <span style='color: #edcd74;'>Crescent Moon</span> 16.67%, <span style='color: #edcd74;'>Metalgrid</span> 16.67%<br><strong>Belt</strong>: <span style='color: #edcd74;'>Arachnid Mesh</span> 33.33%, <span style='color: #edcd74;'>Nightsmoke</span> 16.67%, <span style='color: #edcd74;'>String of Ears</span> 16.67%, <span style='color: #edcd74;'>Snowclash</span> 16.67%, <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 16.67%<br><strong>Helmet</strong>: <span style='color: #edcd74;'>Harlequin Crest</span> 33.33%, <span style='color: #edcd74;'>Andariel's Visage</span> 16.67%, <span style='color: #edcd74;'>Dream</span> 16.67%, <span style='color: #edcd74;'>Steel Shade</span> 16.67%, <span style='color: #45a823;'>Guillaume's Face</span> 16.67%<br><strong>Gloves</strong>: <span style='color: #45a823;'>Laying of Hands</span> 33.33%, <span style='color: #edcd74;'>Dracul's Grasp</span> 33.33%, <span style='color: #edcd74;'>Soul Drainer</span> 16.67%, <span style='color: #edcd74;'>Steelrend</span> 16.67%<br><strong>Armor</strong>: <span style='color: #edcd74;'>Dragon</span> 50.00%, <span style='color: #45a823;'>Tal Rasha's Guardianship</span> 16.67%, <span style='color: #edcd74;'>Enigma</span> 16.67%, <span style='color: #edcd74;'>Chains of Honor</span> 16.67%<br><strong>Ring</strong>: <span style='color: yellow;'>Rare Ring</span> 33.33%, <span style='color: #edcd74;'>Raven Frost</span> 33.33%, <span style='color: #edcd74;'>Dwarf Star</span> 16.67%, <span style='color: #edcd74;'>Nagelring</span> 8.33%, <span style='color: #edcd74;'>Wisp Projector</span> 8.33%<br><strong>Left hand</strong>: <span style='color: #edcd74;'>Hand of Justice</span> 33.33%, <span style='color: #edcd74;'>Demon Limb</span> 16.67%, <span style='color: #edcd74;'>Lightsabre</span> 8.33%, <span style='color: #45a823;'>Naj's Puzzler</span> 8.33%, <span style='color: yellow;'>Rare Long Staff</span> 8.33%, <span style='color: #edcd74;'>Fleshripper</span> 8.33%, <span style='color: #edcd74;'>Phoenix</span> 8.33%, <span style='color: #edcd74;'>Spirit</span> 8.33%<br><strong>Offhand</strong>: <span style='color: #edcd74;'>Dragon</span> 44.44%, <span style='color: #edcd74;'>Spirit</span> 33.33%, <span style='color: #edcd74;'>Medusa's Gaze</span> 11.11%, <span style='color: #edcd74;'>Dream</span> 11.11%</div>
                 </div>
 -->
             <button type="button" class="collapsible small-collapsible">
@@ -196,15 +202,12 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: jaun_pala</strong></div>
-        <div>Level: 92</div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=SCplebsCultofKg" target="_blank">
+                SCplebsCultofKg
+            </a></strong></div>
+        <div>Level: 95</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=jaun_pala" target="_blank">
-                jaun_pala's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="jaun_pala">
+        <div class="hover-trigger" data-character-name="SCplebsCultofKg">
             <!-- Armory Quickview -->
         </div>
     </div>
@@ -213,11 +216,11 @@
         <div class="popup hidden"></div> <!-- No iframe inside initially -->
     </div>
 
-    <p><strong>Skills:<br></strong> Charge:20, Might:20, Vigor:20, Holy Shield:12, Zeal:2, Sacrifice:1, Smite:1, Holy Bolt:1, Blessed Hammer:1, Prayer:1, Defiance:1, Cleansing:1, Salvation:1</p>
-    <p><strong>Equipment:<br></strong> Amulet: <span style='color: #45a823;'>Angelic Wings</span> x1, ring: <span style='color: #45a823;'>Angelic Halo</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Fortitude</span> x1, Helmet: <span style='color: #45a823;'>Guillaume's Face</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, Left hand: <span style='color: #edcd74;'>Azurewrath</span> x1, Left hand: <span style='color: #edcd74;'>Grief</span> x1, Offhand: <span style='color: #edcd74;'>Spirit</span> x1, Offhand: <span style='color: #edcd74;'>Phoenix</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - Duress, Tal Rasha's Horadric Crest, The Reaper's Toll</p>
+    <p><strong>Skills:<br></strong> Holy Shock:20, Resist Fire:20, Resist Lightning:20, Salvation:20, Charge:8, Holy Shield:2, Smite:1, Holy Bolt:1, Blessed Hammer:1, Dashing Strike:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1, Conviction:1, Prayer:1, Defiance:1, Cleansing:1, Vigor:1, Redemption:1</p>
+    <p><strong>Equipment:<br></strong> boots: <span style='color: #45a823;'>Aldur's Advance</span> x1, Amulet: <span style='color: #edcd74;'>Highlord's Wrath</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, Helmet: <span style='color: #edcd74;'>Andariel's Visage</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Dragon</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, Offhand: <span style='color: #edcd74;'>Medusa's Gaze</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - The Gladiator's Bane, Tal Rasha's Horadric Crest, The Reaper's Toll</p>
 
-    <div class="character-section" data-character-name="jaun_pala"></div>
+    <div class="character-section" data-character-name="SCplebsCultofKg"></div>
 </div>
 <hr color="#141414">
 <br>
@@ -227,15 +230,12 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: Hard-Fisting</strong></div>
-        <div>Level: 92</div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=Qunt" target="_blank">
+                Qunt
+            </a></strong></div>
+        <div>Level: 93</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=Hard-Fisting" target="_blank">
-                Hard-Fisting's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="Hard-Fisting">
+        <div class="hover-trigger" data-character-name="Qunt">
             <!-- Armory Quickview -->
         </div>
     </div>
@@ -244,11 +244,11 @@
         <div class="popup hidden"></div> <!-- No iframe inside initially -->
     </div>
 
-    <p><strong>Skills:<br></strong> Charge:20, Might:20, Holy Freeze:20, Salvation:20, Vigor:7, Resist Cold:6, Smite:1, Holy Bolt:1, Blessed Hammer:1, Holy Shield:1, Dashing Strike:1, Holy Fire:1, Prayer:1, Defiance:1, Cleansing:1, Resist Lightning:1</p>
-    <p><strong>Equipment:<br></strong> Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, ring: <span style='color: #edcd74;'>Wisp Projector</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Armor: <span style='color: #edcd74;'>Chains of Honor</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Gloves: <span style='color: #edcd74;'>Steelrend</span> x1, Amulet: <span style='color: #edcd74;'>Metalgrid</span> x1, Helmet: <span style='color: #edcd74;'>Nightwing's Veil</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Breath of the Dying</span> x1, Offhand: <span style='color: #edcd74;'>Stormshield</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 5 Barbarian - The Gladiator's Bane, Tal Rasha's Horadric Crest, Headstriker</p>
+    <p><strong>Skills:<br></strong> Holy Shield:20, Conviction:20, Resist Lightning:20, Salvation:20, Charge:14, Sacrifice:1, Smite:1, Holy Bolt:1, Zeal:1, Blessed Hammer:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1</p>
+    <p><strong>Equipment:<br></strong> Helmet: <span style='color: #edcd74;'>Dream</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Lightsabre</span> x1, Amulet: <span style='color: #edcd74;'>Crescent Moon</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Belt: <span style='color: #edcd74;'>Nightsmoke</span> x1, Armor: <span style='color: #45a823;'>Tal Rasha's Guardianship</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, boots: <span style='color: #edcd74;'>Sandstorm Trek</span> x1, Offhand: <span style='color: #edcd74;'>Dream</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 1 Rogue Scout - Gloom, Stealskull, Harmony</p>
 
-    <div class="character-section" data-character-name="Hard-Fisting"></div>
+    <div class="character-section" data-character-name="Qunt"></div>
 </div>
 <hr color="#141414">
 <br>
@@ -258,15 +258,12 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: bridge_boy</strong></div>
-        <div>Level: 90</div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=fire-ice" target="_blank">
+                fire-ice
+            </a></strong></div>
+        <div>Level: 91</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=bridge_boy" target="_blank">
-                bridge_boy's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="bridge_boy">
+        <div class="hover-trigger" data-character-name="fire-ice">
             <!-- Armory Quickview -->
         </div>
     </div>
@@ -275,11 +272,11 @@
         <div class="popup hidden"></div> <!-- No iframe inside initially -->
     </div>
 
-    <p><strong>Skills:<br></strong> Charge:20, Might:20, Fanaticism:20, Vigor:20, Holy Shield:5, Smite:1, Holy Bolt:1, Blessed Hammer:1, Blessed Aim:1, Concentration:1, Prayer:1, Defiance:1, Cleansing:1, Salvation:1</p>
-    <p><strong>Equipment:<br></strong> boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Armor: <span style='color: #edcd74;'>Enigma</span> x1, Amulet: <span style='color: #edcd74;'>Highlord's Wrath</span> x1, Helmet: <span style='color: #edcd74;'>Vampire Gaze</span> x1, Left hand: <span style='color: #edcd74;'>Silence</span> x1, Left hand: <span style='color: #edcd74;'>Grief</span> x1, Offhand: <span style='color: #edcd74;'>Stormshield</span> x1, Offhand: <span style='color: #edcd74;'>Phoenix</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - Blinkbat's Form, Biggin's Bonnet, Steelgoad</p>
+    <p><strong>Skills:<br></strong> Holy Shock:20, Resist Fire:20, Resist Lightning:20, Salvation:20, Charge:13, Smite:1, Holy Bolt:1, Blessed Hammer:1, Holy Shield:1, Dashing Strike:1, Might:1, Holy Fire:1, Holy Freeze:1</p>
+    <p><strong>Equipment:<br></strong> Armor: <span style='color: #edcd74;'>Enigma</span> x1, Amulet: <span style='color: #edcd74;'>Mara's Kaleidoscope</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x2, Helmet: <span style='color: #edcd74;'>Harlequin Crest</span> x1, Left hand: <span style='color: #45a823;'>Naj's Puzzler</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, Gloves: <span style='color: #edcd74;'>Soul Drainer</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, boots: <span style='color: #edcd74;'>War Traveler</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - No equipment</p>
 
-    <div class="character-section" data-character-name="bridge_boy"></div>
+    <div class="character-section" data-character-name="fire-ice"></div>
 </div>
 <hr color="#141414">
 <br>
@@ -289,15 +286,12 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: Avanos_SC</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=Thunderwolf" target="_blank">
+                Thunderwolf
+            </a></strong></div>
         <div>Level: 90</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=Avanos_SC" target="_blank">
-                Avanos_SC's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="Avanos_SC">
+        <div class="hover-trigger" data-character-name="Thunderwolf">
             <!-- Armory Quickview -->
         </div>
     </div>
@@ -306,11 +300,11 @@
         <div class="popup hidden"></div> <!-- No iframe inside initially -->
     </div>
 
-    <p><strong>Skills:<br></strong> Charge:20, Blessed Hammer:20, Might:20, Vigor:20, Concentration:14, Smite:1, Holy Bolt:1, Holy Shield:1, Blessed Aim:1, Prayer:1, Defiance:1, Cleansing:1</p>
-    <p><strong>Equipment:<br></strong> Armor: <span style='color: #edcd74;'>Leviathan</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, ring: <span style='color: #edcd74;'>Dwarf Star</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, Helmet: <span style='color: #edcd74;'>Vampire Gaze</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, Amulet: <span style='color: #edcd74;'>Mara's Kaleidoscope</span> x1, Left hand: <span style='color: #edcd74;'>Djinn Slayer</span> x1, Left hand: <span style='color: #edcd74;'>Death</span> x1, Offhand: <span style='color: #edcd74;'>Herald of Zakarum</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 5 Barbarian - Leviathan, Steel Shade, The Vile Husk</p>
+    <p><strong>Skills:<br></strong> Charge:20, Conviction:20, Resist Fire:20, Salvation:20, Holy Shield:12, Smite:1, Holy Bolt:1, Blessed Hammer:1, Dashing Strike:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1</p>
+    <p><strong>Equipment:<br></strong> Belt: <span style='color: #edcd74;'>String of Ears</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Dragon</span> x1, Helmet: <span style='color: #edcd74;'>Steel Shade</span> x1, boots: <span style='color: #45a823;'>Natalya's Soul</span> x1, Left hand: <span style='color: yellow;'>Rare Long Staff</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, ring: <span style='color: #edcd74;'>Dwarf Star</span> x1, ring: <span style='color: #edcd74;'>Nagelring</span> x1, Amulet: <span style='color: #edcd74;'>Metalgrid</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 1 Rogue Scout - No equipment</p>
 
-    <div class="character-section" data-character-name="Avanos_SC"></div>
+    <div class="character-section" data-character-name="Thunderwolf"></div>
 </div>
 <hr color="#141414">
 <br>
@@ -320,14 +314,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: fewcharge</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=fewcharge" target="_blank">
+                fewcharge
+            </a></strong></div>
         <div>Level: 89</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=fewcharge" target="_blank">
-                fewcharge's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="fewcharge">
             <!-- Armory Quickview -->
         </div>
@@ -351,14 +342,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: lol-kek</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=lol-kek" target="_blank">
+                lol-kek
+            </a></strong></div>
         <div>Level: 88</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=lol-kek" target="_blank">
-                lol-kek's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="lol-kek">
             <!-- Armory Quickview -->
         </div>
@@ -386,9 +374,282 @@
         <!--<h2>23.53% of Charge's Main Skills:<br>
                 <div class="skillbar-container">
                     <div class="skill-row">
+                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Charge (80)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Might.png" alt="Might" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Might (80)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Vigor.png" alt="Vigor" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Vigor (67)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Blessed Hammer.png" alt="Blessed Hammer" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Blessed Hammer (23)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </h2>
+        <p class="indented-skills"><strong>Other Skills:<br></strong> <img src='icons/Salvation.png' alt='Salvation' width='20' height='20'> <span class='normal-skill'>Salvation 75.0% (22)</span><br><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='normal-skill'>Holy Freeze 25.0% (20)</span><br><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> <span class='normal-skill'>Fanaticism 25.0% (20)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (19)</span><br><img src='icons/Concentration.png' alt='Concentration' width='20' height='20'> <span class='normal-skill'>Concentration 50.0% (15)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 25.0% (6)</span></p> -->
+        <div class="class-intro">
+        <div id="skills" class="skills-container">
+            <div class="column">
+                <ul id="most-popular-skills">
+                    <h2>23.53% of Charge's Main Skills:<br>
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Charge (80)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Might.png" alt="Might" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Might (80)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Vigor.png" alt="Vigor" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Vigor (67)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skillbar-container">
+                    <div class="skill-row">
+                        <img src="icons/Blessed Hammer.png" alt="Blessed Hammer" class="skill-icon">
+                        <div class="skill-bar-container">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
+                                <span class="skill-label">Blessed Hammer (23)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </h2>
+                </ul>
+            </div>
+<!--            <div class="column">
+                <ul id="other-skills">
+                    <h2>Other common skills in this group:</h2> <img src='icons/Salvation.png' alt='Salvation' width='20' height='20'> <span class='normal-skill'>Salvation 75.0% (22)</span><br><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> <span class='normal-skill'>Holy Freeze 25.0% (20)</span><br><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> <span class='normal-skill'>Fanaticism 25.0% (20)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (19)</span><br><img src='icons/Concentration.png' alt='Concentration' width='20' height='20'> <span class='normal-skill'>Concentration 50.0% (15)</span><br><img src='icons/Resist Cold.png' alt='Resist Cold' width='20' height='20'> <span class='normal-skill'>Resist Cold 25.0% (6)</span>
+                </ul>
+            </div> -->
+        </div>
+
+    <button type="button" class="collapsible small-collapsible">
+        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
+        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
+                <strong>All Skills</strong></button>
+                <div class="content">
+                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' class='skill-icon'> Charge 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' class='skill-icon'> Might 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' class='skill-icon'> Vigor 100.0% (67)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' class='skill-icon'> Blessed Hammer 100.0% (23)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' class='skill-icon'> Salvation 75.0% (22)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fanaticism.png' alt='Fanaticism' class='skill-icon'> Fanaticism 25.0% (20)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' class='skill-icon'> Holy Freeze 25.0% (20)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' class='skill-icon'> Holy Shield 100.0% (19)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentration.png' alt='Concentration' class='skill-icon'> Concentration 50.0% (15)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Cold.png' alt='Resist Cold' class='skill-icon'> Resist Cold 25.0% (6)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' class='skill-icon'> Smite 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' class='skill-icon'> Cleansing 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' class='skill-icon'> Holy Bolt 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' class='skill-icon'> Defiance 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' class='skill-icon'> Prayer 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Aim.png' alt='Blessed Aim' class='skill-icon'> Blessed Aim 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Zeal.png' alt='Zeal' class='skill-icon'> Zeal 25.0% (2)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sacrifice.png' alt='Sacrifice' class='skill-icon'> Sacrifice 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' class='skill-icon'> Holy Fire 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' class='skill-icon'> Dashing Strike 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' class='skill-icon'> Resist Lightning 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div></div>
+                </div>
+
+                <button type="button" class="collapsible small-collapsible">
+        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
+        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
+                <strong>Most Common Equipment:</strong></button>
+                <div class="content">
+                    <div><strong>Amulet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Angelic Wings</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Metalgrid</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Highlord's Wrath</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Mara's Kaleidoscope</span> 25.00% (1)<br><strong>Ring</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Ring</span> 37.50% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Raven Frost</span> 25.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Angelic Halo</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Wisp Projector</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dwarf Star</span> 12.50% (1)<br><strong>Boots</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Gore Rider</span> 100.00% (4)<br><strong>Gloves</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dracul's Grasp</span> 50.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Laying of Hands</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Steelrend</span> 25.00% (1)<br><strong>Armor</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Fortitude</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Chains of Honor</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Enigma</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Leviathan</span> 25.00% (1)<br><strong>Helmet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Vampire Gaze</span> 50.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Guillaume's Face</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nightwing's Veil</span> 25.00% (1)<br><strong>Belt</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 100.00% (4)<br><strong>Left hand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Grief</span> 25.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Azurewrath</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Demon Limb</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Breath of the Dying</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Silence</span> 12.50% (1)<br><strong>Offhand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Phoenix</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Stormshield</span> 33.33% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Spirit</span> 16.67% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Herald of Zakarum</span> 16.67% (1)</div>
+                </div>
+<!--            
+                <button type="button" class="collapsible small-collapsible">
+        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
+        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
+                <strong>ALL Equipment:</strong></button>
+                <div class="content">
+                    <div><strong>Amulet</strong>: <span style='color: #45a823;'>Angelic Wings</span> 25.00%, <span style='color: #edcd74;'>Metalgrid</span> 25.00%, <span style='color: #edcd74;'>Highlord's Wrath</span> 25.00%, <span style='color: #edcd74;'>Mara's Kaleidoscope</span> 25.00%<br><strong>Ring</strong>: <span style='color: yellow;'>Rare Ring</span> 37.50%, <span style='color: #edcd74;'>Raven Frost</span> 25.00%, <span style='color: #45a823;'>Angelic Halo</span> 12.50%, <span style='color: #edcd74;'>Wisp Projector</span> 12.50%, <span style='color: #edcd74;'>Dwarf Star</span> 12.50%<br><strong>Boots</strong>: <span style='color: #edcd74;'>Gore Rider</span> 100.00%<br><strong>Gloves</strong>: <span style='color: #edcd74;'>Dracul's Grasp</span> 50.00%, <span style='color: #45a823;'>Laying of Hands</span> 25.00%, <span style='color: #edcd74;'>Steelrend</span> 25.00%<br><strong>Armor</strong>: <span style='color: #edcd74;'>Fortitude</span> 25.00%, <span style='color: #edcd74;'>Chains of Honor</span> 25.00%, <span style='color: #edcd74;'>Enigma</span> 25.00%, <span style='color: #edcd74;'>Leviathan</span> 25.00%<br><strong>Helmet</strong>: <span style='color: #edcd74;'>Vampire Gaze</span> 50.00%, <span style='color: #45a823;'>Guillaume's Face</span> 25.00%, <span style='color: #edcd74;'>Nightwing's Veil</span> 25.00%<br><strong>Belt</strong>: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> 100.00%<br><strong>Left hand</strong>: <span style='color: #edcd74;'>Grief</span> 25.00%, <span style='color: #edcd74;'>Azurewrath</span> 12.50%, <span style='color: #edcd74;'>Demon Limb</span> 12.50%, <span style='color: #edcd74;'>Breath of the Dying</span> 12.50%, <span style='color: #edcd74;'>Silence</span> 12.50%, <span style='color: #edcd74;'>Djinn Slayer</span> 12.50%, <span style='color: #edcd74;'>Death</span> 12.50%<br><strong>Offhand</strong>: <span style='color: #edcd74;'>Phoenix</span> 33.33%, <span style='color: #edcd74;'>Stormshield</span> 33.33%, <span style='color: #edcd74;'>Spirit</span> 16.67%, <span style='color: #edcd74;'>Herald of Zakarum</span> 16.67%</div>
+                </div>
+-->
+            <button type="button" class="collapsible small-collapsible">
+        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
+        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
+            <strong>4 Characters in this cluster:</strong>
+        </button>
+        <div class="content">
+
+<!--
+<div class="character-container char2">
+-->
+<div class="character-container char2">
+    <div class="character-info">
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=jaun_pala" target="_blank">
+                jaun_pala
+            </a></strong></div>
+        <div>Level: 92</div>
+        <div>Class: Paladin</div>
+        <div class="hover-trigger" data-character-name="jaun_pala">
+            <!-- Armory Quickview -->
+        </div>
+    </div>
+
+    <div class="character">
+        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+    </div>
+
+    <p><strong>Skills:<br></strong> Charge:20, Might:20, Vigor:20, Holy Shield:12, Zeal:2, Sacrifice:1, Smite:1, Holy Bolt:1, Blessed Hammer:1, Prayer:1, Defiance:1, Cleansing:1, Salvation:1</p>
+    <p><strong>Equipment:<br></strong> Amulet: <span style='color: #45a823;'>Angelic Wings</span> x1, ring: <span style='color: #45a823;'>Angelic Halo</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Fortitude</span> x1, Helmet: <span style='color: #45a823;'>Guillaume's Face</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, Left hand: <span style='color: #edcd74;'>Azurewrath</span> x1, Left hand: <span style='color: #edcd74;'>Grief</span> x1, Offhand: <span style='color: #edcd74;'>Spirit</span> x1, Offhand: <span style='color: #edcd74;'>Phoenix</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - Duress, Tal Rasha's Horadric Crest, The Reaper's Toll</p>
+
+    <div class="character-section" data-character-name="jaun_pala"></div>
+</div>
+<hr color="#141414">
+<br>
+
+<!--
+<div class="character-container char1">
+-->
+<div class="character-container char2">
+    <div class="character-info">
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=Hard-Fisting" target="_blank">
+                Hard-Fisting
+            </a></strong></div>
+        <div>Level: 92</div>
+        <div>Class: Paladin</div>
+        <div class="hover-trigger" data-character-name="Hard-Fisting">
+            <!-- Armory Quickview -->
+        </div>
+    </div>
+
+    <div class="character">
+        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+    </div>
+
+    <p><strong>Skills:<br></strong> Charge:20, Might:20, Holy Freeze:20, Salvation:20, Vigor:7, Resist Cold:6, Smite:1, Holy Bolt:1, Blessed Hammer:1, Holy Shield:1, Dashing Strike:1, Holy Fire:1, Prayer:1, Defiance:1, Cleansing:1, Resist Lightning:1</p>
+    <p><strong>Equipment:<br></strong> Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, ring: <span style='color: #edcd74;'>Wisp Projector</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Armor: <span style='color: #edcd74;'>Chains of Honor</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Gloves: <span style='color: #edcd74;'>Steelrend</span> x1, Amulet: <span style='color: #edcd74;'>Metalgrid</span> x1, Helmet: <span style='color: #edcd74;'>Nightwing's Veil</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Breath of the Dying</span> x1, Offhand: <span style='color: #edcd74;'>Stormshield</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 5 Barbarian - The Gladiator's Bane, Tal Rasha's Horadric Crest, Headstriker</p>
+
+    <div class="character-section" data-character-name="Hard-Fisting"></div>
+</div>
+<hr color="#141414">
+<br>
+
+<!--
+<div class="character-container char2">
+-->
+<div class="character-container char2">
+    <div class="character-info">
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=bridge_boy" target="_blank">
+                bridge_boy
+            </a></strong></div>
+        <div>Level: 90</div>
+        <div>Class: Paladin</div>
+        <div class="hover-trigger" data-character-name="bridge_boy">
+            <!-- Armory Quickview -->
+        </div>
+    </div>
+
+    <div class="character">
+        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+    </div>
+
+    <p><strong>Skills:<br></strong> Charge:20, Might:20, Fanaticism:20, Vigor:20, Holy Shield:5, Smite:1, Holy Bolt:1, Blessed Hammer:1, Blessed Aim:1, Concentration:1, Prayer:1, Defiance:1, Cleansing:1, Salvation:1</p>
+    <p><strong>Equipment:<br></strong> boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Armor: <span style='color: #edcd74;'>Enigma</span> x1, Amulet: <span style='color: #edcd74;'>Highlord's Wrath</span> x1, Helmet: <span style='color: #edcd74;'>Vampire Gaze</span> x1, Left hand: <span style='color: #edcd74;'>Silence</span> x1, Left hand: <span style='color: #edcd74;'>Grief</span> x1, Offhand: <span style='color: #edcd74;'>Stormshield</span> x1, Offhand: <span style='color: #edcd74;'>Phoenix</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - Blinkbat's Form, Biggin's Bonnet, Steelgoad</p>
+
+    <div class="character-section" data-character-name="bridge_boy"></div>
+</div>
+<hr color="#141414">
+<br>
+
+<!--
+<div class="character-container char1">
+-->
+<div class="character-container char2">
+    <div class="character-info">
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=Avanos_SC" target="_blank">
+                Avanos_SC
+            </a></strong></div>
+        <div>Level: 90</div>
+        <div>Class: Paladin</div>
+        <div class="hover-trigger" data-character-name="Avanos_SC">
+            <!-- Armory Quickview -->
+        </div>
+    </div>
+
+    <div class="character">
+        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+    </div>
+
+    <p><strong>Skills:<br></strong> Charge:20, Blessed Hammer:20, Might:20, Vigor:20, Concentration:14, Smite:1, Holy Bolt:1, Holy Shield:1, Blessed Aim:1, Prayer:1, Defiance:1, Cleansing:1</p>
+    <p><strong>Equipment:<br></strong> Armor: <span style='color: #edcd74;'>Leviathan</span> x1, boots: <span style='color: #edcd74;'>Gore Rider</span> x1, Belt: <span style='color: #edcd74;'>Verdungo's Hearty Cord</span> x1, ring: <span style='color: #edcd74;'>Dwarf Star</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, Helmet: <span style='color: #edcd74;'>Vampire Gaze</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, Amulet: <span style='color: #edcd74;'>Mara's Kaleidoscope</span> x1, Left hand: <span style='color: #edcd74;'>Djinn Slayer</span> x1, Left hand: <span style='color: #edcd74;'>Death</span> x1, Offhand: <span style='color: #edcd74;'>Herald of Zakarum</span> x1</p>
+    <p><strong>Mercenary:<br></strong> Act 5 Barbarian - Leviathan, Steel Shade, The Vile Husk</p>
+
+    <div class="character-section" data-character-name="Avanos_SC"></div>
+</div>
+<hr color="#141414">
+<br>
+
+            <br>
+            </div>
+            </div>
+        <!--    <hr width="90%"> -->
+            <br>
+            
+        <!--<h2>23.53% of Charge's Main Skills:<br>
+                <div class="skillbar-container">
+                    <div class="skill-row">
                         <img src="icons/Smite.png" alt="Smite" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Smite (80)</span>
                             </div>
                         </div>
@@ -399,7 +660,7 @@
                     <div class="skill-row">
                         <img src="icons/Holy Shield.png" alt="Holy Shield" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Holy Shield (80)</span>
                             </div>
                         </div>
@@ -410,7 +671,7 @@
                     <div class="skill-row">
                         <img src="icons/Charge.png" alt="Charge" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Charge (64)</span>
                             </div>
                         </div>
@@ -421,7 +682,7 @@
                     <div class="skill-row">
                         <img src="icons/Dashing Strike.png" alt="Dashing Strike" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Dashing Strike (61)</span>
                             </div>
                         </div>
@@ -438,7 +699,7 @@
                     <div class="skill-row">
                         <img src="icons/Smite.png" alt="Smite" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Smite (80)</span>
                             </div>
                         </div>
@@ -449,7 +710,7 @@
                     <div class="skill-row">
                         <img src="icons/Holy Shield.png" alt="Holy Shield" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Holy Shield (80)</span>
                             </div>
                         </div>
@@ -460,7 +721,7 @@
                     <div class="skill-row">
                         <img src="icons/Charge.png" alt="Charge" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Charge (64)</span>
                             </div>
                         </div>
@@ -471,7 +732,7 @@
                     <div class="skill-row">
                         <img src="icons/Dashing Strike.png" alt="Dashing Strike" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Dashing Strike (61)</span>
                             </div>
                         </div>
@@ -492,28 +753,28 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>All Skills</strong></button>
                 <div class="content">
-                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' width='20' height='20'> Smite 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> Holy Shield 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' width='20' height='20'> Charge 100.0% (64)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' width='20' height='20'> Dashing Strike 100.0% (61)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' width='20' height='20'> Defiance 75.0% (39)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fanaticism.png' alt='Fanaticism' width='20' height='20'> Fanaticism 50.0% (21)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sanctuary.png' alt='Sanctuary' width='20' height='20'> Sanctuary 25.0% (19)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' width='20' height='20'> Salvation 75.0% (9)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' width='20' height='20'> Might 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' width='20' height='20'> Holy Bolt 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> Blessed Hammer 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Aim.png' alt='Blessed Aim' width='20' height='20'> Blessed Aim 75.0% (3)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Fire.png' alt='Resist Fire' width='20' height='20'> Resist Fire 25.0% (3)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' width='20' height='20'> Resist Lightning 25.0% (3)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentration.png' alt='Concentration' width='20' height='20'> Concentration 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' width='20' height='20'> Cleansing 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' width='20' height='20'> Vigor 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' width='20' height='20'> Prayer 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' width='20' height='20'> Holy Fire 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Redemption.png' alt='Redemption' width='20' height='20'> Redemption 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> Holy Freeze 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Precision.png' alt='Precision' width='20' height='20'> Precision 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div></div>
+                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' class='skill-icon'> Smite 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' class='skill-icon'> Holy Shield 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' class='skill-icon'> Charge 100.0% (64)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' class='skill-icon'> Dashing Strike 100.0% (61)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' class='skill-icon'> Defiance 75.0% (39)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fanaticism.png' alt='Fanaticism' class='skill-icon'> Fanaticism 50.0% (21)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sanctuary.png' alt='Sanctuary' class='skill-icon'> Sanctuary 25.0% (19)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' class='skill-icon'> Salvation 75.0% (9)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' class='skill-icon'> Blessed Hammer 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' class='skill-icon'> Might 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' class='skill-icon'> Holy Bolt 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Fire.png' alt='Resist Fire' class='skill-icon'> Resist Fire 25.0% (3)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Aim.png' alt='Blessed Aim' class='skill-icon'> Blessed Aim 75.0% (3)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' class='skill-icon'> Resist Lightning 25.0% (3)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' class='skill-icon'> Vigor 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' class='skill-icon'> Prayer 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' class='skill-icon'> Cleansing 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentration.png' alt='Concentration' class='skill-icon'> Concentration 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' class='skill-icon'> Holy Fire 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' class='skill-icon'> Holy Freeze 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Precision.png' alt='Precision' class='skill-icon'> Precision 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Redemption.png' alt='Redemption' class='skill-icon'> Redemption 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div></div>
                 </div>
 
                 <button type="button" class="collapsible small-collapsible">
@@ -544,14 +805,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: TOTALLY_AFK</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=TOTALLY_AFK" target="_blank">
+                TOTALLY_AFK
+            </a></strong></div>
         <div>Level: 94</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=TOTALLY_AFK" target="_blank">
-                TOTALLY_AFK's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="TOTALLY_AFK">
             <!-- Armory Quickview -->
         </div>
@@ -575,14 +833,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: Diffex</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=Diffex" target="_blank">
+                Diffex
+            </a></strong></div>
         <div>Level: 92</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=Diffex" target="_blank">
-                Diffex's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="Diffex">
             <!-- Armory Quickview -->
         </div>
@@ -606,14 +861,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: BIake</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=BIake" target="_blank">
+                BIake
+            </a></strong></div>
         <div>Level: 90</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=BIake" target="_blank">
-                BIake's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="BIake">
             <!-- Armory Quickview -->
         </div>
@@ -624,7 +876,7 @@
     </div>
 
     <p><strong>Skills:<br></strong> Smite:20, Charge:20, Holy Shield:20, Dashing Strike:20, Defiance:11, Holy Bolt:1, Blessed Hammer:1, Might:1, Blessed Aim:1, Prayer:1, Cleansing:1, Vigor:1, Salvation:1</p>
-    <p><strong>Equipment:<br></strong> boots: <span style='color: #edcd74;'>Waterwalk</span> x1, Amulet: <span style='color: #edcd74;'>Seraph's Hymn</span> x1, Helmet: <span style='color: #45a823;'>Ondal's Almighty</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, ring: <span style='color: #edcd74;'>The Stone of Jordan</span> x2, Armor: <span style='color: #edcd74;'>Tyrael's Might</span> x1, Gloves: <span style='color: #edcd74;'>Frostburn</span> x1, Left hand: <span style='color: #edcd74;'>Call to Arms</span> x1, Left hand: <span style='color: #edcd74;'>Lightsabre</span> x1, Offhand: <span style='color: #edcd74;'>Spirit</span> x1, Offhand: <span style='color: #edcd74;'>Alma Negra</span> x1</p>
+    <p><strong>Equipment:<br></strong> boots: <span style='color: #edcd74;'>Waterwalk</span> x1, Amulet: <span style='color: #edcd74;'>Seraph's Hymn</span> x1, Helmet: <span style='color: #45a823;'>Ondal's Almighty</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, ring: <span style='color: #edcd74;'>The Stone of Jordan</span> x2, Gloves: <span style='color: #edcd74;'>Frostburn</span> x1, Armor: <span style='color: #edcd74;'>Tyrael's Might</span> x1, Left hand: <span style='color: #edcd74;'>Call to Arms</span> x1, Left hand: <span style='color: #edcd74;'>Lightsabre</span> x1, Offhand: <span style='color: #edcd74;'>Spirit</span> x1, Offhand: <span style='color: #edcd74;'>Alma Negra</span> x1</p>
     <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - Vampire Gaze, Insight</p>
 
     <div class="character-section" data-character-name="BIake"></div>
@@ -637,14 +889,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: SrNoob</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=SrNoob" target="_blank">
+                SrNoob
+            </a></strong></div>
         <div>Level: 88</div>
         <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=SrNoob" target="_blank">
-                SrNoob's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="SrNoob">
             <!-- Armory Quickview -->
         </div>
@@ -669,299 +918,12 @@
         <!--    <hr width="90%"> -->
             <br>
             
-        <!--<h2>23.53% of Charge's Main Skills:<br>
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Salvation.png" alt="Salvation" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Salvation (80)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Resist Fire.png" alt="Resist Fire" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 450.0px; min-width: 300px;">
-                                <span class="skill-label">Resist Fire (60)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Resist Lightning.png" alt="Resist Lightning" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 450.0px; min-width: 300px;">
-                                <span class="skill-label">Resist Lightning (60)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Charge (55)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </h2>
-        <p class="indented-skills"><strong>Other Skills:<br></strong> <img src='icons/Conviction.png' alt='Conviction' width='20' height='20'> <span class='normal-skill'>Conviction 75.0% (41)</span><br><img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> <span class='normal-skill'>Holy Shock 50.0% (40)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (35)</span><br><img src='icons/Smite.png' alt='Smite' width='20' height='20'> <span class='highlight-100'>Smite 100.0% (4)</span><br><img src='icons/Holy Bolt.png' alt='Holy Bolt' width='20' height='20'> <span class='highlight-100'>Holy Bolt 100.0% (4)</span><br><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> <span class='highlight-100'>Blessed Hammer 100.0% (4)</span></p> -->
-        <div class="class-intro">
-        <div id="skills" class="skills-container">
-            <div class="column">
-                <ul id="most-popular-skills">
-                    <h2>23.53% of Charge's Main Skills:<br>
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Salvation.png" alt="Salvation" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Salvation (80)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Resist Fire.png" alt="Resist Fire" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 450.0px; min-width: 300px;">
-                                <span class="skill-label">Resist Fire (60)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Resist Lightning.png" alt="Resist Lightning" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 450.0px; min-width: 300px;">
-                                <span class="skill-label">Resist Lightning (60)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="icons/Charge.png" alt="Charge" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
-                                <span class="skill-label">Charge (55)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </h2>
-                </ul>
-            </div>
-<!--            <div class="column">
-                <ul id="other-skills">
-                    <h2>Other common skills in this group:</h2> <img src='icons/Conviction.png' alt='Conviction' width='20' height='20'> <span class='normal-skill'>Conviction 75.0% (41)</span><br><img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> <span class='normal-skill'>Holy Shock 50.0% (40)</span><br><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> <span class='highlight-100'>Holy Shield 100.0% (35)</span><br><img src='icons/Smite.png' alt='Smite' width='20' height='20'> <span class='highlight-100'>Smite 100.0% (4)</span><br><img src='icons/Holy Bolt.png' alt='Holy Bolt' width='20' height='20'> <span class='highlight-100'>Holy Bolt 100.0% (4)</span><br><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> <span class='highlight-100'>Blessed Hammer 100.0% (4)</span>
-                </ul>
-            </div> -->
-        </div>
-
-    <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>All Skills</strong></button>
-                <div class="content">
-                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Salvation.png' alt='Salvation' width='20' height='20'> Salvation 100.0% (80)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Fire.png' alt='Resist Fire' width='20' height='20'> Resist Fire 75.0% (60)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Resist Lightning.png' alt='Resist Lightning' width='20' height='20'> Resist Lightning 75.0% (60)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Charge.png' alt='Charge' width='20' height='20'> Charge 100.0% (55)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Conviction.png' alt='Conviction' width='20' height='20'> Conviction 75.0% (41)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shock.png' alt='Holy Shock' width='20' height='20'> Holy Shock 50.0% (40)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Shield.png' alt='Holy Shield' width='20' height='20'> Holy Shield 100.0% (35)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Might.png' alt='Might' width='20' height='20'> Might 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Bolt.png' alt='Holy Bolt' width='20' height='20'> Holy Bolt 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Blessed Hammer.png' alt='Blessed Hammer' width='20' height='20'> Blessed Hammer 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Freeze.png' alt='Holy Freeze' width='20' height='20'> Holy Freeze 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Holy Fire.png' alt='Holy Fire' width='20' height='20'> Holy Fire 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Smite.png' alt='Smite' width='20' height='20'> Smite 100.0% (4)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sanctuary.png' alt='Sanctuary' width='20' height='20'> Sanctuary 75.0% (3)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Dashing Strike.png' alt='Dashing Strike' width='20' height='20'> Dashing Strike 75.0% (3)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Precision.png' alt='Precision' width='20' height='20'> Precision 75.0% (3)</div><div class='skill-mini-bar' style='width: 300.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Prayer.png' alt='Prayer' width='20' height='20'> Prayer 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Vigor.png' alt='Vigor' width='20' height='20'> Vigor 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleansing.png' alt='Cleansing' width='20' height='20'> Cleansing 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Redemption.png' alt='Redemption' width='20' height='20'> Redemption 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Sacrifice.png' alt='Sacrifice' width='20' height='20'> Sacrifice 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Zeal.png' alt='Zeal' width='20' height='20'> Zeal 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Defiance.png' alt='Defiance' width='20' height='20'> Defiance 25.0% (1)</div><div class='skill-mini-bar' style='width: 100.0px;'></div></div></div></div></div></div>
-                </div>
-
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>Most Common Equipment:</strong></button>
-                <div class="content">
-                    <div><strong>Boots</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Aldur's Advance</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Sandstorm Trek</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>War Traveler</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Natalya's Soul</span> 25.00% (1)<br><strong>Amulet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Highlord's Wrath</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Crescent Moon</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Mara's Kaleidoscope</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Metalgrid</span> 25.00% (1)<br><strong>Belt</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Arachnid Mesh</span> 50.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nightsmoke</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>String of Ears</span> 25.00% (1)<br><strong>Helmet</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Andariel's Visage</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dream</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Harlequin Crest</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Steel Shade</span> 25.00% (1)<br><strong>Gloves</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Laying of Hands</span> 50.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dracul's Grasp</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Soul Drainer</span> 25.00% (1)<br><strong>Armor</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 50.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Tal Rasha's Guardianship</span> 25.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Enigma</span> 25.00% (1)<br><strong>Ring</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Raven Frost</span> 50.00% (4)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Ring</span> 25.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dwarf Star</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Nagelring</span> 12.50% (1)<br><strong>Left hand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Hand of Justice</span> 37.50% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Demon Limb</span> 25.00% (2)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Lightsabre</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #45a823;'>Naj's Puzzler</span> 12.50% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: yellow;'>Rare Long Staff</span> 12.50% (1)<br><strong>Offhand</strong>: <br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dragon</span> 60.00% (3)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Medusa's Gaze</span> 20.00% (1)<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: #edcd74;'>Dream</span> 20.00% (1)</div>
-                </div>
-<!--            
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>ALL Equipment:</strong></button>
-                <div class="content">
-                    <div><strong>Boots</strong>: <span style='color: #45a823;'>Aldur's Advance</span> 25.00%, <span style='color: #edcd74;'>Sandstorm Trek</span> 25.00%, <span style='color: #edcd74;'>War Traveler</span> 25.00%, <span style='color: #45a823;'>Natalya's Soul</span> 25.00%<br><strong>Amulet</strong>: <span style='color: #edcd74;'>Highlord's Wrath</span> 25.00%, <span style='color: #edcd74;'>Crescent Moon</span> 25.00%, <span style='color: #edcd74;'>Mara's Kaleidoscope</span> 25.00%, <span style='color: #edcd74;'>Metalgrid</span> 25.00%<br><strong>Belt</strong>: <span style='color: #edcd74;'>Arachnid Mesh</span> 50.00%, <span style='color: #edcd74;'>Nightsmoke</span> 25.00%, <span style='color: #edcd74;'>String of Ears</span> 25.00%<br><strong>Helmet</strong>: <span style='color: #edcd74;'>Andariel's Visage</span> 25.00%, <span style='color: #edcd74;'>Dream</span> 25.00%, <span style='color: #edcd74;'>Harlequin Crest</span> 25.00%, <span style='color: #edcd74;'>Steel Shade</span> 25.00%<br><strong>Gloves</strong>: <span style='color: #45a823;'>Laying of Hands</span> 50.00%, <span style='color: #edcd74;'>Dracul's Grasp</span> 25.00%, <span style='color: #edcd74;'>Soul Drainer</span> 25.00%<br><strong>Armor</strong>: <span style='color: #edcd74;'>Dragon</span> 50.00%, <span style='color: #45a823;'>Tal Rasha's Guardianship</span> 25.00%, <span style='color: #edcd74;'>Enigma</span> 25.00%<br><strong>Ring</strong>: <span style='color: #edcd74;'>Raven Frost</span> 50.00%, <span style='color: yellow;'>Rare Ring</span> 25.00%, <span style='color: #edcd74;'>Dwarf Star</span> 12.50%, <span style='color: #edcd74;'>Nagelring</span> 12.50%<br><strong>Left hand</strong>: <span style='color: #edcd74;'>Hand of Justice</span> 37.50%, <span style='color: #edcd74;'>Demon Limb</span> 25.00%, <span style='color: #edcd74;'>Lightsabre</span> 12.50%, <span style='color: #45a823;'>Naj's Puzzler</span> 12.50%, <span style='color: yellow;'>Rare Long Staff</span> 12.50%<br><strong>Offhand</strong>: <span style='color: #edcd74;'>Dragon</span> 60.00%, <span style='color: #edcd74;'>Medusa's Gaze</span> 20.00%, <span style='color: #edcd74;'>Dream</span> 20.00%</div>
-                </div>
--->
-            <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>4 Characters in this cluster:</strong>
-        </button>
-        <div class="content">
-
-<!--
-<div class="character-container char2">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div><strong>Name: SCplebsCultofKg</strong></div>
-        <div>Level: 95</div>
-        <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=SCplebsCultofKg" target="_blank">
-                SCplebsCultofKg's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="SCplebsCultofKg">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> Holy Shock:20, Resist Fire:20, Resist Lightning:20, Salvation:20, Charge:8, Holy Shield:2, Smite:1, Holy Bolt:1, Blessed Hammer:1, Dashing Strike:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1, Conviction:1, Prayer:1, Defiance:1, Cleansing:1, Vigor:1, Redemption:1</p>
-    <p><strong>Equipment:<br></strong> boots: <span style='color: #45a823;'>Aldur's Advance</span> x1, Amulet: <span style='color: #edcd74;'>Highlord's Wrath</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, Helmet: <span style='color: #edcd74;'>Andariel's Visage</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Dragon</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, Offhand: <span style='color: #edcd74;'>Medusa's Gaze</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - The Gladiator's Bane, Tal Rasha's Horadric Crest, The Reaper's Toll</p>
-
-    <div class="character-section" data-character-name="SCplebsCultofKg"></div>
-</div>
-<hr color="#141414">
-<br>
-
-<!--
-<div class="character-container char1">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div><strong>Name: Qunt</strong></div>
-        <div>Level: 93</div>
-        <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=Qunt" target="_blank">
-                Qunt's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="Qunt">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> Holy Shield:20, Conviction:20, Resist Lightning:20, Salvation:20, Charge:14, Sacrifice:1, Smite:1, Holy Bolt:1, Zeal:1, Blessed Hammer:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1</p>
-    <p><strong>Equipment:<br></strong> Helmet: <span style='color: #edcd74;'>Dream</span> x1, Left hand: <span style='color: #edcd74;'>Demon Limb</span> x1, Left hand: <span style='color: #edcd74;'>Lightsabre</span> x1, Amulet: <span style='color: #edcd74;'>Crescent Moon</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x1, ring: <span style='color: yellow;'>Rare Ring</span> x1, Belt: <span style='color: #edcd74;'>Nightsmoke</span> x1, Armor: <span style='color: #45a823;'>Tal Rasha's Guardianship</span> x1, Gloves: <span style='color: #edcd74;'>Dracul's Grasp</span> x1, boots: <span style='color: #edcd74;'>Sandstorm Trek</span> x1, Offhand: <span style='color: #edcd74;'>Dream</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 1 Rogue Scout - Gloom, Stealskull, Harmony</p>
-
-    <div class="character-section" data-character-name="Qunt"></div>
-</div>
-<hr color="#141414">
-<br>
-
-<!--
-<div class="character-container char2">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div><strong>Name: fire-ice</strong></div>
-        <div>Level: 91</div>
-        <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=fire-ice" target="_blank">
-                fire-ice's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="fire-ice">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> Holy Shock:20, Resist Fire:20, Resist Lightning:20, Salvation:20, Charge:13, Smite:1, Holy Bolt:1, Blessed Hammer:1, Holy Shield:1, Dashing Strike:1, Might:1, Holy Fire:1, Holy Freeze:1</p>
-    <p><strong>Equipment:<br></strong> Armor: <span style='color: #edcd74;'>Enigma</span> x1, Amulet: <span style='color: #edcd74;'>Mara's Kaleidoscope</span> x1, ring: <span style='color: #edcd74;'>Raven Frost</span> x2, Helmet: <span style='color: #edcd74;'>Harlequin Crest</span> x1, Left hand: <span style='color: #45a823;'>Naj's Puzzler</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, Gloves: <span style='color: #edcd74;'>Soul Drainer</span> x1, Belt: <span style='color: #edcd74;'>Arachnid Mesh</span> x1, boots: <span style='color: #edcd74;'>War Traveler</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 2 Desert Mercenary - No equipment</p>
-
-    <div class="character-section" data-character-name="fire-ice"></div>
-</div>
-<hr color="#141414">
-<br>
-
-<!--
-<div class="character-container char1">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div><strong>Name: Thunderwolf</strong></div>
-        <div>Level: 90</div>
-        <div>Class: Paladin</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=Thunderwolf" target="_blank">
-                Thunderwolf's Armory
-            </a>
-        </div>
-        <div class="hover-trigger" data-character-name="Thunderwolf">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> Charge:20, Conviction:20, Resist Fire:20, Salvation:20, Holy Shield:12, Smite:1, Holy Bolt:1, Blessed Hammer:1, Dashing Strike:1, Might:1, Holy Fire:1, Precision:1, Holy Freeze:1, Sanctuary:1</p>
-    <p><strong>Equipment:<br></strong> Belt: <span style='color: #edcd74;'>String of Ears</span> x1, Gloves: <span style='color: #45a823;'>Laying of Hands</span> x1, Armor: <span style='color: #edcd74;'>Dragon</span> x1, Helmet: <span style='color: #edcd74;'>Steel Shade</span> x1, boots: <span style='color: #45a823;'>Natalya's Soul</span> x1, Left hand: <span style='color: yellow;'>Rare Long Staff</span> x1, Left hand: <span style='color: #edcd74;'>Hand of Justice</span> x1, ring: <span style='color: #edcd74;'>Dwarf Star</span> x1, ring: <span style='color: #edcd74;'>Nagelring</span> x1, Amulet: <span style='color: #edcd74;'>Metalgrid</span> x1, Offhand: <span style='color: #edcd74;'>Dragon</span> x1</p>
-    <p><strong>Mercenary:<br></strong> Act 1 Rogue Scout - No equipment</p>
-
-    <div class="character-section" data-character-name="Thunderwolf"></div>
-</div>
-<hr color="#141414">
-<br>
-
-            <br>
-            </div>
-            </div>
-        <!--    <hr width="90%"> -->
-            <br>
-            
         <!--<h2>11.76% of Charge's Main Skills:<br>
                 <div class="skillbar-container">
                     <div class="skill-row">
                         <img src="icons/Double Swing.png" alt="Double Swing" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Double Swing (40)</span>
                             </div>
                         </div>
@@ -972,7 +934,7 @@
                     <div class="skill-row">
                         <img src="icons/Whirling Axes.png" alt="Whirling Axes" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Whirling Axes (40)</span>
                             </div>
                         </div>
@@ -983,7 +945,7 @@
                     <div class="skill-row">
                         <img src="icons/Battle Cry.png" alt="Battle Cry" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Battle Cry (40)</span>
                             </div>
                         </div>
@@ -994,7 +956,7 @@
                     <div class="skill-row">
                         <img src="icons/Taunt.png" alt="Taunt" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Taunt (21)</span>
                             </div>
                         </div>
@@ -1011,7 +973,7 @@
                     <div class="skill-row">
                         <img src="icons/Double Swing.png" alt="Double Swing" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Double Swing (40)</span>
                             </div>
                         </div>
@@ -1022,7 +984,7 @@
                     <div class="skill-row">
                         <img src="icons/Whirling Axes.png" alt="Whirling Axes" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Whirling Axes (40)</span>
                             </div>
                         </div>
@@ -1033,7 +995,7 @@
                     <div class="skill-row">
                         <img src="icons/Battle Cry.png" alt="Battle Cry" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Battle Cry (40)</span>
                             </div>
                         </div>
@@ -1044,7 +1006,7 @@
                     <div class="skill-row">
                         <img src="icons/Taunt.png" alt="Taunt" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Taunt (21)</span>
                             </div>
                         </div>
@@ -1065,32 +1027,32 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>All Skills</strong></button>
                 <div class="content">
-                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Double Swing.png' alt='Double Swing' width='20' height='20'> Double Swing 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Cry.png' alt='Battle Cry' width='20' height='20'> Battle Cry 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Whirling Axes.png' alt='Whirling Axes' width='20' height='20'> Whirling Axes 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Taunt.png' alt='Taunt' width='20' height='20'> Taunt 100.0% (21)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Edged Weapon Mastery.png' alt='Edged Weapon Mastery' width='20' height='20'> Edged Weapon Mastery 100.0% (15)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Frenzy.png' alt='Frenzy' width='20' height='20'> Frenzy 50.0% (9)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Whirlwind.png' alt='Whirlwind' width='20' height='20'> Whirlwind 50.0% (5)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Bash.png' alt='Bash' width='20' height='20'> Bash 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Iron Skin.png' alt='Iron Skin' width='20' height='20'> Iron Skin 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Natural Resistance.png' alt='Natural Resistance' width='20' height='20'> Natural Resistance 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Increased Speed.png' alt='Increased Speed' width='20' height='20'> Increased Speed 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Howl.png' alt='Howl' width='20' height='20'> Howl 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Shout.png' alt='Shout' width='20' height='20'> Shout 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Grim Ward.png' alt='Grim Ward' width='20' height='20'> Grim Ward 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Command.png' alt='Battle Command' width='20' height='20'> Battle Command 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Orders.png' alt='Battle Orders' width='20' height='20'> Battle Orders 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Increased Stamina.png' alt='Increased Stamina' width='20' height='20'> Increased Stamina 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentrate.png' alt='Concentrate' width='20' height='20'> Concentrate 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Stun.png' alt='Stun' width='20' height='20'> Stun 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Leap Slam.png' alt='Leap Slam' width='20' height='20'> Leap Slam 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleave.png' alt='Cleave' width='20' height='20'> Cleave 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Thrown Weapon Mastery.png' alt='Thrown Weapon Mastery' width='20' height='20'> Thrown Weapon Mastery 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Counter Attack.png' alt='Counter Attack' width='20' height='20'> Counter Attack 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Find Potion.png' alt='Find Potion' width='20' height='20'> Find Potion 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/War Cry.png' alt='War Cry' width='20' height='20'> War Cry 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Find Item.png' alt='Find Item' width='20' height='20'> Find Item 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div></div></div>
+                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Double Swing.png' alt='Double Swing' class='skill-icon'> Double Swing 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Cry.png' alt='Battle Cry' class='skill-icon'> Battle Cry 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Whirling Axes.png' alt='Whirling Axes' class='skill-icon'> Whirling Axes 100.0% (40)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Taunt.png' alt='Taunt' class='skill-icon'> Taunt 100.0% (21)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Edged Weapon Mastery.png' alt='Edged Weapon Mastery' class='skill-icon'> Edged Weapon Mastery 100.0% (15)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Frenzy.png' alt='Frenzy' class='skill-icon'> Frenzy 50.0% (9)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Whirlwind.png' alt='Whirlwind' class='skill-icon'> Whirlwind 50.0% (5)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Bash.png' alt='Bash' class='skill-icon'> Bash 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Iron Skin.png' alt='Iron Skin' class='skill-icon'> Iron Skin 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Natural Resistance.png' alt='Natural Resistance' class='skill-icon'> Natural Resistance 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Increased Speed.png' alt='Increased Speed' class='skill-icon'> Increased Speed 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Howl.png' alt='Howl' class='skill-icon'> Howl 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Shout.png' alt='Shout' class='skill-icon'> Shout 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Grim Ward.png' alt='Grim Ward' class='skill-icon'> Grim Ward 50.0% (2)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Command.png' alt='Battle Command' class='skill-icon'> Battle Command 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Battle Orders.png' alt='Battle Orders' class='skill-icon'> Battle Orders 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Increased Stamina.png' alt='Increased Stamina' class='skill-icon'> Increased Stamina 100.0% (2)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Concentrate.png' alt='Concentrate' class='skill-icon'> Concentrate 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Stun.png' alt='Stun' class='skill-icon'> Stun 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Leap Slam.png' alt='Leap Slam' class='skill-icon'> Leap Slam 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Cleave.png' alt='Cleave' class='skill-icon'> Cleave 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Thrown Weapon Mastery.png' alt='Thrown Weapon Mastery' class='skill-icon'> Thrown Weapon Mastery 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Counter Attack.png' alt='Counter Attack' class='skill-icon'> Counter Attack 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Find Potion.png' alt='Find Potion' class='skill-icon'> Find Potion 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/War Cry.png' alt='War Cry' class='skill-icon'> War Cry 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Find Item.png' alt='Find Item' class='skill-icon'> Find Item 50.0% (1)</div><div class='skill-mini-bar' style='width: 200.0px;'></div></div></div></div></div></div>
                 </div>
 
                 <button type="button" class="collapsible small-collapsible">
@@ -1121,14 +1083,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: KekimusPrime</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=KekimusPrime" target="_blank">
+                KekimusPrime
+            </a></strong></div>
         <div>Level: 94</div>
         <div>Class: Barbarian</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=KekimusPrime" target="_blank">
-                KekimusPrime's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="KekimusPrime">
             <!-- Armory Quickview -->
         </div>
@@ -1152,14 +1111,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: jukchang</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=jukchang" target="_blank">
+                jukchang
+            </a></strong></div>
         <div>Level: 89</div>
         <div>Class: Barbarian</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=jukchang" target="_blank">
-                jukchang's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="jukchang">
             <!-- Armory Quickview -->
         </div>
@@ -1189,7 +1145,7 @@
                     <div class="skill-row">
                         <img src="icons/Fire Bolt.png" alt="Fire Bolt" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Fire Bolt (20)</span>
                             </div>
                         </div>
@@ -1200,7 +1156,7 @@
                     <div class="skill-row">
                         <img src="icons/Warmth.png" alt="Warmth" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Warmth (20)</span>
                             </div>
                         </div>
@@ -1211,7 +1167,7 @@
                     <div class="skill-row">
                         <img src="icons/Enflame.png" alt="Enflame" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Enflame (20)</span>
                             </div>
                         </div>
@@ -1222,7 +1178,7 @@
                     <div class="skill-row">
                         <img src="icons/Fire Mastery.png" alt="Fire Mastery" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Fire Mastery (20)</span>
                             </div>
                         </div>
@@ -1239,7 +1195,7 @@
                     <div class="skill-row">
                         <img src="icons/Fire Bolt.png" alt="Fire Bolt" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Fire Bolt (20)</span>
                             </div>
                         </div>
@@ -1250,7 +1206,7 @@
                     <div class="skill-row">
                         <img src="icons/Warmth.png" alt="Warmth" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Warmth (20)</span>
                             </div>
                         </div>
@@ -1261,7 +1217,7 @@
                     <div class="skill-row">
                         <img src="icons/Enflame.png" alt="Enflame" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Enflame (20)</span>
                             </div>
                         </div>
@@ -1272,7 +1228,7 @@
                     <div class="skill-row">
                         <img src="icons/Fire Mastery.png" alt="Fire Mastery" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: 600.0px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, 500.0px, 500px); min-width: 300px;">
                                 <span class="skill-label">Fire Mastery (20)</span>
                             </div>
                         </div>
@@ -1293,18 +1249,18 @@
         <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
                 <strong>All Skills</strong></button>
                 <div class="content">
-                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Warmth.png' alt='Warmth' width='20' height='20'> Warmth 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Bolt.png' alt='Fire Bolt' width='20' height='20'> Fire Bolt 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Enflame.png' alt='Enflame' width='20' height='20'> Enflame 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Mastery.png' alt='Fire Mastery' width='20' height='20'> Fire Mastery 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Hydra.png' alt='Hydra' width='20' height='20'> Hydra 100.0% (18)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Ice Bolt.png' alt='Ice Bolt' width='20' height='20'> Ice Bolt 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Teleport.png' alt='Teleport' width='20' height='20'> Teleport 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Ball.png' alt='Fire Ball' width='20' height='20'> Fire Ball 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
-<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Telekinesis.png' alt='Telekinesis' width='20' height='20'> Telekinesis 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Ice Blast.png' alt='Ice Blast' width='20' height='20'> Ice Blast 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
-<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Frigerate.png' alt='Frigerate' width='20' height='20'> Frigerate 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
-<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Shiver Armor.png' alt='Shiver Armor' width='20' height='20'> Shiver Armor 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div></div>
+                    <div><div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Warmth.png' alt='Warmth' class='skill-icon'> Warmth 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Bolt.png' alt='Fire Bolt' class='skill-icon'> Fire Bolt 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Enflame.png' alt='Enflame' class='skill-icon'> Enflame 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Mastery.png' alt='Fire Mastery' class='skill-icon'> Fire Mastery 100.0% (20)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Hydra.png' alt='Hydra' class='skill-icon'> Hydra 100.0% (18)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Ice Bolt.png' alt='Ice Bolt' class='skill-icon'> Ice Bolt 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Teleport.png' alt='Teleport' class='skill-icon'> Teleport 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Fire Ball.png' alt='Fire Ball' class='skill-icon'> Fire Ball 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div>
+<div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Telekinesis.png' alt='Telekinesis' class='skill-icon'> Telekinesis 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Ice Blast.png' alt='Ice Blast' class='skill-icon'> Ice Blast 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div>
+<div class='skills-group'><div class='skills-row'><div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Frigerate.png' alt='Frigerate' class='skill-icon'> Frigerate 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div>
+<div class='skill-item'><div class='skillbar-container'><div class='skill-info'><img src='icons/Shiver Armor.png' alt='Shiver Armor' class='skill-icon'> Shiver Armor 100.0% (1)</div><div class='skill-mini-bar' style='width: 400.0px;'></div></div></div></div></div></div>
                 </div>
 
                 <button type="button" class="collapsible small-collapsible">
@@ -1335,14 +1291,11 @@
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: TopMissileClass</strong></div>
+        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name=TopMissileClass" target="_blank">
+                TopMissileClass
+            </a></strong></div>
         <div>Level: 94</div>
         <div>Class: Sorceress</div>
-        <div class="character-link">
-            <a href="https://pathofdiablo.com/p/armory/?name=TopMissileClass" target="_blank">
-                TopMissileClass's Armory
-            </a>
-        </div>
         <div class="hover-trigger" data-character-name="TopMissileClass">
             <!-- Armory Quickview -->
         </div>
@@ -1399,7 +1352,7 @@
             <br>
             <hr>
             <br>
-        <p class="indented-skills">Popular builds include:<br>35.29% of Charge's invest heavily in Charge, Might, Vigor, Salvation<br>23.53% of Charge's invest heavily in Smite, Holy Shield, Charge, Dashing Strike<br>23.53% of Charge's invest heavily in Salvation, Resist Fire, Resist Lightning, Charge<br>11.76% of Charge's invest heavily in Double Swing, Whirling Axes, Battle Cry, Taunt<br>5.88% of Charge's invest heavily in Fire Bolt, Warmth, Enflame, Fire Mastery </p>
+        <p class="indented-skills">Popular builds include:<br>35.29% of Charge's invest heavily in Salvation, Charge, Resist Fire, Resist Lightning<br>23.53% of Charge's invest heavily in Charge, Might, Vigor, Blessed Hammer<br>23.53% of Charge's invest heavily in Smite, Holy Shield, Charge, Dashing Strike<br>11.76% of Charge's invest heavily in Double Swing, Whirling Axes, Battle Cry, Taunt<br>5.88% of Charge's invest heavily in Fire Bolt, Warmth, Enflame, Fire Mastery </p>
             <br>
             </div>
             <br><br>
@@ -1416,7 +1369,7 @@
            <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-03-09 10:41</p>
+            <p>PoD class data current as of 2025-03-11 18:25</p>
             </div>   
         
 
@@ -1463,6 +1416,12 @@ function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
 const scHcButton = document.getElementById("SC_HC");
