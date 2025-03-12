@@ -276,8 +276,8 @@ def MakehcHome():
     set_users = {}
     synth_users = {}
     crafted_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
-    rare_users = {category: {} for category in rare_counters}  # Ensure all categories exist
-    magic_users = {category: {} for category in magic_counters}  # Ensure all categories exist
+    rare_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
+    magic_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
     
     all_characters = []
     sorted_just_socketed_runes = {}
@@ -392,11 +392,11 @@ def MakehcHome():
 
         return class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users
 
-    def process_files_in_folder_for_magic_rare(folder, magic_counters, rare_counters):
-        magic_counters = {category: Counter() for category in magic_counters}
-        rare_counters = {category: Counter() for category in rare_counters}
-        magic_users = {category: {} for category in magic_counters}
-        rare_users = {category: {} for category in rare_counters}
+    def process_files_in_folder_for_magic_rare(folder):
+        magic_counters = {category: Counter() for category in crafted_counters}
+        rare_counters = {category: Counter() for category in crafted_counters}
+        magic_users = {category: {} for category in crafted_counters}
+        rare_users = {category: {} for category in crafted_counters}
         def categorize_worn_slot(worn_category, text_tag):
             if worn_category in ["sweapon1", "weapon1", "sweapon2", "weapon2"]:
                 if text_tag == "Arrows":
@@ -407,8 +407,8 @@ def MakehcHome():
                     return "Weapons and Shields"
             
             worn_category_map = {
-                "ring1": "Rings", "ring2": "Rings",
-                "body": "Body Armor",
+                "ring1": "Ring", "ring2": "RingsBody ",
+                "body": "Armor",
                 "gloves": "Gloves",
                 "belt": "Belts",
                 "helmet": "Helmets",
@@ -479,13 +479,12 @@ def MakehcHome():
             return "".join(
                 f"""
                 <div class="character-info">
-                    <div><strong>{char.get("Name", "Unknown")}</strong></div>
-                    <div>Level {char.get("Stats", {}).get("Level", "N/A")} {char.get("Class", "Unknown")}</div>
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char.get("Name", "Unknown")}" target="_blank">
-                            {char.get("Name", "Unknown")}'s Armory Page
+                        <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
+                            {char["Name"]}
                         </a>
                     </div>
+                    <div>Level {char.get("Stats", {}).get("Level", "N/A")} {char.get("Class", "Unknown")}</div>
                     <div class="hover-trigger" data-character-name="{char.get("Name", "Unknown")}"></div>
                 </div>
                 <div class="character">
@@ -623,7 +622,7 @@ def MakehcHome():
 
     # Process the files in the data folder
     class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users = process_files_in_folder(data_folder)
-    magic_counters, magic_users, rare_counters, rare_users = process_files_in_folder_for_magic_rare(data_folder, magic_counters, rare_counters)
+    magic_counters, magic_users, rare_counters, rare_users = process_files_in_folder_for_magic_rare(data_folder)
 
     # Print the class counts
     print("Class Counts:")
@@ -654,14 +653,9 @@ def MakehcHome():
     total = sum(counts)
 
 
-    import matplotlib.font_manager as fm
-    script_dir = os.path.dirname(__file__)
-
-    # Construct the relative path to the font
-    font_path = os.path.join(script_dir, "pod-stats", "armory", "font", "avqest.ttf")
-
-    # Load the font
-    armory = fm.FontProperties(fname=font_path)
+    # Load custom font
+     # Load custom font
+    armory = FontProperties(fname='armory/font/avqest.ttf')  # Update path if needed
 
     def make_autopct(values):
         def my_autopct(pct):
@@ -704,7 +698,7 @@ def MakehcHome():
     print("Plot saved as hcclass_distribution.png")
 
     # Display the plot
-#    plt.show()
+    plt.show()
 
 
     # Get the most common items
@@ -759,13 +753,12 @@ def MakehcHome():
             character_list_html = "".join(
                 f""" 
                 <div class="character-info">
-                    <div><strong>{char["Name"]}</strong></div>
-                    <div>Level {char["Stats"]["Level"]} {char["Class"]}</div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
-                            {char["Name"]}'s Armory Page
+                            {char["Name"]}
                         </a>
                     </div>
+                    <div>Level {char["Stats"]["Level"]} {char["Class"]}</div>
                     <div class="hover-trigger" data-character-name="{char["Name"]}"><!-- Armory Quickview--></div>
                 </div>
                 <div class="character">
@@ -801,13 +794,12 @@ def MakehcHome():
             character_list_html = "".join(
                 f""" 
                 <div class="character-info">
-                    <div><strong>{char["name"]}</strong></div>
-                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
-                            {char["name"]}'s Armory Page
+                            {char["name"]}
                         </a>
                     </div>
+                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="hover-trigger" data-character-name="{char["name"]}"></div>
                 </div>
                 <div class="character">
@@ -838,14 +830,13 @@ def MakehcHome():
             character_list_html = "".join(
                 f"""
                 <div class="character-info">
-                    <div><strong>{char["name"]}</strong></div>
-                    <div>Level {char["level"]} {char["class"]}</div>
-                    <div>Used in: <strong>{char["synthesized_item"]}</strong></div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
-                            {char["name"]}'s Armory Page
+                            {char["name"]}
                         </a>
                     </div>
+                    <div>Level {char["level"]} {char["class"]}</div>
+                    <div>Used in: <strong>{char["synthesized_item"]}</strong></div>
                     <div class="hover-trigger" data-character-name="{char["name"]}"></div>
                 </div>
                 <div class="character">
@@ -887,13 +878,12 @@ def MakehcHome():
             character_list_html = "".join(
                 f"""
                 <div class="character-info">
-                    <div><strong>{char["name"]}</strong></div>
-                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
-                            {char["name"]}'s Armory Page
+                            {char["name"]}
                         </a>
                     </div>
+                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="hover-trigger" data-character-name="{char["name"]}"></div>
                 </div>
                 <div class="character">
@@ -917,44 +907,38 @@ def MakehcHome():
         return items_html
     craft_user_count = sum(len(users) for users in crafted_users.values())
 
-    def generate_magic_list_items(magic_counter, magic_users):
+    def generate_magic_list_items(magic_counters, magic_users):
         items_html = ""
 
-        for worn_category, counter in magic_counter.items():
+        for worn_category, counter in magic_counters.items():
             if not counter:  # Skip empty categories
                 continue
             
-            # Use a set to ensure unique character names
-            unique_category_users = set()
-            category_users_info = []  # Store full character info after deduplication
-
+            # Collect all characters in this category
+            category_users = []
             for item, count in counter.items():
-                for user in magic_users.get(worn_category, {}).get(item, []):
-                    if user["name"] not in unique_category_users:
-                        unique_category_users.add(user["name"])  # Add name to the set
-                        category_users_info.append(user)  # Keep full user data
+                category_users.extend(magic_users.get(worn_category, {}).get(item, []))
 
             # Skip categories with no users
-            if not category_users_info:
+            if not category_users:
                 continue
 
             # Create the list of all users in this category
             character_list_html = "".join(
                 f"""
                 <div class="character-info">
-                    <div><strong>{char["name"]}</strong></div>
-                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
-                            {char["name"]}'s Armory Page
+                            {char["name"]}
                         </a>
                     </div>
+                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="hover-trigger" data-character-name="{char["name"]}"></div>
                 </div>
                 <div class="character">
                     <div class="popup hidden"></div> <!-- No iframe inside initially -->
                 </div>
-                """ for char in category_users_info
+                """ for char in category_users
             )
 
             # Create a collapsible button for each category
@@ -962,22 +946,15 @@ def MakehcHome():
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>Magic {worn_category} ({len(category_users_info)} users)</strong>
+                <strong>Magic {worn_category} ({len(category_users)} users)</strong>
             </button>
             <div class="content">
-                {character_list_html if category_users_info else "<p>No characters using Magic items in this category.</p>"}
+                {character_list_html if category_users else "<p>No characters using magic items in this category.</p>"}
             </div>
             """
 
         return items_html
-    # Count unique character names across all rare items
-    unique_magic_users = set()
-    for category_users in magic_users.values():
-        for item_users in category_users.values():
-            for user in item_users:
-                unique_magic_users.add(user["name"])  # Add only the character's name to the set
-
-    magic_user_count = len(unique_magic_users)  # Unique count of characters wearing rare items
+    magic_user_count = sum(len(users) for users in magic_users.values())
 
 
     def generate_rare_list_items(rare_counter, rare_users):
@@ -987,37 +964,31 @@ def MakehcHome():
             if not counter:  # Skip empty categories
                 continue
             
-            # Use a set to ensure unique character names
-            unique_category_users = set()
-            category_users_info = []  # Store full character info after deduplication
-
+            # Collect all characters in this category
+            category_users = []
             for item, count in counter.items():
-                for user in rare_users.get(worn_category, {}).get(item, []):
-                    if user["name"] not in unique_category_users:
-                        unique_category_users.add(user["name"])  # Add name to the set
-                        category_users_info.append(user)  # Keep full user data
+                category_users.extend(rare_users.get(worn_category, {}).get(item, []))
 
             # Skip categories with no users
-            if not category_users_info:
+            if not category_users:
                 continue
 
             # Create the list of all users in this category
             character_list_html = "".join(
                 f"""
                 <div class="character-info">
-                    <div><strong>{char["name"]}</strong></div>
-                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
-                            {char["name"]}'s Armory Page
+                            {char["name"]}
                         </a>
                     </div>
+                    <div>Level {char["level"]} {char["class"]}</div>
                     <div class="hover-trigger" data-character-name="{char["name"]}"></div>
                 </div>
                 <div class="character">
                     <div class="popup hidden"></div> <!-- No iframe inside initially -->
                 </div>
-                """ for char in category_users_info
+                """ for char in category_users
             )
 
             # Create a collapsible button for each category
@@ -1025,22 +996,15 @@ def MakehcHome():
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>Rare {worn_category} ({len(category_users_info)} users)</strong>
+                <strong>Rare {worn_category} ({len(category_users)} users)</strong>
             </button>
             <div class="content">
-                {character_list_html if category_users_info else "<p>No characters using Rare items in this category.</p>"}
+                {character_list_html if category_users else "<p>No characters using Rare items in this category.</p>"}
             </div>
             """
 
         return items_html
-    # Count unique character names across all rare items
-    unique_rare_users = set()
-    for category_users in rare_users.values():
-        for item_users in category_users.values():
-            for user in item_users:
-                unique_rare_users.add(user["name"])  # Add only the character's name to the set
-
-    rare_user_count = len(unique_rare_users)  # Unique count of characters wearing rare items
+    rare_user_count = sum(len(users) for users in rare_users.values())
 
     def socket_html(sorted_runes, sorted_excluding_runes, all_other_items):
         def extract_element(item):
@@ -1153,6 +1117,7 @@ def MakehcHome():
             magic_jewel_counter = Counter()
             rare_jewel_counter = Counter()
             facet_counter = defaultdict(lambda: {"count": 0, "perfect": 0})
+            skull_counter = Counter()
 
             for item in items:
                 title = item.get('Title', 'Unknown')
@@ -1170,18 +1135,37 @@ def MakehcHome():
                         facet_counter[element]["perfect"] += 1
                 elif quality == "q_magic":  # ✅ Track Magic Jewels with splash
                     has_splash = any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                    has_ias = any("attack speed" in prop.lower() for prop in item.get("PropertyList", []))
+                    has_ed = any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
+                    has_iassplash = any("attack speed" in prop.lower() for prop in item.get("PropertyList", [])) & any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                    has_iased = any("attack speed" in prop.lower() for prop in item.get("PropertyList", [])) & any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
                     magic_jewel_counter["Misc. Magic Jewels"] += 1
                     if has_splash:
                         magic_jewel_counter["splash"] += 1
+                    if has_ias:
+                        magic_jewel_counter["attack speed"] += 1
+                    if has_ed:
+                        magic_jewel_counter["enhanced damage"] += 1
+                    if has_iassplash:
+                        magic_jewel_counter["iassplash"] += 1
+                    if has_iased:
+                        magic_jewel_counter["iased"] += 1
+#                    if has_splash & has_ias:
+#                        magic_jewel_counter["splash"] += 1
                 elif quality == "q_rare":  # ✅ Track Rare Jewels with splash
                     has_splash = any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                    has_ed = any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
                     rare_jewel_counter["Misc. Rare Jewels"] += 1
                     if has_splash:
                         rare_jewel_counter["splash"] += 1
+                    if has_ed:
+                        rare_jewel_counter["enhanced damage"] += 1
+#                elif "Perfect Skull" in title:  # ✅ Sort Rainbow Facets separately
+#                    skull_counter[title] += 1
                 else:  # ✅ All other non-rune items
                     non_rune_counter[title] += 1
 
-            return rune_counter, non_rune_counter, magic_jewel_counter, rare_jewel_counter, facet_counter
+            return rune_counter, non_rune_counter, magic_jewel_counter, rare_jewel_counter, facet_counter #, skull_counter
 
         just_socketed_runes, just_socketed_non_runes, just_socketed_magic, just_socketed_rare, just_socketed_facets = count_items_by_type(just_socketed)
         just_socketed_excluding_runewords_runes, just_socketed_excluding_runewords_non_runes, just_socketed_excluding_runewords_magic, just_socketed_excluding_runewords_rare, just_socketed_excluding_runewords_facets = count_items_by_type(just_socketed_excluding_runewords)
@@ -1193,9 +1177,11 @@ def MakehcHome():
         # Combine non-runes, magic, rare, and facets into a single list
         all_other_items = [
             *(f"{item}: {count}" for item, count in just_socketed_excluding_runewords_non_runes.items()),
-            f"Misc. Magic Jewels: {just_socketed_excluding_runewords_magic['Misc. Magic Jewels']} ({just_socketed_excluding_runewords_magic['splash']} include melee splash)",
-            f"Misc. Rare Jewels: {just_socketed_excluding_runewords_rare['Misc. Rare Jewels']} ({just_socketed_excluding_runewords_rare['splash']} include melee splash)",
-            *(f"Rainbow Facet ({element}): {counts['count']} ({counts['perfect']} are perfect)" for element, counts in just_socketed_excluding_runewords_facets.items())
+            f"Misc. Magic Jewels: {just_socketed_excluding_runewords_magic['Misc. Magic Jewels']} ({just_socketed_excluding_runewords_magic['splash']} include melee splash, {just_socketed_excluding_runewords_magic['attack speed']} include IAS, {just_socketed_excluding_runewords_magic['enhanced damage']} include ED; of those, there are {just_socketed_excluding_runewords_magic['iassplash']} IAS/Splash and {just_socketed_excluding_runewords_magic['iased']} IAS/ED)",
+            f"Misc. Rare Jewels: {just_socketed_excluding_runewords_rare['Misc. Rare Jewels']} ({just_socketed_excluding_runewords_rare['splash']} include melee splash, {just_socketed_excluding_runewords_rare['enhanced damage']} include ED)",
+            *(f"Rainbow Facet ({element}): {counts['count']} ({counts['perfect']} are perfect)" for element, counts in just_socketed_excluding_runewords_facets.items()),
+#            f"Perfect Skull:  (tacos)"
+
         ]
 #        return sorted_just_socketed_runes, sorted_just_socketed_excluding_runewords_runes, all_other_items
         return (
@@ -1398,6 +1384,11 @@ def MakehcHome():
             <a href="Sorceress.html" class="top-button">Sorceress</a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button" target="_blank">About</a>
         </div> -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -1412,8 +1403,7 @@ def MakehcHome():
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
         
-<div class="main">
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="main page-intro">
         <h1>PoD HARDCORE STATS </h1>
         <!-- Embed the Plotly pie chart -->
     <!--     <h2>Pick a class below for more detail</h2>-->
@@ -1584,7 +1574,7 @@ def MakehcHome():
             {all_synth}
         </div>
     </div>
-</div>
+
         <h2>{synth_source_user_count} Synthesized FROM listings</h2>
         <h3>This shows where propertied an item are showing up in other items. If you wanted to see where the slow from Kelpie or the Ball light from Ondal's had popped up, this is where to look </h3>
 <button type="button" class="collapsible sets-button">
@@ -1597,7 +1587,7 @@ def MakehcHome():
             {synth_source_data}
         </div>
     </div>
-</div>
+
 
         <br>
 
@@ -1614,7 +1604,7 @@ def MakehcHome():
             {all_crafted}
         </div>
     </div>
-</div>
+
 <br>
 
 <br>
@@ -1631,7 +1621,7 @@ def MakehcHome():
             {all_magic}
         </div>
     </div>
-</div>
+
 <br>
 
         <h2>Rare reporting</h2>
@@ -1647,7 +1637,7 @@ def MakehcHome():
             {all_rare}
         </div>
     </div>
-</div>
+
 <br>
 
         <h2>Socketable reporting</h2>
@@ -1686,7 +1676,7 @@ def MakehcHome():
             {all_other_items}
         </div>
     </div>
-</div>
+
 
 <br>
 
@@ -1767,6 +1757,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -2181,11 +2176,17 @@ def GethcDashers():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -2267,14 +2268,13 @@ def GethcDashers():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -2363,6 +2363,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -2683,7 +2688,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -2712,7 +2717,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px);">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -3107,11 +3112,17 @@ def GethcNonZon():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -3189,14 +3200,13 @@ def GethcNonZon():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -3286,6 +3296,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -3610,7 +3625,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -3639,7 +3654,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -4091,10 +4106,16 @@ def GethcUniqueProjectiles():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ what_class }} Hardcore Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -4170,14 +4191,13 @@ def GethcUniqueProjectiles():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -4265,6 +4285,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -4585,7 +4610,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -4634,7 +4659,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -4932,10 +4957,16 @@ def GethcBong():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -5013,14 +5044,13 @@ def GethcBong():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -5127,6 +5157,11 @@ document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 </script>
 
 <script>
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 const scHcButton = document.getElementById("SC_HC");
 const currentUrl = window.location.href;
@@ -5428,7 +5463,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -5469,7 +5504,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -5481,7 +5516,7 @@ activePopup = null;
             'character_count': character_count,
             'other_skills': other_skills_str,
             'other_skills_pie': other_skills_pie,
-            'characters': [{'name': row.Name, 'level': row.Level, 'dead': row.Dead, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment } for row in sorted_group.itertuples()],
+            'characters': [{'name': row.Name, 'level': row.Level, 'dead': row.Dead, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class } for row in sorted_group.itertuples()],
             'top_equipment': top_equipment_str,  # Add top equipment to the data
             'equipment_counts': equipment_counts_str,
             'remaining_skills_with_icons': remaining_skills_str_with_icons,
@@ -5774,11 +5809,17 @@ def GethcChargers():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -5857,14 +5898,13 @@ def GethcChargers():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -5968,6 +6008,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -6261,7 +6306,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -6290,7 +6335,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -6302,7 +6347,7 @@ activePopup = null;
             'character_count': character_count,
             'other_skills': other_skills_str,
             'other_skills_pie': other_skills_pie,
-            'characters': [{'name': row.Name, 'level': row.Level, 'dead': row.Dead, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment } for row in sorted_group.itertuples()],
+            'characters': [{'name': row.Name, 'level': row.Level, 'dead': row.Dead, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class  } for row in sorted_group.itertuples()],
             'top_equipment': top_equipment_str,  # Add top equipment to the data
             'equipment_counts': equipment_counts_str,
             'remaining_skills_with_icons': remaining_skills_str_with_icons,
@@ -6686,11 +6731,17 @@ def GethcOffensiveAuraItemsEquipped():
     <!DOCTYPE html>
     <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="not-main">
+    <body class="main">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -6769,14 +6820,13 @@ def GethcOffensiveAuraItemsEquipped():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="character-link">
             <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}'s Armory
+                {{ character['name'] }}
             </a>
         </div>
+        <div>Level: {{ character['level'] }}</div>
+        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -6880,6 +6930,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -7182,7 +7237,7 @@ activePopup = null;
                     f"<div class='skill-item'>"
                     f"<div class='skillbar-container'>"
                     f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                     f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                     f"</div>"
                     f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -7231,7 +7286,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -7431,7 +7486,7 @@ def MakehcClassPages():
                                 # Sort skills in descending order
                                 skills_sorted = sorted(skills, key=lambda x: x[1], reverse=True)
 #                                skill_data['Skills'] = ", ".join([f"{name}:{level}" for name, level in skills_sorted])  # Combine skills into a comma-separated list
-                                skill_data['Skills'] = ", ".join([f"<img src='{icons_folder}/{name}.png' alt='{name}' width='20' height='20'> {name}:{level}" for name, level in skills_sorted])  # Combine skills into a comma-separated list
+                                skill_data['Skills'] = ", ".join([f"<img src='{icons_folder}/{name}.png' alt='{name}' class='skill-icon-smaller'> {name}:{level}" for name, level in skills_sorted])  # Combine skills into a comma-separated list
 
                                 # Flatten equipment data and count titles
                                 equipment_titles = {}
@@ -7604,13 +7659,12 @@ def MakehcClassPages():
                 return "".join(
                     f"""
                     <div class="character-info">
-                        <div><strong>{char.get("Name", "Unknown")}</strong></div>
-                        <div>Level {char.get("Stats", {}).get("Level", "N/A")} {char.get("Class", "Unknown")}</div>
                         <div class="character-link">
                             <a href="https://pathofdiablo.com/p/armory/?name={char.get("Name", "Unknown")}" target="_blank">
-                                {char.get("Name", "Unknown")}'s Armory Page
+                                {char.get("Name", "Unknown")}
                             </a>
                         </div>
+                        <div>Level {char.get("Stats", {}).get("Level", "N/A")} {char.get("Class", "Unknown")}</div>
                         <div class="hover-trigger" data-character-name="{char.get("Name", "Unknown")}"></div>
                     </div>
                     <div class="character">
@@ -7751,11 +7805,17 @@ def MakehcClassPages():
         <!DOCTYPE html>
         <html>
         <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
         </head>
-        <body class="not-main special-background-{{ what_class|lower }}">
+        <body class="main special-background-{{ what_class|lower }}">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
     
     <div class="top-buttons">
         <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
@@ -7769,11 +7829,11 @@ def MakehcClassPages():
         <a href="hcSorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
         <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
     </div>  
-<br><br><br><br><br><br><br><br><br><br>
          
             <h1>{{ what_class }} Hardcore Skill Distribution </h1>
+            <div class="summary-container">
 
-                <div class="summary-container">
+<div page-intro-class>
 
 <!--                {{ full_summary_output }} -->
 <!--            </div> -->
@@ -7834,14 +7894,13 @@ def MakehcClassPages():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div><strong>Name: {{ character['name'] }}</strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
                 <div class="character-link">
                         <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                            {{ character['name'] }}'s Armory
+                            {{ character['name'] }}
                         </a>
                 </div>
+        <div>Level: {{ character['level'] }}</div>
+<!--        <div>Class: {{ character['class'] }}</div> -->
 
                 {% if character['dead'] %}
                     <div class="hover-trigger-dead" data-character-name="{{ character['name'] }}">
@@ -7959,6 +8018,11 @@ backToTopBtn.style.display = "none";
 function topFunction() {
 document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+function toggleMenu() {
+    const navMenu = document.querySelector('.top-buttons');
+    navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -8301,7 +8365,7 @@ activePopup = null;
             other_skills_pie = "<br>".join([f"{skill} ({format_number(avg)})" for skill, avg in other_skills.items()])
 #            other_skills_str = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(other_skills[skill] * character_count)})" for skill in other_skills.index])
             other_skills_str = "<br>".join([
-                f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                 f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
                 f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
                 f"({format_number(other_skills[skill] * character_count)})</span>"
@@ -8313,7 +8377,7 @@ activePopup = null;
             remaining_skills = remaining_skills[remaining_skills > 0]
 #            remaining_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
             remaining_skills_str2 = "<br>".join([
-                f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                 f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
                 f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
                 f"({format_number(remaining_skills[skill] * character_count)})</span>"
@@ -8327,7 +8391,7 @@ activePopup = null;
                         f"<div class='skill-item'>"
                         f"<div class='skillbar-container'>"
                         f"<div class='skill-info'>"
-                        f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
+                        f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
                         f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
                         f"</div>"
                         f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
@@ -8357,7 +8421,7 @@ activePopup = null;
                         <div class="skill-row">
                             <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                             <div class="skill-bar-container">
-                                <div class="skill-bar" style="width: {percent * 6}px; min-width: 300px;">
+                                <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
                                     <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                                 </div>
                             </div>

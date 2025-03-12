@@ -26,6 +26,6 @@ MakehcHome()
 #GethcChargers()
 #GethcOffensiveAuraItemsEquipped()
 #MakehcClassPages()
-#GitHubSync()
+GitHubSync()
 
 print("✅ All Hardcore scripts executed successfully!")
