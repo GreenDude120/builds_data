@@ -847,7 +847,7 @@ def MakehcHome():
 
             items_html += f"""
             <button class="collapsible">
-                <strong>{source_item} (Properties found in {len(characters)} Synth Items)</strong>
+                <strong>{source_item} (Found in {len(characters)} Items)</strong>
             </button>
             <div class="content">
                 {character_list_html if characters else "<p>No synth items used this.</p>"}

@@ -828,7 +828,7 @@ def MakeHome():
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
 
-                <strong>{source_item} (Properties found in {len(characters)} Synth Items)</strong>
+                <strong>{source_item} (Found in {len(characters)} Items)</strong>
             </button>
             <div class="content">
                 {character_list_html if characters else "<p>No synth items used this.</p>"}
@@ -7877,13 +7877,12 @@ def MakeClassPages():
                 return "".join(
                     f"""
                     <div class="character-info">
-                        <div><strong>{char.get("Name", "Unknown")}</strong></div>
-                        <div>Level {char.get("Stats", {}).get("Level", "N/A")} {char.get("Class", "Unknown")}</div>
                         <div class="character-link">
                             <a href="https://pathofdiablo.com/p/armory/?name={char.get("Name", "Unknown")}" target="_blank">
                                 {char.get("Name", "Unknown")}
                             </a>
                         </div>
+                        <div>Level {char.get("Stats", {}).get("Level", "N/A")} <!--{char.get("Class", "Unknown")}--></div>
                         <div class="hover-trigger" data-character-name="{char.get("Name", "Unknown")}"></div>
                     </div>
                     <div class="character">
