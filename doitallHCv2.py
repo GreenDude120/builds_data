@@ -2181,7 +2181,7 @@ def GethcDashers():
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -2717,7 +2717,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px);">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -3117,7 +3117,7 @@ def GethcNonZon():
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -3654,7 +3654,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -4110,7 +4110,7 @@ def GethcUniqueProjectiles():
         <title>{{ what_class }} Hardcore Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -4659,7 +4659,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -4961,7 +4961,7 @@ def GethcBong():
         <title>Hardcore {{ what_class }} Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -5504,7 +5504,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -5814,7 +5814,7 @@ def GethcChargers():
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -6335,7 +6335,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -6736,7 +6736,7 @@ def GethcOffensiveAuraItemsEquipped():
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -7286,7 +7286,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -8421,7 +8421,7 @@ activePopup = null;
                         <div class="skill-row">
                             <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                             <div class="skill-bar-container">
-                                <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                                <div class="skill-bar">
                                     <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                                 </div>
                             </div>

@@ -1941,6 +1941,8 @@ activePopup = null;
     # Write the filled HTML content to a file
     with open('pod-stats/Home.html', 'w') as file:
         file.write(filled_html_content)
+    with open('pod-stats/index.html', 'w') as file:
+        file.write(filled_html_content)
 
     print("HTML file generated successfully.")
 
@@ -2184,7 +2186,7 @@ def GetDashers():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
@@ -2716,7 +2718,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px);">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -3138,7 +3140,7 @@ def GetNonZon():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
 
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -3672,7 +3674,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -4129,7 +4131,7 @@ def GetUniqueProjectiles():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
 
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -4674,7 +4676,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -5032,7 +5034,7 @@ def GetBong():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
 
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -5598,7 +5600,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -5960,7 +5962,7 @@ def GetChargers():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
 
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -6496,7 +6498,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -6918,7 +6920,7 @@ def GetOffensiveAuraItemsEquipped():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </head>
-    <body class="main">
+    <body class="not-main">
 
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -7502,7 +7504,7 @@ activePopup = null;
                     <div class="skill-row">
                         <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                         <div class="skill-bar-container">
-                            <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                            <div class="skill-bar">
                                 <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                             </div>
                         </div>
@@ -8029,7 +8031,7 @@ def MakeClassPages():
             <title>{{ what_class }} Analysis Report</title>
 
         </head>
-        <body class="main" special-background-{{ what_class|lower }}">
+        <body class="main special-background-{{ what_class|lower }}">
     
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
@@ -8048,10 +8050,10 @@ def MakeClassPages():
             <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
+<div page-intro-class>
             <h1>{{ what_class }} Softcore Skill Distribution </h1>
             <div class="summary-container">
 
-<div page-intro-class>
             <p class="indented-skills"> </p>
 
 
@@ -8114,7 +8116,6 @@ def MakeClassPages():
                 {{ character['name'] }}
             </a></strong></div>
         <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -8674,7 +8675,7 @@ activePopup = null;
                         <div class="skill-row">
                             <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
                             <div class="skill-bar-container">
-                                <div class="skill-bar" style="width: clamp(80px, {percent * 5}px, 500px); min-width: 300px;">
+                                <div class="skill-bar" >
                                     <span class="skill-label">{skill} ({int(avg * character_count)})</span>
                                 </div>
                             </div>
