@@ -1,7 +1,7 @@
 from doitallv2 import GetAllCharData, GetClassCharData, MakeHome, GetNonZon, GetUniqueProjectiles, GetBong, GetDashers, GetChargers, GetOffensiveAuraItemsEquipped, MakeClassPages, GitHubSync
 
-GetAllCharData()
-GetClassCharData()
+#GetAllCharData()
+#GetClassCharData()
 MakeHome()
 GetDashers() 
 GetNonZon()
@@ -16,8 +16,8 @@ print("✅ All scripts executed successfully!")
 
 from doitallHCv2 import GetAllhcCharData, GethcClassCharData, MakehcHome, GethcNonZon, GethcUniqueProjectiles, GethcBong, GethcDashers, GethcChargers, GethcOffensiveAuraItemsEquipped, MakehcClassPages, GitHubSync
 
-GetAllhcCharData()
-GethcClassCharData()
+#GetAllhcCharData()
+#GethcClassCharData()
 MakehcHome()
 GethcDashers()
 GethcNonZon()

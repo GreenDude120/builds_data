@@ -7782,8 +7782,7 @@ def MakeClassPages():
                         print(f"Error processing file {filename}: {e}")
             return pd.DataFrame(all_data).fillna(0)  # Fill missing skills with 0
 
-
-       
+      
         # Load the data
         df = load_data(data_folder)
 
@@ -7848,6 +7847,760 @@ def MakeClassPages():
         # Map clusters to meaningful names (top skills with average points)
         cluster_labels = {i: ", ".join([f"{skill} ({avg})" for skill, avg in skills]) for i, skills in enumerate(top_skills_with_avg)}
         df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
+
+        # Counters for classes, runewords, uniques, and set items
+        class_counts = {}
+        runeword_counter = Counter()
+        unique_counter = Counter()
+        set_counter = Counter()
+        synth_counter = Counter()
+        crafted_counters = {
+            "Rings": Counter(),
+            "Weapons and Shields": Counter(),
+            "Arrows": Counter(),
+            "Bolts": Counter(),
+            "Body Armor": Counter(),
+            "Gloves": Counter(),
+            "Belts": Counter(),
+            "Helmets": Counter(),
+            "Boots": Counter(),
+            "Amulets": Counter(),
+        }
+        magic_counters = {
+            "Rings": Counter(),
+            "Weapons and Shields": Counter(),
+            "Arrows": Counter(),
+            "Bolts": Counter(),
+            "Body Armor": Counter(),
+            "Gloves": Counter(),
+            "Belts": Counter(),
+            "Helmets": Counter(),
+            "Boots": Counter(),
+            "Amulets": Counter(),
+        }
+        rare_counters = {
+            "Rings": Counter(),
+            "Weapons and Shields": Counter(),
+            "Arrows": Counter(),
+            "Bolts": Counter(),
+            "Body Armor": Counter(),
+            "Gloves": Counter(),
+            "Belts": Counter(),
+            "Helmets": Counter(),
+            "Boots": Counter(),
+            "Amulets": Counter(),
+        }
+        
+        synth_sources = {}  # Maps item names to all synth items that used them
+
+        runeword_users = {}
+        unique_users = {}
+        set_users = {}
+        synth_users = {}
+        crafted_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
+        rare_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
+        magic_users = {category: {} for category in crafted_counters}  # Ensure all categories exist
+
+        all_characters = []
+        sorted_just_socketed_runes = {}
+        sorted_just_socketed_excluding_runewords_runes = {}
+        all_other_items = {}
+
+        def process_files_in_folder(folder):
+            # Dictionary to store class counts
+            class_counts = {}
+
+            # Counters for runewords, uniques, and set items
+            runeword_counter = Counter()
+            unique_counter = Counter()
+            set_counter = Counter()
+            synth_counter = Counter()
+            def categorize_worn_slot(worn_category, text_tag):
+                if worn_category in ["sweapon1", "weapon1", "sweapon2", "weapon2"]:
+                    if text_tag == "Arrows":
+                        return "Arrows"
+                    elif text_tag == "Bolts":
+                        return "Bolts"
+                    else:
+                        return "Weapons and Shields"
+                
+                worn_category_map = {
+                    "ring1": "Ring", "ring2": "RingsBody ",
+                    "body": "Armor",
+                    "gloves": "Gloves",
+                    "belt": "Belts",
+                    "helmet": "Helmets",
+                    "boots": "Boots",
+                    "amulet": "Amulets",
+                }
+                
+                return worn_category_map.get(worn_category, "Other")  # Default to "Other"
+
+
+            # Iterate through all JSON files in the folder
+            for filename in os.listdir(folder):
+                if filename.endswith(".json"):
+                    filepath = os.path.join(folder, filename)
+                    try:
+                        # Check if the file is empty
+                        if os.path.getsize(filepath) == 0:
+                            continue
+
+                        # Attempt to parse the JSON
+                        with open(filepath, 'r') as file:
+                            char_data = json.load(file)
+                            all_characters.append(char_data)  # Collect all character data
+
+                            char_name = char_data.get("Name", "Unknown")
+                            char_class = char_data.get("Class", "Unknown")
+                            char_level = char_data.get("Stats", {}).get("Level", "Unknown")  # Correctly access level from Stats
+
+                            # Process class data
+                            char_class = char_data.get("Class")
+                            if char_class:
+                                class_counts[char_class] = class_counts.get(char_class, 0) + 1
+
+
+
+                            # Process equipped items data
+                            for item in char_data.get("Equipped", []):
+                                worn_category = categorize_worn_slot(item.get("Worn", ""), item.get("TextTag", ""))  # ✅ Call once
+
+                                character_info = {
+                                    "name": char_name,
+                                    "class": char_class,
+                                    "level": char_level,
+                                }
+
+                                if "synth" in item.get("Tag", "").lower() or "synth" in item.get("TextTag", "").lower():
+                                    item_title = item["Title"]
+                                    synth_counter[item_title] += 1
+                                    synth_users.setdefault(item_title, []).append(character_info)
+
+                                    # Process SynthesisedFrom property
+                                    synthesized_from = item.get("SynthesisedFrom", [])
+                                    all_related_items = [item_title] + synthesized_from
+                                    for source_item in all_related_items:
+                                        synth_sources.setdefault(source_item, []).append({
+                                            "name": char_name,
+                                            "class": char_class,
+                                            "level": char_level,
+                                            "synthesized_item": item_title
+                                        })
+
+                                if item.get("QualityCode") == "q_runeword":
+                                    runeword_counter[item["Title"]] += 1
+                                    runeword_users.setdefault(item["Title"], []).append(character_info)
+
+                                if item.get("QualityCode") == "q_unique":
+                                    unique_counter[item["Title"]] += 1
+                                    unique_users.setdefault(item["Title"], []).append(character_info)
+
+                                if item.get("QualityCode") == "q_set":
+                                    set_counter[item["Title"]] += 1
+                                    set_users.setdefault(item["Title"], []).append(character_info)
+
+                                if item.get("QualityCode") == "q_crafted":
+                                    crafted_counters[worn_category][item["Title"]] += 1
+                                    crafted_users.setdefault(worn_category, {}).setdefault(item["Title"], []).append(character_info)
+
+                    except (json.JSONDecodeError, KeyError, OSError) as e:
+                        print(f"Error processing file {filepath}: {e}")
+                        continue
+
+            return class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users
+
+        def process_files_in_folder_for_magic_rare(folder):
+            magic_counters = {category: Counter() for category in crafted_counters}
+            rare_counters = {category: Counter() for category in crafted_counters}
+            magic_users = {category: {} for category in crafted_counters}
+            rare_users = {category: {} for category in crafted_counters}
+            def categorize_worn_slot(worn_category, text_tag):
+                if worn_category in ["sweapon1", "weapon1", "sweapon2", "weapon2"]:
+                    if text_tag == "Arrows":
+                        return "Arrows"
+                    elif text_tag == "Bolts":
+                        return "Bolts"
+                    else:
+                        return "Weapons and Shields"
+                
+                worn_category_map = {
+                    "ring1": "Ring", "ring2": "RingsBody ",
+                    "body": "Armor",
+                    "gloves": "Gloves",
+                    "belt": "Belts",
+                    "helmet": "Helmets",
+                    "boots": "Boots",
+                    "amulet": "Amulets",
+                }
+                
+                return worn_category_map.get(worn_category, "Other")  # Default to "Other"
+
+            for filename in os.listdir(folder):
+                if filename.endswith(".json"):
+                    filepath = os.path.join(folder, filename)
+                    try:
+                        if os.path.getsize(filepath) == 0:
+                            continue
+
+                        with open(filepath, 'r') as file:
+                            char_data = json.load(file)
+                            char_name = char_data.get("Name", "Unknown")
+                            char_class = char_data.get("Class", "Unknown")
+                            char_level = char_data.get("Stats", {}).get("Level", "Unknown")
+
+                            for item in char_data.get("Equipped", []):
+                                worn_category = categorize_worn_slot(item.get("Worn", ""), item.get("TextTag", ""))
+                                character_info = {"name": char_name, "class": char_class, "level": char_level}
+
+                                if item.get("QualityCode") == "q_magic":
+                                    magic_counters[worn_category][item["Title"]] += 1
+                                    magic_users.setdefault(worn_category, {}).setdefault(item["Title"], []).append(character_info)
+
+                                if item.get("QualityCode") == "q_rare":
+                                    rare_counters[worn_category][item["Title"]] += 1
+                                    rare_users.setdefault(worn_category, {}).setdefault(item["Title"], []).append(character_info)
+
+                    except (json.JSONDecodeError, KeyError, OSError) as e:
+                        print(f"Error processing file {filepath}: {e}")
+                        continue
+
+            return magic_counters, magic_users, rare_counters, rare_users
+
+        class_counts, runeword_counter, unique_counter, set_counter, synth_counter, runeword_users, unique_users, set_users, synth_users, crafted_counters, crafted_users = process_files_in_folder(data_folder)
+        magic_counters, magic_users, rare_counters, rare_users = process_files_in_folder_for_magic_rare(data_folder)
+
+        # Get the most common items
+        most_common_runewords = runeword_counter.most_common(10)
+        most_common_uniques = unique_counter.most_common(10)
+        most_common_set_items = set_counter.most_common(10)
+
+        # Get all the items
+        all_runewords = runeword_counter.most_common(150)
+        all_uniques = unique_counter.most_common(150)
+        all_set = set_counter.most_common(150)
+        all_synth = synth_counter.most_common(150)
+
+        # Get the least common items
+        least_common_runewords = runeword_counter.most_common()[:-11:-1]
+        least_common_uniques = unique_counter.most_common()[:-11:-1]
+        least_common_set_items = set_counter.most_common()[:-11:-1]
+
+        # Generate list items
+        def generate_list_items(items):
+            return ''.join(f'<li>{item}: {count}</li>' for item, count in items)
+
+        def generate_all_list_items(counter, character_data):
+            if not isinstance(character_data, list):
+                print("Error: character_data is not a list! Type:", type(character_data))
+                return ""  # Return an empty string to avoid breaking HTML generation
+
+            items_html = ""
+
+            for item, count in counter:
+
+                # Handle normal cases
+                if counter != synth_counter:
+                    character_list = [
+                        char
+                        for char in character_data
+                        if isinstance(char, dict) and any(
+                            equipped_item.get("Title") == item for equipped_item in char.get("Equipped", [])
+                        )
+                    ]
+                # Handle synth items separately
+                if counter == synth_counter:
+                    character_list = [
+                        char for char in synth_users.get(item, [])
+                        if "synth" in char["item"].get("Tag", "").lower() or "synth" in char["item"].get("TextTag", "").lower()
+                    ]
+    #            print(f"Processing item: {item}, Expected count: {count}")
+    #            print(f"Characters in list: {[char['Name'] for char in character_list]}")
+    #                print(f"Synth Users for {item}: {character_list}")
+    #            print(f"Synth Users for {item}: {[char['Name'] for char in character_list]}")
+
+                character_list_html = "".join(
+                    f""" 
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
+                                {char["Name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["Stats"]["Level"]} {char["Class"]}</div>
+                        <div class="hover-trigger" data-character-name="{char["Name"]}"><!-- Armory Quickview--></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """
+                    for char in character_list
+                )
+
+                items_html += f"""
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>{item} ({count} users)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if character_list else "<p>No characters using this item.</p>"}
+                </div>
+                """
+            print(f"Checking synth users for item: {item}")
+    #        for char in character_list:
+    #            print(f"- {char['name']} (Lvl {char['level']} {char['class']}) - Item: {char['item'].get('Title')}")
+
+            return items_html
+
+        def generate_synth_list_items(counter: Counter, synth_users: dict):
+            items_html = ""
+    #        for item, count in counter.items():
+            for item, count in sorted(counter.items(), key=lambda x: (-x[1], x[0])):
+
+                character_list = synth_users.get(item, [])  # Directly fetch correct list
+
+                character_list_html = "".join(
+                    f""" 
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                                {char["name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["level"]} {char["class"]}</div>
+                        <div class="hover-trigger" data-character-name="{char["name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """ for char in character_list
+                )
+
+                items_html += f""" 
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>{item} ({count} users)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if character_list else "<p>No characters using this item.</p>"}
+                </div>
+                """
+            
+            return items_html
+
+        synth_user_count = sum(len(users) for users in synth_users.values())
+
+        def generate_synth_source_list(synth_sources):
+            items_html = ""
+
+    #        for source_item, characters in synth_sources.items():
+            for source_item, characters in sorted(synth_sources.items(), key=lambda x: (-len(x[1]), x[0])):
+        
+                character_list_html = "".join(
+                    f"""
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                                {char["name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["level"]} {char["class"]}</div>
+                        <div>Used in: <strong>{char["synthesized_item"]}</strong></div>
+                        <div class="hover-trigger" data-character-name="{char["name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """ for char in characters
+                )
+
+                items_html += f"""
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+
+                    <strong>{source_item} (Found in {len(characters)} Items)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if characters else "<p>No synth items used this.</p>"}
+                </div>
+                """
+
+            return items_html
+        synth_source_user_count = sum(len(users) for users in synth_sources.values())
+
+
+        def generate_crafted_list_items(crafted_counters, crafted_users):
+            items_html = ""
+
+            for worn_category, counter in crafted_counters.items():
+                if not counter:  # Skip empty categories
+                    continue
+                
+                # Collect all characters in this category
+                category_users = []
+                for item, count in counter.items():
+                    category_users.extend(crafted_users.get(worn_category, {}).get(item, []))
+
+                # Skip categories with no users
+                if not category_users:
+                    continue
+
+                # Create the list of all users in this category
+                character_list_html = "".join(
+                    f"""
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                                {char["name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["level"]} {char["class"]}</div>
+                        <div class="hover-trigger" data-character-name="{char["name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """ for char in category_users
+                )
+
+                # Create a collapsible button for each category
+                items_html += f"""
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>Crafted {worn_category} ({len(category_users)} users)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if category_users else "<p>No characters using crafted items in this category.</p>"}
+                </div>
+                """
+
+            return items_html
+        craft_user_count = sum(len(users) for users in crafted_users.values())
+
+
+        def generate_magic_list_items(magic_counters, magic_users):
+            items_html = ""
+
+            for worn_category, counter in magic_counters.items():
+                if not counter:  # Skip empty categories
+                    continue
+                
+                # Collect all characters in this category
+                category_users = []
+                for item, count in counter.items():
+                    category_users.extend(magic_users.get(worn_category, {}).get(item, []))
+
+                # Skip categories with no users
+                if not category_users:
+                    continue
+
+                # Create the list of all users in this category
+                character_list_html = "".join(
+                    f"""
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                                {char["name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["level"]} {char["class"]}</div>
+                        <div class="hover-trigger" data-character-name="{char["name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """ for char in category_users
+                )
+
+                # Create a collapsible button for each category
+                items_html += f"""
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>Magic {worn_category} ({len(category_users)} users)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if category_users else "<p>No characters using magic items in this category.</p>"}
+                </div>
+                """
+
+            return items_html
+        magic_user_count = sum(len(users) for users in magic_users.values())
+
+
+        def generate_rare_list_items(rare_counter, rare_users):
+            items_html = ""
+
+            for worn_category, counter in rare_counter.items():
+                if not counter:  # Skip empty categories
+                    continue
+                
+                # Collect all characters in this category
+                category_users = []
+                for item, count in counter.items():
+                    category_users.extend(rare_users.get(worn_category, {}).get(item, []))
+
+                # Skip categories with no users
+                if not category_users:
+                    continue
+
+                # Create the list of all users in this category
+                character_list_html = "".join(
+                    f"""
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                                {char["name"]}
+                            </a>
+                        </div>
+                        <div>Level {char["level"]} {char["class"]}</div>
+                        <div class="hover-trigger" data-character-name="{char["name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div> <!-- No iframe inside initially -->
+                    </div>
+                    """ for char in category_users
+                )
+
+                # Create a collapsible button for each category
+                items_html += f"""
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>Rare {worn_category} ({len(category_users)} users)</strong>
+                </button>
+                <div class="content">
+                    {character_list_html if category_users else "<p>No characters using Rare items in this category.</p>"}
+                </div>
+                """
+
+            return items_html
+        rare_user_count = sum(len(users) for users in rare_users.values())
+
+        def socket_html(sorted_runes, sorted_excluding_runes, all_other_items):
+            def extract_element(item):
+                if item.get('Title') == 'Rainbow Facet':
+                    element_types = ["fire", "cold", "lightning", "poison", "physical", "magic"]
+                    for element in element_types:
+                        for prop in item.get('PropertyList', []):
+                            if element in prop.lower():
+                                return element.capitalize()
+                return item.get('Title', 'Unknown')  # Use title if not "Rainbow Facet"
+
+            rune_names = {
+                "El Rune", "Eld Rune", "Tir Rune", "Nef Rune", "Eth Rune", "Ith Rune", "Tal Rune", "Ral Rune", "Ort Rune", "Thul Rune", "Amn Rune", "Sol Rune",
+                "Shael Rune", "Dol Rune", "Hel Rune", "Io Rune", "Lum Rune", "Ko Rune", "Fal Rune", "Lem Rune", "Pul Rune", "Um Rune", "Mal Rune", "Ist Rune",
+                "Gul Rune", "Vex Rune", "Ohm Rune", "Lo Rune", "Sur Rune", "Ber Rune", "Jah Rune", "Cham Rune", "Zod Rune"
+            }
+
+            def load_data(folder):
+                all_items = [] # all items
+                socketed_items = [] # items and what's in sockets
+                items_excluding_runewords = [] # items and what's in sockets, minus runewords
+                just_socketed = [] # just what's in sockets, not the socketed items themselves
+                just_socketed_excluding_runewords = [] # just what's in sockets, not the socketed items themselves, minus runewords
+                facet_elements = defaultdict(list)  # Dictionary to group items by their element
+                shields_for_skulls = []
+                weapons_for_skulls = []
+                helmets_for_skulls = []
+                armor_for_skulls = []
+                jewel_counts = Counter()  # Count jewels by title and quality
+                jewel_groupings = {"magic": [], "rare": []}  # To store Misc. Magic/Rare Jewels
+                
+
+                for filename in os.listdir(folder):
+                    if filename.endswith(".json"):
+                        filepath = os.path.join(folder, filename)
+                        try:
+                            with open(filepath, 'r') as file:
+                                char_data = json.load(file)
+                                
+                                for item in char_data.get('Equipped', []):
+
+                                    if item.get('Worn') == 'helmet':
+                                        for socketed_item in item.get('Sockets', []):
+                                            if socketed_item.get('Title') == "Perfect Skull":
+                                                helmets_for_skulls.append(socketed_item)
+                                    elif item.get('Worn') == 'body':
+                                        for socketed_item in item.get('Sockets', []):
+                                            if socketed_item.get('Title') == "Perfect Skull":
+                                                armor_for_skulls.append(socketed_item)
+                                    elif item.get('Worn') in ['weapon1', 'weapon2', 'sweapon1', 'sweapon2']:
+                                        # Check if item has the "Block" property
+                                        if any("Block" in prop for prop in item.get('PropertyList', [])):
+                                            for socketed_item in item.get('Sockets', []):
+                                                if socketed_item.get('Title') == "Perfect Skull":
+                                                    shields_for_skulls.append(socketed_item)
+                                                    print(filename)
+                                        else:
+                                            for socketed_item in item.get('Sockets', []):
+                                                if socketed_item.get('Title') == "Perfect Skull":
+                                                    weapons_for_skulls.append(socketed_item)
+            #                            if not("Block" in prop for prop in item.get('PropertyList', [])):
+            #                                for socketed_item in item.get('Sockets', []):
+            #                                    if socketed_item.get('Title') == "Perfect Skull":
+            #                                        weapons_for_skulls.append(socketed_item)
+
+                                    if item.get('SocketCount', '0') > '0':  # Check if item has sockets
+                                        all_items.append(item)
+                                        if item.get('QualityCode') != 'q_runeword':  # Exclude runewords
+                                            items_excluding_runewords.append(item)
+
+                                        for socketed_item in item.get('Sockets', []):
+                                            element = extract_element(socketed_item)
+                                            socketed_items.append(socketed_item)
+                                            facet_elements[element].append(socketed_item)
+                                            
+                                            just_socketed.append(socketed_item)
+                                            
+                                            # ✅ Extract QualityCode for categorization later
+                                            quality_code = socketed_item.get('QualityCode', '')
+
+                                            # ✅ Separate Magic and Rare Jewels
+                                            if quality_code == "q_magic":
+                                                socketed_item["GroupedTitle"] = "Misc. Magic Jewels"
+                                            elif quality_code == "q_rare":
+                                                socketed_item["GroupedTitle"] = "Misc. Rare Jewels"
+                                            else:
+                                                socketed_item["GroupedTitle"] = socketed_item.get("Title", "Unknown")  # Keep normal title
+
+                                            if item.get('QualityCode') != 'q_runeword':
+                                                items_excluding_runewords.append(socketed_item)
+                                                just_socketed_excluding_runewords.append(socketed_item)
+                                            
+                                            if socketed_item.get('Title') == 'Rainbow Facet':
+                                                facet_elements[element].append(socketed_item)
+
+
+                        except (json.JSONDecodeError, KeyError, OSError) as e:
+                            print(f"Error processing file {filepath}: {e}")
+                            continue
+
+                return all_items, socketed_items, items_excluding_runewords, just_socketed, just_socketed_excluding_runewords, facet_elements, shields_for_skulls, weapons_for_skulls, helmets_for_skulls, armor_for_skulls
+
+            # Example usage
+#            folder = "sc/ladder-all"
+            all_items, socketed_items, items_excluding_runewords, just_socketed, just_socketed_excluding_runewords, facet_elements, shields_for_skulls, weapons_for_skulls, helmets_for_skulls, armor_for_skulls = load_data(data_folder)
+
+            def count_items_by_type(items):
+                rune_counter = Counter()
+                non_rune_counter = Counter()
+                magic_jewel_counter = Counter()
+                rare_jewel_counter = Counter()
+                facet_counter = defaultdict(lambda: {"count": 0, "perfect": 0})
+                skull_counter = Counter()
+
+                for item in items:
+                    title = item.get('Title', 'Unknown')
+                    quality = item.get('QualityCode', '')
+
+                    if title in rune_names:  # ✅ Sort runes separately
+                        rune_counter[title] += 1
+                    elif "Rainbow Facet" in title:  # ✅ Sort Rainbow Facets separately
+                        element = extract_element(item)
+                        facet_counter[element]["count"] += 1
+
+                        # ✅ Check for perfect (both +5% and -5% properties)
+                        properties = item.get('PropertyList', [])
+                        if any("+5" in prop for prop in properties) and any("-5" in prop for prop in properties):
+                            facet_counter[element]["perfect"] += 1
+                    elif quality == "q_magic":  # ✅ Track Magic Jewels with splash
+                        has_splash = any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                        has_ias = any("attack speed" in prop.lower() for prop in item.get("PropertyList", []))
+                        has_ed = any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
+                        has_iassplash = any("attack speed" in prop.lower() for prop in item.get("PropertyList", [])) & any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                        has_iased = any("attack speed" in prop.lower() for prop in item.get("PropertyList", [])) & any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
+                        magic_jewel_counter["Misc. Magic Jewels"] += 1
+                        if has_splash:
+                            magic_jewel_counter["splash"] += 1
+                        if has_ias:
+                            magic_jewel_counter["attack speed"] += 1
+                        if has_ed:
+                            magic_jewel_counter["enhanced damage"] += 1
+                        if has_iassplash:
+                            magic_jewel_counter["iassplash"] += 1
+                        if has_iased:
+                            magic_jewel_counter["iased"] += 1
+    #                    if has_splash & has_ias:
+    #                        magic_jewel_counter["splash"] += 1
+                    elif quality == "q_rare":  # ✅ Track Rare Jewels with splash
+                        has_splash = any("splash" in prop.lower() for prop in item.get("PropertyList", []))
+                        has_ed = any("enhanced damage" in prop.lower() for prop in item.get("PropertyList", []))
+                        rare_jewel_counter["Misc. Rare Jewels"] += 1
+                        if has_splash:
+                            rare_jewel_counter["splash"] += 1
+                        if has_ed:
+                            rare_jewel_counter["enhanced damage"] += 1
+    #                elif "Perfect Skull" in title:  # ✅ Sort Rainbow Facets separately
+    #                    skull_counter[title] += 1
+                    else:  # ✅ All other non-rune items
+                        non_rune_counter[title] += 1
+
+                return rune_counter, non_rune_counter, magic_jewel_counter, rare_jewel_counter, facet_counter #, skull_counter
+
+            just_socketed_runes, just_socketed_non_runes, just_socketed_magic, just_socketed_rare, just_socketed_facets = count_items_by_type(just_socketed)
+            just_socketed_excluding_runewords_runes, just_socketed_excluding_runewords_non_runes, just_socketed_excluding_runewords_magic, just_socketed_excluding_runewords_rare, just_socketed_excluding_runewords_facets = count_items_by_type(just_socketed_excluding_runewords)
+
+            # Use .most_common() to sort data in descending order
+            sorted_just_socketed_runes = just_socketed_runes.most_common()
+            sorted_just_socketed_excluding_runewords_runes = just_socketed_excluding_runewords_runes.most_common()
+
+            # Combine non-runes, magic, rare, and facets into a single list
+            all_other_items = [
+                *(f"{item}: {count}" for item, count in just_socketed_excluding_runewords_non_runes.items()),
+                f"Misc. Magic Jewels: {just_socketed_excluding_runewords_magic['Misc. Magic Jewels']} ({just_socketed_excluding_runewords_magic['splash']} include melee splash, {just_socketed_excluding_runewords_magic['attack speed']} include IAS, {just_socketed_excluding_runewords_magic['enhanced damage']} include ED; of those, there are {just_socketed_excluding_runewords_magic['iassplash']} IAS/Splash and {just_socketed_excluding_runewords_magic['iased']} IAS/ED)",
+                f"Misc. Rare Jewels: {just_socketed_excluding_runewords_rare['Misc. Rare Jewels']} ({just_socketed_excluding_runewords_rare['splash']} include melee splash, {just_socketed_excluding_runewords_rare['enhanced damage']} include ED)",
+                *(f"Rainbow Facet ({element}): {counts['count']} ({counts['perfect']} are perfect)" for element, counts in just_socketed_excluding_runewords_facets.items()),
+    #            f"Perfect Skull:  (tacos)"
+
+            ]
+    #        return sorted_just_socketed_runes, sorted_just_socketed_excluding_runewords_runes, all_other_items
+            return (
+                format_socket_html_runes(sorted_just_socketed_runes), 
+                format_socket_html_runes(sorted_just_socketed_excluding_runewords_runes), 
+                format_socket_html(all_other_items)
+            )
+
+        def format_socket_html(counter_data):
+            """Formats socketed items as an HTML table or list."""
+            if isinstance(counter_data, list):  # If it's a list, format as an unordered list
+                items = "".join(f"<li>{item}</li>" for item in counter_data)
+                return f"<ul>{items}</ul>"
+
+            elif isinstance(counter_data, Counter):  # If it's a Counter, format as a table
+                rows = "".join(f"<tr><td>{item}</td><td>{count}</td></tr>" for item, count in counter_data.items())
+                return f"<table><tr><th>Item</th><th>Count</th></tr>{rows}</table>"
+
+            elif isinstance(counter_data, dict):  # If it's a dict (e.g., facet counts), format as a list
+                items = "".join(f"<li>{item}: {count['count']} ({count['perfect']} perfect)</li>" for item, count in counter_data.items())
+                return f"<ul>{items}</ul>"
+
+            return ""  # Return empty string if there's no data
+
+        def format_socket_html_runes(counter_data):
+            """Formats socketed items as an HTML table or list."""
+            if isinstance(counter_data, list):  # If it's a list of tuples (like runes), format properly
+                items = "".join(f"<li>{item}: {count}</li>" for item, count in counter_data)
+                return f"<ul>{items}</ul>"
+
+            elif isinstance(counter_data, Counter):  # If it's a Counter, format as a table
+                rows = "".join(f"<tr><td>{item}</td><td>{count}</td></tr>" for item, count in counter_data.items())
+                return f"<table><tr><th>Item</th><th>Count</th></tr>{rows}</table>"
+
+            elif isinstance(counter_data, dict):  # If it's a dict (e.g., facet counts), format as a list
+                items = "".join(f"<li>{item}: {count['count']} ({count['perfect']} perfect)</li>" for item, count in counter_data.items())
+                return f"<ul>{items}</ul>"
+
+            return ""  # Return empty string if there's no data
+
+
+
+
+
 
         def GetSCFunFacts():
             # Define the folder containing character JSON files
@@ -8166,6 +8919,242 @@ def MakeClassPages():
                 <img src="charts/{{ what_class }}-clusters_distribution_pie.png" alt="{{ what_class }} Skills Distribution">
             </div> 
             <hr>
+            <h1>Equipment and item details for {{ what_class}}</h1>
+            <button type="button" class="collapsible runewords-button">
+                <img src="icons/Runewords_click.png" alt="Runewords Open" class="icon open-icon hidden">
+                <img src="icons/Runewords.png" alt="Runewords Close" class="icon close-icon">
+            <!--    <strong>Runewords</strong> -->
+            </button>
+            <div class="content">
+                <div id="runewords" class="container">
+                    <div class="column">
+                        <h3>Most Used Runewords:</h3>
+                        <ul id="most-popular-runewords">
+                            {most_popular_runewords}
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Least Used Runewords:</h3>
+                        <ul id="least-popular-runewords">
+                            {least_popular_runewords}
+                        </ul>
+                    </div>
+                </div>
+
+
+                <button type="button" class="collapsible small-collapsible">
+                    <img src="icons/open.png" alt="All Runewords Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed.png" alt="Runewords Close" class="icon-small close-icon">
+                    <strong>ALL Runewords</strong>
+                </button>
+
+                <div class="content">
+                    <div id="allrunewords">
+                        {all_runewords}
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <button type="button" class="collapsible uniques-button">
+                <img src="icons/Uniques_click.png" alt="Uniques Open" class="icon open-icon hidden">
+                <img src="icons/Uniques.png" alt="Uniques Close" class="icon close-icon">
+            <!--    <strong>Uniques</strong>-->
+            </button>    
+            <div class="content">   
+                <div id="uniques" class="container">
+                    <div class="column">
+                        <h3>Most Used Uniques:</h3>
+                        <ul id="most-popular-uniques">
+                            {most_popular_uniques}
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Least Used Uniques:</h3>
+                        <ul id="least_popular_uniques">
+                            {least_popular_uniques}
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" class="collapsible small-collapsible">
+                    <img src="icons/open.png" alt="All Uniques Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed.png" alt="Uniques Close" class="icon-small close-icon">
+                    <strong>ALL Uniques</strong>
+                </button>
+
+                <div class="content">
+                    <div id="alluniques">
+                        {all_uniques}
+                    </div>
+                </div>
+
+            </div>
+
+            <br>
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Sets_click.png" alt="Sets Open" class="icon open-icon hidden">
+                <img src="icons/Sets.png" alt="Sets Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                <div id="sets" class="container">
+                    <div class="column">
+                        <h3>Most Used Set Items:</h3>
+                        <ul id="most-popular-set-items">
+                            {most_popular_set_items}
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Least Used Set Items:</h3>
+                        <ul id="least_popular_set_items">
+                            {least_popular_set_items}
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" class="collapsible small-collapsible">
+                    <img src="icons/open.png" alt="All Set Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed.png" alt="Set Close" class="icon-small close-icon">
+                    <strong>ALL Set</strong>
+                </button>
+
+                <div class="content">
+                    <div id="allset">
+                        {all_set}
+                    </div>
+                </div>
+            </div>
+            <br>
+                    <h2>Synth reporting</h2>
+                    <h2>{synth_user_count} Characters with Synthesized items equipped</h2>
+                    <h3>This is base synthesized items</h3>
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <div id="special">
+                        {all_synth}
+                    </div>
+                </div>
+
+                    <h2>{synth_source_user_count} Synthesized FROM listings</h2>
+                    <h3>This shows where propertied an item are showing up in other items. If you wanted to see where the slow from Kelpie or the Ball light from Ondal's had popped up, this is where to look </h3>
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <div id="special">
+                        {synth_source_data}
+                    </div>
+                </div>
+
+
+                    <br>
+
+                    <h2>Craft reporting</h2>
+                    <h3>{craft_user_count} Characters with crafted items equipped</h3>
+
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <div id="special">
+                        {all_crafted}
+                    </div>
+                </div>
+
+            <br>
+
+            <br>
+                    <h2>Magic reporting</h2>
+                    <h3>{magic_user_count} Characters with Magic items equipped</h3>
+
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <div id="special">
+                        {all_magic}
+                    </div>
+                </div>
+
+            <br>
+
+                    <h2>Rare reporting</h2>
+                    <h3>{rare_user_count} Characters with rare items equipped</h3>
+
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <div id="special">
+                        {all_rare}
+                    </div>
+                </div>
+
+            <br>
+
+                    <h2>Socketable reporting</h2>
+                    <h3>What are people puting in sockets</h3>
+
+            <button type="button" class="collapsible sets-button">
+                <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+                <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+            <!--    <strong>Sets</strong>-->
+            </button>  
+            <div class="content">  
+                    <h2>Socketed Runes Count</h2>
+                    <h3>Includes Only Character Data, No Mercs</h3>
+                <div id="special"  class="container">
+            <br>
+                    <div class="column">
+                        <!-- Left Column -->
+                            <h2>Most Common Runes <br>(Including Runewords)</h2>
+                        <ul id="sorted_just_socketed_runes"
+                            {sorted_just_socketed_runes}
+                        </ul>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="column">
+                            <h2>Most Common Runes <br>(Excluding Runewords)</h2>
+                        <ul id="sorted_just_socketed_excluding_runewords_runes">
+                            {sorted_just_socketed_excluding_runewords_runes}
+                        </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2>Other Items Found in Sockets</h2>
+                    <h3>Includes Only Character Data, No Mercs</h3>
+                        {all_other_items}
+                    </div>
+                </div>
+<hr>
+                                    <h1>Mercenary reporting</h1>
+                    <h3>Mercenary counts and Most Used Runewords, Uniques, and Set items equipped</h3>
+
+                    <button type="button" class="collapsible">
+                        <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
+                        <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
+            <!--            <strong>Mercenary Details</strong> -->
+                    </button>
+                    <div class="content">
+                    <div id="mercequips">
+                        {html_output}
+                    </div>
+                    </div>
+            
+            <hr>
             {{ fun_facts_html }}
             <hr>
             <!-- Embed the Plotly scatter plot -->
@@ -8350,6 +9339,7 @@ activePopup = null;
             # Dictionary to store mercenary counts and equipment
             mercenary_counts = Counter()
             mercenary_equipment = defaultdict(lambda: defaultdict(Counter))
+            mercenary_names = Counter()  # ✅ Correctly using Counter()
 
             # Process each JSON file in the folder
             for filename in os.listdir(data_folder):
@@ -8368,6 +9358,9 @@ activePopup = null;
                                 # Count mercenary types
                                 readable_mercenary, _ = map_readable_names(mercenary, "")
                                 mercenary_counts[readable_mercenary] += 1
+                                # ✅ Count mercenary names properly
+                                merc_name = char_data.get("MercenaryName", "Unknown")
+                                mercenary_names[merc_name] += 1
                                 
                                 # Count mercenary equipment titles by worn category
                                 for item in char_data.get("MercenaryEquipped", []):
@@ -8379,8 +9372,48 @@ activePopup = null;
                         continue
                     except OSError:
                         continue
-            return mercenary_counts, mercenary_equipment
-    
+            return mercenary_counts, mercenary_equipment, mercenary_names
+
+        output_file = "all_mercenary_report.html"
+
+        def generate_mercenary_report(data_folder, output_file):
+            html_output = ""
+            mercenary_counts, mercenary_equipment, mercenary_names = analyze_mercenaries(data_folder)
+    #        html_output = "<style> .column {float: left; width: 25%;} .row:after {content: ""; display: table; clear: both;} </style>"    
+            # Generate HTML report
+            html_output += "<p><h2>Mercenary Analysis and Popular Equipment</h2></p>"
+            
+            # Mercenary type counts
+            html_output += "<p><h3>Mercenary Type Counts</h3></p>"
+            html_output += "<ul>"
+            for mercenary, count, in mercenary_counts.items():
+                html_output += f"<li>{mercenary}: {count}</li>"
+    #            html_output += "<br><br><br><br><br><br>"
+            html_output += "</ul>"
+
+            # ✅ This now works!
+            html_output += "<h3>Most Common Mercenary Names</h3><ul>"
+            for name, count in mercenary_names.most_common(10):
+                html_output += f"<li>{name}: {count}</li>"
+            html_output += "</ul>"
+
+            html_output += "<p><h3>Popular Equipment by Mercenary Type</h3></p"
+            for mercenary, categories in mercenary_equipment.items():
+                html_output += "<br>"
+                html_output += f"<div class='row'><p><strong>{mercenary}</strong></p>"
+                for worn_category, items in categories.items():
+                    html_output += f"<div class="+'merccolumn'+f"><strong>Most Common {worn_category}s:</strong>"
+                    html_output += "<ul>"
+                    top_items = items.most_common(10)  # Get the top 6 items in this category
+                    for title, count in top_items:
+                        html_output += f"<li>{title}: {count}</li>"   
+                    html_output += "</ul></div>"
+                html_output += "</div>"
+    #        html_output += "<br><br><br><br><br><br>"
+            return html_output
+
+        html_output = generate_mercenary_report(data_folder,output_file)
+
         # Assuming df is your DataFrame and skill_columns contains the column names for the skills
 
         # Calculate the total usage of each skill across all clusters
@@ -8536,7 +9569,7 @@ activePopup = null;
             cluster_files = [path for path in cluster_files if os.path.exists(path)]  # Filter only existing files
 
             # Get mercenary data **just for this cluster**
-            mercenary_counts, mercenary_equipment = analyze_mercenaries(cluster_files)
+            mercenary_counts, mercenary_equipment, mercenary_names = analyze_mercenaries(cluster_files)
 
             # Generate HTML report for mercenaries in this cluster
             merc_count = f"<h3>Mercenary Equipment Analysis for Cluster {cluster}</h3>"
@@ -8706,7 +9739,7 @@ activePopup = null;
                 'mercenary': mercenary,  
                 'mercenary_equipment': mercenary_equipment,
             }
-            mercenary_counts, mercenary_equipment = analyze_mercenaries(data_folder)
+            mercenary_counts, mercenary_equipment, mercenary_names = analyze_mercenaries(data_folder)
     
 
         # Ensure the correct percentage values are used
@@ -8991,14 +10024,79 @@ activePopup = null;
         # format it to a string
         timeStamp = dt.strftime('%Y-%m-%d %H:%M')
 
+        socketed_runes_html, socketed_excluding_runes_html, other_items_html = socket_html(
+            sorted_just_socketed_runes, 
+            sorted_just_socketed_excluding_runewords_runes, 
+            all_other_items
+        )
         # Render the HTML report
         template = Template(html_template)
-        html_content = template.render(clusters=sorted_clusters, what_class=what_class, top_5_most_used_skills=top_5_most_used_skills, bottom_5_least_used_skills=bottom_5_least_used_skills, summary_label=summary_label, merc_count=merc_count, mercenary=mercenary, mercenary_equipment=mercenary_equipment, timeStamp=timeStamp, full_summary_output=full_summary_output, fun_facts_html=fun_facts_html)  # Pass sorted clusters to the template
+        html_content = template.render(clusters=sorted_clusters, 
+                                       what_class=what_class, 
+                                       top_5_most_used_skills=top_5_most_used_skills, 
+                                       bottom_5_least_used_skills=bottom_5_least_used_skills, 
+                                       summary_label=summary_label, merc_count=merc_count, 
+                                       mercenary=mercenary, mercenary_equipment=mercenary_equipment, 
+                                       timeStamp=timeStamp, full_summary_output=full_summary_output, 
+                                       fun_facts_html=fun_facts_html
+                                       )  # Pass sorted clusters to the template
+
+        filled_html_content = f"""{html_content}""".replace(
+                "{most_popular_runewords}", generate_list_items(most_common_runewords)
+            ).replace(
+                "{most_popular_uniques}", generate_list_items(most_common_uniques)
+            ).replace(
+                "{most_popular_set_items}", generate_list_items(most_common_set_items)
+            ).replace(
+                "{least_popular_runewords}", generate_list_items(least_common_runewords)
+            ).replace(
+                "{least_popular_uniques}", generate_list_items(least_common_uniques)
+            ).replace(
+                "{least_popular_set_items}", generate_list_items(least_common_set_items)
+            ).replace( 
+                "{all_runewords}", generate_all_list_items(all_runewords, all_characters)
+            ).replace(
+                "{all_uniques}", generate_all_list_items(all_uniques, all_characters)
+            ).replace(
+                "{all_set}", generate_all_list_items(all_set, all_characters)
+            ).replace(
+                "{all_synth}", generate_synth_list_items(synth_counter, synth_users)
+            ).replace(
+                "{timeStamp}", timeStamp
+            ).replace(
+                "{synth_user_count}", str(synth_user_count)
+            ).replace(
+                "{all_crafted}", generate_crafted_list_items(crafted_counters, crafted_users)
+            ).replace(
+                "{craft_user_count}", str(craft_user_count)
+            ).replace(
+                "{synth_source_data}", generate_synth_source_list(synth_sources)
+            ).replace(
+                "{synth_source_user_count}", str(synth_source_user_count)
+            ).replace(
+                "{all_magic}", generate_magic_list_items(magic_counters, magic_users)
+            ).replace(
+                "{magic_user_count}", str(magic_user_count)
+            ).replace(
+                "{all_rare}", generate_rare_list_items(rare_counters, rare_users)
+            ).replace(
+                "{rare_user_count}", str(rare_user_count)
+            ).replace(
+                "{sorted_just_socketed_runes}", socketed_runes_html  # ✅ Correctly insert formatted HTML
+            ).replace(
+                "{sorted_just_socketed_excluding_runewords_runes}", socketed_excluding_runes_html
+            ).replace(
+                "{all_other_items}", other_items_html
+            ).replace(
+                "{fun_facts_html}", fun_facts_html
+            ).replace(
+                "{html_output}", html_output
+            )
 
         # Save the report to a file
         output_file = f"pod-stats/{what_class}.html"
         with open(output_file, "w") as file:
-            file.write(html_content)
+            file.write(filled_html_content)
 
         print(f"Cluster analysis report saved to {output_file}")
     pass
