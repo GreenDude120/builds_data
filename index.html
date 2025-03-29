@@ -120,8 +120,12 @@
         <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
         <hr> 
         <h1>Non-Class specific reporting</h1>
-<h3>Most and Least Used Runewords, Uniques, and Set items currently equipped by characters</h3>
-
+<h3 id="runeword-usage">
+    Most and Least Used Runewords, Uniques, and Set items currently equipped by characters
+    <a href="#runeword-usage" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
 <button type="button" class="collapsible runewords-button">
     <img src="icons/Runewords_click.png" alt="Runewords Open" class="icon open-icon hidden">
     <img src="icons/Runewords.png" alt="Runewords Close" class="icon close-icon">
@@ -155495,35 +155499,45 @@
 
         <br>
 
-        <h1>Mercenary reporting</h1>
-        <h3>Mercenary counts and Most Used Runewords, Uniques, and Set items equipped</h3>
+<h1>Mercenary reporting</h1>
+<h3 id="merc-equipment">
+    Mercenary counts and Most Used Runewords, Uniques, and Set items equipped
+    <a href="#merc-equipment" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
 
-        <button type="button" class="collapsible">
-            <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
-            <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
-<!--            <strong>Mercenary Details</strong> -->
-        </button>
-        <div class="content">
-        <div id="mercequips">
-            <p><h2>Mercenary Analysis and Popular Equipment</h2></p><p><h3>Mercenary Type Counts</h3></p><ul><li>Act 2 Desert Mercenary: 1057</li><li>Act 1 Rogue Scout: 141</li><li>Act 5 Barbarian: 180</li><li>Act 3 Eastern Sorceror: 88</li></ul><h3>Most Common Mercenary Names</h3><ul><li>Hazade: 70</li><li>Emilio: 66</li><li>Kasim: 63</li><li>Alhizeer: 62</li><li>Mizan: 61</li><li>Waheed: 59</li><li>Azrael: 58</li><li>Durga: 54</li><li>Razan: 52</li><li>Gulzar: 50</li><li>Jemali: 48</li><li>Chalan: 48</li><li>Pratham: 46</li><li>Ilzan: 45</li><li>Haseen: 43</li></ul><p><h3>Popular Equipment by Mercenary Type</h3></p><div class='row'><p><strong>Act 2 Desert Mercenary</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 197</li><li>Fortitude: 159</li><li>Shaftstop: 122</li><li>Leviathan: 64</li><li>Duriel's Shell: 63</li><li>The Gladiator's Bane: 59</li><li>Guardian Angel: 27</li><li>Smoke: 18</li><li>Naj's Light Plate: 9</li><li>Duress: 8</li><li>Black Hades: 7</li><li>Griswold's Heart: 7</li><li>Hustle: 6</li><li>Skin of the Flayed One: 6</li><li>Goldskin: 5</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Steel Shade: 223</li><li>Tal Rasha's Horadric Crest: 213</li><li>Vampire Gaze: 124</li><li>Andariel's Visage: 112</li><li>Crown of Thieves: 39</li><li>Guillaume's Face: 16</li><li>Crown of Ages: 14</li><li>Kira's Guardian: 12</li><li>Stealskull: 11</li><li>Blackhorn's Face: 10</li><li>Bulwark: 9</li><li>Veil of Steel: 7</li><li>Natalya's Totem: 5</li><li>Duskdeep: 4</li><li>Giant Skull: 2</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Infinity: 310</li><li>Insight: 266</li><li>The Reaper's Toll: 102</li><li>Obedience: 43</li><li>Tomb Reaver: 25</li><li>Doom: 19</li><li>Bonehew: 12</li><li>Silence: 8</li><li>Pride: 7</li><li>Breath of the Dying: 5</li><li>Plague: 5</li><li>Arioc's Needle: 4</li><li>The Meat Scraper: 3</li><li>Razortine: 2</li><li>Steel Pillar: 2</li></ul></div></div><div class='row'><p><strong>Act 1 Rogue Scout</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 17</li><li>Andariel's Visage: 15</li><li>Vampire Gaze: 9</li><li>Hearth: 6</li><li>Stealskull: 5</li><li>Crown of Thieves: 5</li><li>Steel Shade: 4</li><li>Guillaume's Face: 3</li><li>Giant Skull: 3</li><li>Duskdeep: 2</li><li>Howltusk: 2</li><li>Sazabi's Mental Sheath: 1</li><li>Bulwark: 1</li><li>Cruel Visor: 1</li><li>Undead Crown: 1</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 16</li><li>Duriel's Shell: 12</li><li>Fortitude: 11</li><li>The Gladiator's Bane: 9</li><li>Smoke: 5</li><li>Hustle: 4</li><li>Skin of the Vipermagi: 2</li><li>Twitchthroe: 2</li><li>Arkaine's Valor: 2</li><li>Shaftstop: 2</li><li>Tal Rasha's Guardianship: 2</li><li>Rockfleece: 2</li><li>Gloom: 2</li><li>Guardian Angel: 2</li><li>Griswold's Heart: 2</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Harmony: 48</li><li>Faith: 9</li><li>Insight: 9</li><li>Buriza-Do Kyanon: 8</li><li>Edge: 3</li><li>Goldstrike Arch: 2</li><li>Arctic Horn: 1</li><li>Pus Spitter: 1</li><li>Storm Quill: 1</li><li>Short Bow: 1</li><li>Riphook: 1</li><li>Kuko Shakaku: 1</li><li>Hellrack: 1</li><li>Wizendraw: 1</li></ul></div></div><div class='row'><p><strong>Act 5 Barbarian</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 29</li><li>Fortitude: 27</li><li>Shaftstop: 19</li><li>Duriel's Shell: 17</li><li>Leviathan: 10</li><li>Guardian Angel: 8</li><li>The Gladiator's Bane: 8</li><li>Steel Carapace: 5</li><li>Skin of the Flayed One: 4</li><li>Naj's Light Plate: 3</li><li>Arkaine's Valor: 2</li><li>Stone: 2</li><li>Smoke: 2</li><li>Natalya's Shadow: 2</li><li>Lionheart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 38</li><li>Steel Shade: 29</li><li>Andariel's Visage: 20</li><li>Arreat's Face: 12</li><li>Vampire Gaze: 11</li><li>Guillaume's Face: 5</li><li>Bulwark: 4</li><li>Stealskull: 4</li><li>Crown of Thieves: 4</li><li>Rockstopper: 3</li><li>Kira's Guardian: 3</li><li>Natalya's Totem: 2</li><li>Undead Crown: 2</li><li>Dream: 1</li><li>Harlequin Crest: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Lawbringer: 72</li><li>Silence: 21</li><li>Plague: 13</li><li>The Grandfather: 13</li><li>Todesfaelle Flamme: 5</li><li>Flamebellow: 3</li><li>Unbending Will: 3</li><li>Swordguard: 3</li><li>Bing Sz Wang: 3</li><li>Doombringer: 3</li><li>Oath: 2</li><li>Headstriker: 2</li><li>The Vile Husk: 2</li><li>Azurewrath: 1</li><li>Crescent Moon: 1</li></ul></div></div><div class='row'><p><strong>Act 3 Eastern Sorceror</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Guardian Angel: 8</li><li>Shaftstop: 6</li><li>Treachery: 6</li><li>The Gladiator's Bane: 5</li><li>Fortitude: 5</li><li>Skin of the Vipermagi: 4</li><li>Stealth: 4</li><li>Naj's Light Plate: 3</li><li>Rockfleece: 2</li><li>Duriel's Shell: 2</li><li>Que-Hegan's Wisdom: 2</li><li>Smoke: 2</li><li>Tyrael's Might: 1</li><li>Arkaine's Valor: 1</li><li>Sazabi's Ghost Liberator: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Andariel's Visage: 9</li><li>Tal Rasha's Horadric Crest: 8</li><li>Vampire Gaze: 8</li><li>Harlequin Crest: 4</li><li>Rockstopper: 4</li><li>Crown of Ages: 3</li><li>Hwanin's Splendor: 3</li><li>Natalya's Totem: 3</li><li>Steel Shade: 2</li><li>Griffon's Eye: 2</li><li>Guillaume's Face: 2</li><li>Sazabi's Mental Sheath: 2</li><li>Crown of Thieves: 2</li><li>Holocaust Circlet: 1</li><li>2693: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Spirit: 16</li><li>Lawbringer: 13</li><li>Plague: 8</li><li>Azurewrath: 6</li><li>Silence: 6</li><li>Culwen's Point: 4</li><li>Last Wish: 2</li><li>Plague Bearer: 2</li><li>Headstriker: 2</li><li>Fortitude: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Phoenix: 1</li><li>Hexfire: 1</li><li>Death: 1</li><li>Cleglaw's Tooth: 1</li></ul></div><div class='merccolumn'><strong>Most Common Offhands:</strong><ul><li>Stormshield: 17</li><li>Spirit: 13</li><li>Gerke's Sanctuary: 6</li><li>Phoenix: 5</li><li>The Ward: 4</li><li>Tiamat's Rebuke: 3</li><li>Lidless Wall: 2</li><li>Blackoak Shield: 2</li><li>Sigon's Guard: 2</li><li>Rhyme: 2</li><li>Ancients' Pledge: 2</li><li>Dream: 1</li><li>Moser's Blessed Circle: 1</li><li>Pelta Lunata: 1</li><li>Medusa's Gaze: 1</li></ul></div></div>
-        </div>
-        </div>
+<button type="button" class="collapsible">
+    <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
+    <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
+</button>
+
+<div class="content">
+    <div id="mercequips">
+        <p><h2>Mercenary Analysis and Popular Equipment</h2></p><p><h3>Mercenary Type Counts</h3></p><ul><li>Act 2 Desert Mercenary: 1057</li><li>Act 1 Rogue Scout: 141</li><li>Act 5 Barbarian: 180</li><li>Act 3 Eastern Sorceror: 88</li></ul><h3>Most Common Mercenary Names</h3><ul><li>Hazade: 70</li><li>Emilio: 66</li><li>Kasim: 63</li><li>Alhizeer: 62</li><li>Mizan: 61</li><li>Waheed: 59</li><li>Azrael: 58</li><li>Durga: 54</li><li>Razan: 52</li><li>Gulzar: 50</li><li>Jemali: 48</li><li>Chalan: 48</li><li>Pratham: 46</li><li>Ilzan: 45</li><li>Haseen: 43</li></ul><p><h3>Popular Equipment by Mercenary Type</h3></p><div class='row'><p><strong>Act 2 Desert Mercenary</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 197</li><li>Fortitude: 159</li><li>Shaftstop: 122</li><li>Leviathan: 64</li><li>Duriel's Shell: 63</li><li>The Gladiator's Bane: 59</li><li>Guardian Angel: 27</li><li>Smoke: 18</li><li>Naj's Light Plate: 9</li><li>Duress: 8</li><li>Black Hades: 7</li><li>Griswold's Heart: 7</li><li>Hustle: 6</li><li>Skin of the Flayed One: 6</li><li>Goldskin: 5</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Steel Shade: 223</li><li>Tal Rasha's Horadric Crest: 213</li><li>Vampire Gaze: 124</li><li>Andariel's Visage: 112</li><li>Crown of Thieves: 39</li><li>Guillaume's Face: 16</li><li>Crown of Ages: 14</li><li>Kira's Guardian: 12</li><li>Stealskull: 11</li><li>Blackhorn's Face: 10</li><li>Bulwark: 9</li><li>Veil of Steel: 7</li><li>Natalya's Totem: 5</li><li>Duskdeep: 4</li><li>Giant Skull: 2</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Infinity: 310</li><li>Insight: 266</li><li>The Reaper's Toll: 102</li><li>Obedience: 43</li><li>Tomb Reaver: 25</li><li>Doom: 19</li><li>Bonehew: 12</li><li>Silence: 8</li><li>Pride: 7</li><li>Breath of the Dying: 5</li><li>Plague: 5</li><li>Arioc's Needle: 4</li><li>The Meat Scraper: 3</li><li>Razortine: 2</li><li>Steel Pillar: 2</li></ul></div></div><div class='row'><p><strong>Act 1 Rogue Scout</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 17</li><li>Andariel's Visage: 15</li><li>Vampire Gaze: 9</li><li>Hearth: 6</li><li>Stealskull: 5</li><li>Crown of Thieves: 5</li><li>Steel Shade: 4</li><li>Guillaume's Face: 3</li><li>Giant Skull: 3</li><li>Duskdeep: 2</li><li>Howltusk: 2</li><li>Sazabi's Mental Sheath: 1</li><li>Bulwark: 1</li><li>Cruel Visor: 1</li><li>Undead Crown: 1</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 16</li><li>Duriel's Shell: 12</li><li>Fortitude: 11</li><li>The Gladiator's Bane: 9</li><li>Smoke: 5</li><li>Hustle: 4</li><li>Skin of the Vipermagi: 2</li><li>Twitchthroe: 2</li><li>Arkaine's Valor: 2</li><li>Shaftstop: 2</li><li>Tal Rasha's Guardianship: 2</li><li>Rockfleece: 2</li><li>Gloom: 2</li><li>Guardian Angel: 2</li><li>Griswold's Heart: 2</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Harmony: 48</li><li>Faith: 9</li><li>Insight: 9</li><li>Buriza-Do Kyanon: 8</li><li>Edge: 3</li><li>Goldstrike Arch: 2</li><li>Arctic Horn: 1</li><li>Pus Spitter: 1</li><li>Storm Quill: 1</li><li>Short Bow: 1</li><li>Riphook: 1</li><li>Kuko Shakaku: 1</li><li>Hellrack: 1</li><li>Wizendraw: 1</li></ul></div></div><div class='row'><p><strong>Act 5 Barbarian</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 29</li><li>Fortitude: 27</li><li>Shaftstop: 19</li><li>Duriel's Shell: 17</li><li>Leviathan: 10</li><li>Guardian Angel: 8</li><li>The Gladiator's Bane: 8</li><li>Steel Carapace: 5</li><li>Skin of the Flayed One: 4</li><li>Naj's Light Plate: 3</li><li>Arkaine's Valor: 2</li><li>Stone: 2</li><li>Smoke: 2</li><li>Natalya's Shadow: 2</li><li>Lionheart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 38</li><li>Steel Shade: 29</li><li>Andariel's Visage: 20</li><li>Arreat's Face: 12</li><li>Vampire Gaze: 11</li><li>Guillaume's Face: 5</li><li>Bulwark: 4</li><li>Stealskull: 4</li><li>Crown of Thieves: 4</li><li>Rockstopper: 3</li><li>Kira's Guardian: 3</li><li>Natalya's Totem: 2</li><li>Undead Crown: 2</li><li>Dream: 1</li><li>Harlequin Crest: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Lawbringer: 72</li><li>Silence: 21</li><li>Plague: 13</li><li>The Grandfather: 13</li><li>Todesfaelle Flamme: 5</li><li>Flamebellow: 3</li><li>Unbending Will: 3</li><li>Swordguard: 3</li><li>Bing Sz Wang: 3</li><li>Doombringer: 3</li><li>Oath: 2</li><li>Headstriker: 2</li><li>The Vile Husk: 2</li><li>Azurewrath: 1</li><li>Crescent Moon: 1</li></ul></div></div><div class='row'><p><strong>Act 3 Eastern Sorceror</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Guardian Angel: 8</li><li>Shaftstop: 6</li><li>Treachery: 6</li><li>The Gladiator's Bane: 5</li><li>Fortitude: 5</li><li>Skin of the Vipermagi: 4</li><li>Stealth: 4</li><li>Naj's Light Plate: 3</li><li>Rockfleece: 2</li><li>Duriel's Shell: 2</li><li>Que-Hegan's Wisdom: 2</li><li>Smoke: 2</li><li>Tyrael's Might: 1</li><li>Arkaine's Valor: 1</li><li>Sazabi's Ghost Liberator: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Andariel's Visage: 9</li><li>Tal Rasha's Horadric Crest: 8</li><li>Vampire Gaze: 8</li><li>Harlequin Crest: 4</li><li>Rockstopper: 4</li><li>Crown of Ages: 3</li><li>Hwanin's Splendor: 3</li><li>Natalya's Totem: 3</li><li>Steel Shade: 2</li><li>Griffon's Eye: 2</li><li>Guillaume's Face: 2</li><li>Sazabi's Mental Sheath: 2</li><li>Crown of Thieves: 2</li><li>Holocaust Circlet: 1</li><li>2693: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Spirit: 16</li><li>Lawbringer: 13</li><li>Plague: 8</li><li>Azurewrath: 6</li><li>Silence: 6</li><li>Culwen's Point: 4</li><li>Last Wish: 2</li><li>Plague Bearer: 2</li><li>Headstriker: 2</li><li>Fortitude: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Phoenix: 1</li><li>Hexfire: 1</li><li>Death: 1</li><li>Cleglaw's Tooth: 1</li></ul></div><div class='merccolumn'><strong>Most Common Offhands:</strong><ul><li>Stormshield: 17</li><li>Spirit: 13</li><li>Gerke's Sanctuary: 6</li><li>Phoenix: 5</li><li>The Ward: 4</li><li>Tiamat's Rebuke: 3</li><li>Lidless Wall: 2</li><li>Blackoak Shield: 2</li><li>Sigon's Guard: 2</li><li>Rhyme: 2</li><li>Ancients' Pledge: 2</li><li>Dream: 1</li><li>Moser's Blessed Circle: 1</li><li>Pelta Lunata: 1</li><li>Medusa's Gaze: 1</li></ul></div></div>
+    </div>
+</div>
         <br>
     
         <br>
         <hr>
         <h1>Specialty Searches, Items</h1>
         <h2>Synth reporting</h2>
-        <h2>85 Characters with Synthesized items equipped</h2>
-        <h3>This is base synthesized items</h3>
+<h2 id="synth-items">
+    85 Characters with Synthesized items equipped
+    <a href="#synth-items" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
+
+<h3>This is base synthesized items</h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
     <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
-<!--    <strong>Sets</strong>-->
 </button>  
 <div class="content">  
-        <div id="special">
-             
+    <div id="special">
+         
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
@@ -157232,10 +157246,15 @@
                 
             </div>
             
-        </div>
     </div>
+</div>
 
-        <h2>322 Synthesized FROM listings</h2>
+<h2 id="synth-from">
+    322 Synthesized FROM listings
+    <a href="#synth-from" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>This shows where propertied an item are showing up in other items. If you wanted to see where the slow from Kelpie or the Ball light from Ondal's had popped up, this is where to look </h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -163219,8 +163238,11 @@
 
         <br>
 
-        <h2>Craft reporting</h2>
-        <h3>190 Characters with crafted items equipped</h3>
+<h2 id="craft-reporting">Craft reporting
+    <a href="#craft-reporting" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>        <h3>190 Characters with crafted items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -166268,7 +166290,11 @@
 <br>
 
 <br>
-        <h2>Magic reporting</h2>
+<h2 id="magic-reporting">Magic reporting
+    <a href="#magic-reporting" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>528 Characters with Magic items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -176028,7 +176054,11 @@
 
 <br>
 
-        <h2>Rare reporting</h2>
+<h2 id="rare-reporting">Rare reporting
+    <a href="#rare-reporting" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>819 Characters with rare items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -192297,7 +192327,11 @@
 
 <br>
 
-        <h2>Socketable reporting</h2>
+<h2 id="socketable-reporting">Socketable reporting
+    <a href="#socketable-reporting" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>What are people puting in sockets</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -192334,7 +192368,11 @@
         </div>
     </div>
 <br>
-            <h2>Unused Items</h2>
+<h2 id="unused-items">Unused Items
+    <a href="#unused-items" class="anchor-link">
+        <img src="icons/link.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
             <h3>Some items get no love at the top of the ladder</h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -196984,7 +197022,7 @@
         <hr>
         <h1>Specialty Searches, Misc. Data</h1>
 
-        <h3>Softcore Fun Facts</h3>
+        <h3>Softcore Fun Facts <a href="#softcore-fun-facts" class="anchor-link"><img src="icons/link.png" alt="🔗" class="anchor-icon"></a></h3>
             <h3>9 Characters in the Softcore top 1466 have not died</h3>
                 <button type="button" class="collapsible sets-button">
                     <img src="icons/Special_click.png" alt="Undead Open" class="icon open-icon hidden">
@@ -197332,7 +197370,7 @@
 
         </div>
         <div class="footer">
-        <p>PoD data current as of 2025-03-29 05:44</p>
+        <p>PoD data current as of 2025-03-29 17:31</p>
         </div>
 
 
@@ -197491,6 +197529,19 @@ activePopup.innerHTML = ""; // Remove iframe to free memory
 activePopup = null;
 }
 });
+});
+
+document.querySelectorAll('.anchor-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        let url = window.location.origin + window.location.pathname + this.getAttribute('href');
+        navigator.clipboard.writeText(url).then(() => {
+//            alert("Link copied: " + url);
+        });
+
+        window.location.hash = this.getAttribute('href'); // Update URL
+    });
 });
 
 </script>
