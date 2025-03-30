@@ -1028,8 +1028,8 @@
     }
     
     .anchor-icon {
-        width: 4px;
-        height: 4px;
+        width: 16px;
+        height: 16px;
         max-height: 20px;
         vertical-align: middle; /* Ensures it aligns with text */
         opacity: 0.5;
