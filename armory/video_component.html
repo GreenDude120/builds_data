@@ -485,10 +485,12 @@ function createImageHTML(itemObject, hoverContainerId) {
     let imageHTML = "";
     console.log("Tooltip appended with content:", tooltipContent);  // Debugging check
     if (itemObject["TextTag"] == "ring") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/ring2.gif" width="80%" height="80%" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/ring2.gif" width="80%" height="80%" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/ring2.gif" width="80%" height="80%" />`;
     }
     else if (itemObject["TextTag"] == "amulet") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/amulet2.gif" width="80%" height="80%" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/amulet2.gif" width="80%" height="80%" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/amulet2.gif" width="80%" height="80%" />`;
     }
     else if (itemObject["TextTag"].startsWith("Synthesized ")) {
     // Remove "Synthesized " from the beginning of TextTag
