@@ -325,8 +325,8 @@ def MakeHome():
 
         
         # Add this print statement to inspect the structure of the data
-        print("First 5 entries in all_characters:", all_characters[:5])  # Debugging output
-        print("Type of all_characters:", type(all_characters))  # Check if it's a list
+#        print("First 5 entries in all_characters:", all_characters[:5])  # Debugging output
+#        print("Type of all_characters:", type(all_characters))  # Check if it's a list
         if isinstance(all_characters[0], str):  # Check if elements are strings
             print("First entry as string:", all_characters[0])  # Print one raw string entry
         
@@ -426,12 +426,12 @@ def MakeHome():
                 char_data = json.loads(char_data)
 
             char_name = char_data.get("Name", "Unknown")  # This should now work
-            print(f"Processing {char_name}")
+#            print(f"Processing {char_name}")
             char_class = char_data.get("Class", "Unknown")
             char_level = char_data.get("Stats", {}).get("Level", "Unknown")
 
             # Debugging: Print details of the character being processed
-            print(f"Processing character: {char_name}, Class: {char_class}, Level: {char_level}")
+#            print(f"Processing character: {char_name}, Class: {char_class}, Level: {char_level}")
 
             # Continue with processing logic (e.g., class counts, equipped items, etc.)
 
@@ -604,7 +604,7 @@ def MakeHome():
         try:
             with open(consolidated_file, "r") as file:
                 characters = json.load(file)  # Load all characters into a list
-            print(all_characters[:5])  # Display the first 5 elements
+#            print(all_characters[:5])  # Display the first 5 elements
 
         except (json.JSONDecodeError, FileNotFoundError) as e:
             print(f"Error reading consolidated JSON file: {e}")
@@ -693,7 +693,7 @@ def MakeHome():
 
         # Generate fun facts HTML
         fun_facts_html = f"""
-        <h3>Softcore Fun Facts</h3>
+        <h3>Softcore Fun Facts <a href="#softcore-fun-facts" class="anchor-link"><img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a></h3>
             <h3>{undead_count} Characters in the Softcore top {character_count} have not died</h3>
                 <button type="button" class="collapsible sets-button">
                     <img src="icons/Special_click.png" alt="Undead Open" class="icon open-icon hidden">
@@ -851,7 +851,7 @@ def MakeHome():
     # Get all the items
     all_uniques = unique_counter.most_common(150)
     all_runewords = runeword_counter.most_common(150)
-    all_uniques_all = unique_counter.most_common(400)
+    all_uniques_all = unique_counter.most_common(450)
     all_set = set_counter.most_common(150)
     all_synth = synth_counter.most_common(150)
 
@@ -1587,9 +1587,9 @@ def MakeHome():
         print("Error: items_list is not defined or missing required keys.", e)
         unused_runewords = unused_uniques = unused_set_items = set()  # ✅ Prevent crashes
 
-    print("Unused Runewords:", unused_runewords)
+#    print("Unused Runewords:", unused_runewords)
     print("Unused Unique Items:", unused_uniques)
-    print("Unused Set Items:", unused_set_items)
+#    print("Unused Set Items:", unused_set_items)
 
     # ✅ Ensure merc_used_items is case-insensitive
     merc_used_items = {item.strip().lower() for item in merc_used_items}
@@ -1673,15 +1673,16 @@ def MakeHome():
         
     </head>
     <body class="special-background">
-<!--    
         <div class="is-clipped">
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="max-height: none;"></a>
-                <div class="navbar-burger burger" data-target="podNavbar"><span></span><span></span><span></span>
-                </div>
-            </div>
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
@@ -1691,33 +1692,23 @@ def MakeHome():
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
                     <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
                     <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
                 </div>
                 <div class="navbar-end">
 
                     <div class="navbar-start">	
-                    <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
-                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?ticket"><span><svg class="svg-inline--fa fa-exclamation-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="exclamation-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg><!-- <i class="fas fa-exclamation-circle"></i> /span></a> 
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
         </nav>  
--->    
-
-        <!--<div class="top-buttons">
-            <a href="Home.html" class="top-button" onclick="setActive('Home')">Home</a>
-            <div class="split-button">
-                <button id="SC" class="split-button-option" onclick="setActive('SC')">SC</button>
-                <button id="HC" class="split-button-option" onclick="setActive('HC')">HC</button>
-            </div>
-            <a href="Amazon.html" class="top-button">Amazon</a>
-            <a href="Assassin.html" class="top-button">Assassin</a>
-            <a href="Barbarian.html" class="top-button">Barbarian</a>
-            <a href="Druid.html" class="top-button">Druid</a>
-            <a href="Necromancer.html" class="top-button">Necromancer</a>
-            <a href="Paladin.html" class="top-button">Paladin</a>
-            <a href="Sorceress.html" class="top-button">Sorceress</a>
-            <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button" target="_blank">About</a>
-        </div> -->
 
         
         <div class="hamburger" onclick="toggleMenu()">
@@ -1737,7 +1728,14 @@ def MakeHome():
             <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
-        
+<!--    <div class="dropdown">
+        <button>When</button>
+        <div class="dropdown-content">
+            <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+            <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+            <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+        </div>
+    </div>        -->
 <div class="main page-intro">
         <h1>PoD SOFTCORE LADDER TOP 1,000 CLASS DISTRIBUTION </h1>
         <h2>Looking at the class distribution for the ladders top 1,000 characters shows which classes are played for longer, a measure of which classes are more popular in the endgame</h2>
@@ -1780,8 +1778,12 @@ def MakeHome():
         <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
         <hr> 
         <h1>Non-Class specific reporting</h1>
-<h3>Most and Least Used Runewords, Uniques, and Set items currently equipped by characters</h3>
-
+<h3 id="runeword-usage">
+    Most and Least Used Runewords, Uniques, and Set items currently equipped by characters
+    <a href="#runeword-usage" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
 <button type="button" class="collapsible runewords-button">
     <img src="icons/Runewords_click.png" alt="Runewords Open" class="icon open-icon hidden">
     <img src="icons/Runewords.png" alt="Runewords Close" class="icon close-icon">
@@ -1846,7 +1848,7 @@ def MakeHome():
 
     <div class="content">
         <div id="alluniques">
-            {all_uniques}
+            {all_uniques_all}
         </div>
     </div>
 
@@ -1890,39 +1892,54 @@ def MakeHome():
 
         <br>
 
-        <h1>Mercenary reporting</h1>
-        <h3>Mercenary counts and Most Used Runewords, Uniques, and Set items equipped</h3>
+<h1>Mercenary reporting</h1>
+<h3 id="merc-equipment">
+    Mercenary counts and Most Used Runewords, Uniques, and Set items equipped
+    <a href="#merc-equipment" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
 
-        <button type="button" class="collapsible">
-            <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
-            <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
-<!--            <strong>Mercenary Details</strong> -->
-        </button>
-        <div class="content">
-        <div id="mercequips">
-            {html_output}
-        </div>
-        </div>
+<button type="button" class="collapsible">
+    <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
+    <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
+</button>
+
+<div class="content">
+    <div id="mercequips">
+        {html_output}
+    </div>
+</div>
         <br>
     
         <br>
         <hr>
         <h1>Specialty Searches, Items</h1>
         <h2>Synth reporting</h2>
-        <h2>{synth_user_count} Characters with Synthesized items equipped</h2>
-        <h3>This is base synthesized items</h3>
+<h2 id="synth-items">
+    {synth_user_count} Characters with Synthesized items equipped
+    <a href="#synth-items" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
+
+<h3>This is base synthesized items</h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
     <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
-<!--    <strong>Sets</strong>-->
 </button>  
 <div class="content">  
-        <div id="special">
-            {all_synth}
-        </div>
+    <div id="special">
+        {all_synth}
     </div>
+</div>
 
-        <h2>{synth_source_user_count} Synthesized FROM listings</h2>
+<h2 id="synth-from">
+    {synth_source_user_count} Synthesized FROM listings
+    <a href="#synth-from" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>This shows where propertied an item are showing up in other items. If you wanted to see where the slow from Kelpie or the Ball light from Ondal's had popped up, this is where to look </h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -1938,8 +1955,12 @@ def MakeHome():
 
         <br>
 
-        <h2>Craft reporting</h2>
-        <h3>{craft_user_count} Characters with crafted items equipped</h3>
+<h2 id="craft-reporting">Craft reporting
+    <a href="#craft-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>        
+<h3>{craft_user_count} Characters with crafted items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -1955,7 +1976,11 @@ def MakeHome():
 <br>
 
 <br>
-        <h2>Magic reporting</h2>
+<h2 id="magic-reporting">Magic reporting
+    <a href="#magic-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>{magic_user_count} Characters with Magic items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -1971,7 +1996,11 @@ def MakeHome():
 
 <br>
 
-        <h2>Rare reporting</h2>
+<h2 id="rare-reporting">Rare reporting
+    <a href="#rare-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>{rare_user_count} Characters with rare items equipped</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -1987,7 +2016,11 @@ def MakeHome():
 
 <br>
 
-        <h2>Socketable reporting</h2>
+<h2 id="socketable-reporting">Socketable reporting
+    <a href="#socketable-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
         <h3>What are people puting in sockets</h3>
 
 <button type="button" class="collapsible sets-button">
@@ -2024,7 +2057,11 @@ def MakeHome():
         </div>
     </div>
 <br>
-            <h2>Unused Items</h2>
+<h2 id="unused-items">Unused Items
+    <a href="#unused-items" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
             <h3>Some items get no love at the top of the ladder</h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -2075,9 +2112,9 @@ def MakeHome():
         <h2>Dual Offensive Aura Items Equipped</h2>
         <a href="2AuraItems.html"> <img src="icons/Special.png" alt="Dual Offensive Aura Items Equipped" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
-        <h2>Dashing Strikers</h2>
+<!--        <h2>Dashing Strikers</h2>
         <a href="Dashadin.html"> <img src="icons/Special.png" alt="Dashing Strikers" style="width:300px;height:50px;" class="collapsible icon"></a>
-        <br>
+        <br> -->
         <h2>Possibly Chargers</h2>
         <a href="Charge.html"> <img src="icons/Special.png" alt="Possibly Chargers" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
@@ -2254,8 +2291,47 @@ activePopup = null;
 });
 });
 
-</script>
+document.querySelectorAll('.anchor-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        let url = window.location.origin + window.location.pathname + this.getAttribute('href');
+        navigator.clipboard.writeText(url).then(() => {
+//            alert("Link copied: " + url);
+        });
 
+        window.location.hash = this.getAttribute('href'); // Update URL
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
     </body>
@@ -2284,6 +2360,8 @@ activePopup = null;
         "{all_runewords}", generate_all_list_items(all_runewords, all_characters)
     ).replace(
         "{all_uniques}", generate_all_list_items(all_uniques, all_characters)
+    ).replace(
+        "{all_uniques_all}", generate_all_list_items(all_uniques_all, all_characters)
     ).replace(
         "{all_set}", generate_all_list_items(all_set, all_characters)
     ).replace(
@@ -2329,6 +2407,7 @@ activePopup = null;
 
     print("Runewords:", sum(runeword_counter.values()))
     print("Uniques:", sum(unique_counter.values()))
+#    print(f"Uniques:", (unique_counter.most_common(400)))
     print("Set items:", sum(set_counter.values()))
 #    print("Synth:", sum(synth_counter[worn_category][title] for worn_category in synth_counter for title in synth_counter[worn_category]))
  #   print("Crafted:", sum(crafted_counters[worn_category][title] for worn_category in crafted_counters for title in crafted_counters[worn_category]))
@@ -2346,7 +2425,7 @@ activePopup = null;
 
     print("HTML file generated successfully.")
 
-#MakeHome()
+MakeHome()
 
 ###############################################################
 #
@@ -2554,7 +2633,43 @@ def GetDashers():
 
     </head>
     <body class="not-main">
-        <div class="hamburger" onclick="toggleMenu()">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
+
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -2846,8 +2961,33 @@ activePopup = null;
 });
 });
 
-</script>
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
 
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
  
 
@@ -3436,8 +3576,44 @@ def GetNonZon():
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
-        <div class="hamburger" onclick="toggleMenu()">
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -3725,9 +3901,35 @@ activePopup = null;
 });
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+
 </script>
-
-
 
 
 
@@ -4385,8 +4587,44 @@ def GetUniqueProjectiles():
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
-        <div class="hamburger" onclick="toggleMenu()">
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -4674,8 +4912,33 @@ activePopup = null;
 });
 });
 
-</script>
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
 
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
     </body>
@@ -5187,11 +5450,11 @@ def GetBong():
 
     # Define skill columns (exclude non-skill columns)
     skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment', 'Mercenary', 'MercenaryEquipment'] + list(search_tags)]
-    print("🔍 Sample DataFrame:\n", df.head())
+#    print("🔍 Sample DataFrame:\n", df.head())
 
-    print("🧐 Checking columns:", df.columns)
-    print("🔍 Unique values in 'The Iron Jang Bong':", df.get("The Iron Jang Bong", pd.Series()).unique())
-    print("🔍 Unique values in 'Warpspear':", df.get("Warpspear", pd.Series()).unique())
+#    print("🧐 Checking columns:", df.columns)
+#    print("🔍 Unique values in 'The Iron Jang Bong':", df.get("The Iron Jang Bong", pd.Series()).unique())
+#    print("🔍 Unique values in 'Warpspear':", df.get("Warpspear", pd.Series()).unique())
 
 #    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment'] + search_tags]
 
@@ -5239,8 +5502,44 @@ def GetBong():
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
-        <div class="hamburger" onclick="toggleMenu()">
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -5550,8 +5849,34 @@ activePopup = null;
 });
 });
 
-</script>
 
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
 
@@ -6105,8 +6430,44 @@ def GetChargers():
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
-        <div class="hamburger" onclick="toggleMenu()">
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -6411,8 +6772,34 @@ activePopup = null;
 });
 });
 
-</script>
 
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
 
@@ -7017,8 +7404,44 @@ def GetOffensiveAuraItemsEquipped():
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
-        <div class="hamburger" onclick="toggleMenu()">
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
+
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -7324,8 +7747,34 @@ activePopup = null;
 });
 });
 
-</script>
 
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
 
@@ -8118,7 +8567,7 @@ def MakeClassPages():
 
         # Get all the items
         all_runewords = runeword_counter.most_common(150)
-        all_uniques = unique_counter.most_common(150)
+        all_uniques = unique_counter.most_common(450)
         all_set = set_counter.most_common(150)
         all_synth = synth_counter.most_common(150)
 
@@ -8695,7 +9144,7 @@ def MakeClassPages():
 
             # ✅ Generate fun facts HTML
             fun_facts_html = f"""
-            <h3>Softcore Fun Facts</h3>
+        <h3>Softcore Fun Facts <a href="#softcore-fun-facts" class="anchor-link"><img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a></h3>
                 <h3>{undead_count} {what_class}'s out of {character_count} have not died</h3>
                     <button type="button" class="collapsible sets-button">
                         <img src="icons/Special_click.png" alt="Undead Open" class="icon open-icon hidden">
@@ -8779,8 +9228,44 @@ def MakeClassPages():
 
         </head>
         <body class="main special-background-{{ what_class|lower }}">
+        <div class="is-clipped">
+        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
+
+            <div class="navbar-brand">
+                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>            </div>
+            <div id="podNavbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
+                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
+                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
+                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
+                </div>
+                <div class="navbar-end">
+
+                    <div class="navbar-start">	
+                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
+                        <div class="navbar-item dropdown2">
+                            <button class="dropdown2-button">Trends History</button>
+                            <div class="dropdown2-content">
+                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
+                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>  
     
-        <div class="hamburger" onclick="toggleMenu()">
+        <div class="hamburger hamburger2" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
@@ -9019,7 +9504,12 @@ def MakeClassPages():
             </div>
             <br>
                     <h2>Synth reporting</h2>
-                    <h2>{synth_user_count} Characters with Synthesized items equipped</h2>
+<h2 id="synth-items">
+    {synth_user_count} Characters with Synthesized items equipped
+    <a href="#synth-items" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
                     <h3>This is base synthesized items</h3>
             <button type="button" class="collapsible sets-button">
                 <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -9032,7 +9522,12 @@ def MakeClassPages():
                     </div>
                 </div>
 
-                    <h2>{synth_source_user_count} Synthesized FROM listings</h2>
+<h2 id="synth-from">
+    {synth_source_user_count} Synthesized FROM listings
+    <a href="#synth-from" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
                     <h3>This shows where propertied an item are showing up in other items. If you wanted to see where the slow from Kelpie or the Ball light from Ondal's had popped up, this is where to look </h3>
             <button type="button" class="collapsible sets-button">
                 <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
@@ -9048,7 +9543,11 @@ def MakeClassPages():
 
                     <br>
 
-                    <h2>Craft reporting</h2>
+<h2 id="craft-reporting">Craft reporting
+    <a href="#craft-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>        
                     <h3>{craft_user_count} Characters with crafted items equipped</h3>
 
             <button type="button" class="collapsible sets-button">
@@ -9065,7 +9564,11 @@ def MakeClassPages():
             <br>
 
             <br>
-                    <h2>Magic reporting</h2>
+<h2 id="magic-reporting">Magic reporting
+    <a href="#magic-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
                     <h3>{magic_user_count} Characters with Magic items equipped</h3>
 
             <button type="button" class="collapsible sets-button">
@@ -9081,7 +9584,11 @@ def MakeClassPages():
 
             <br>
 
-                    <h2>Rare reporting</h2>
+<h2 id="rare-reporting">Rare reporting
+    <a href="#rare-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
                     <h3>{rare_user_count} Characters with rare items equipped</h3>
 
             <button type="button" class="collapsible sets-button">
@@ -9097,7 +9604,11 @@ def MakeClassPages():
 
             <br>
 
-                    <h2>Socketable reporting</h2>
+<h2 id="socketable-reporting">Socketable reporting
+    <a href="#socketable-reporting" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
                     <h3>What are people puting in sockets</h3>
 
             <button type="button" class="collapsible sets-button">
@@ -9135,7 +9646,12 @@ def MakeClassPages():
                 </div>
 <hr>
                                     <h1>Mercenary reporting</h1>
-                    <h3>Mercenary counts and Most Used Runewords, Uniques, and Set items equipped</h3>
+<h3 id="merc-equipment">
+    Mercenary counts and Most Used Runewords, Uniques, and Set items equipped
+    <a href="#merc-equipment" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
 
                     <button type="button" class="collapsible">
                         <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
@@ -9319,8 +9835,34 @@ activePopup = null;
 });
 });
 
-</script>
 
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.querySelector('.navbar-menu');
+
+    burger.addEventListener('click', () => {
+        menu.classList.toggle('is-active');
+        burger.classList.toggle('is-active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown2-button');
+    const dropdownContent = document.querySelector('.dropdown2-content');
+
+    dropdownButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents clicks from propagating to other elements
+        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
+    });
+
+    // Close the dropdown if you click anywhere outside it
+    document.addEventListener('click', () => {
+        if (dropdownContent.classList.contains('is-active')) {
+            dropdownContent.classList.remove('is-active');
+        }
+    });
+});
+</script>
 
 
 

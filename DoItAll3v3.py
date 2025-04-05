@@ -1,25 +1,25 @@
 from doitallv3 import GetAllCharData, MakeHome, GetNonZon, GetUniqueProjectiles, GetBong, GetDashers, GetChargers, GetOffensiveAuraItemsEquipped, MakeClassPages, GitHubSync
 
-#GetAllCharData()
+GetAllCharData()
 #GetClassCharData() ## No longer needed
 #MakeHome()
-GetDashers() 
-GetNonZon()
-GetUniqueProjectiles()
-GetBong() #-
-GetChargers() #-
-GetOffensiveAuraItemsEquipped() #-
-MakeClassPages() #-
-GitHubSync()
+#GetDashers()  ## No longer needed
+#GetNonZon()
+#GetUniqueProjectiles()
+#GetBong() #-
+#GetChargers() #-
+#GetOffensiveAuraItemsEquipped() #-
+#MakeClassPages() #-
+#GitHubSync()
  
 print("✅ All scripts executed successfully!")
 
 from doitallhcv3 import GetAllHCCharData, MakehcHome, GethcNonZon, GethcUniqueProjectiles, GethcBong, GethcDashers, GethcChargers, GethcOffensiveAuraItemsEquipped, MakehcClassPages, GitHubSync
 
-#GetAllHCCharData()
+GetAllHCCharData()
 #GethcClassCharData() ## No longer needed
 #MakehcHome()
-#GethcDashers()
+#GethcDashers() ## No longer needed
 #GethcNonZon()
 #GethcUniqueProjectiles()
 #GethcBong()
