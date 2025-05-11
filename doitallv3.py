@@ -43,6 +43,7 @@ from datetime import datetime
 import items_list
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
+import statistics
 
 
 ###############################################################
@@ -620,7 +621,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char.get("Name", "Unknown")}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char.get("Name", "Unknown")}" target="_blank">
                             {char.get("Name", "Unknown")}
                         </a>
                     </div>
@@ -646,12 +647,17 @@ def MakeHome():
 
             return "".join(
                 f"""<li>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="https://pathofdiablo.com/p/armory/?name={char.get('Name', 'Unknown')}" target="_blank">
+                    <a href="https://beta.pathofdiablo.com/armory?name={char.get('Name', 'Unknown')}" target="_blank">
                         {char.get('Name', 'Unknown')} ({char.get('Stats', {}).get(stat_name, 0) + char.get('Bonus', {}).get(stat_name, 0)})
                     </a>
                 </li>"""
                 for char in ranked
             )
+        # lists for median calculations
+        mf_values = []
+        gf_values = []
+        life_values = []
+        mana_values = []
 
         # Get the top 5 for each stat
         top_strength = get_top_characters("Strength")
@@ -669,18 +675,24 @@ def MakeHome():
         character_count = len(characters)
 
         for char in characters:
-            mf = char.get("Bonus", {}).get("MagicFind", 0)
-            gf = char.get("Bonus", {}).get("GoldFind", 0)
-            mf += char.get("Bonus", {}).get("WeaponSetMain", {}).get("MagicFind", 0)
-            mf += char.get("Bonus", {}).get("WeaponSetOffhand", {}).get("MagicFind", 0)
-            gf += char.get("Bonus", {}).get("WeaponSetMain", {}).get("GoldFind", 0)
-            gf += char.get("Bonus", {}).get("WeaponSetOffhand", {}).get("GoldFind", 0)
+            mf = char.get("Bonus", {}).get("MagicFind", 0) + \
+                char.get("Bonus", {}).get("WeaponSetMain", {}).get("MagicFind", 0) + \
+                char.get("Bonus", {}).get("WeaponSetOffhand", {}).get("MagicFind", 0)
+            gf = char.get("Bonus", {}).get("GoldFind", 0) + \
+                char.get("Bonus", {}).get("WeaponSetMain", {}).get("GoldFind", 0) + \
+                char.get("Bonus", {}).get("WeaponSetOffhand", {}).get("GoldFind", 0)
             life = char.get("Stats", {}).get("Life", 0)
             mana = char.get("Stats", {}).get("Mana", 0)
+
             total_mf += mf
             total_gf += gf
             total_life += life
             total_mana += mana
+
+            mf_values.append(mf)
+            gf_values.append(gf)
+            life_values.append(life)
+            mana_values.append(mana)
 
         top_magic_find = get_top_characters("MagicFind")
         top_gold_find = get_top_characters("GoldFind")
@@ -690,6 +702,12 @@ def MakeHome():
         average_gf = total_gf / character_count if character_count > 0 else 0
         average_life = total_life / character_count if character_count > 0 else 0
         average_mana = total_mana / character_count if character_count > 0 else 0
+
+        #calculate medians
+        median_mf = statistics.median(mf_values) if mf_values else 0
+        median_gf = statistics.median(gf_values) if gf_values else 0
+        median_life = statistics.median(life_values) if life_values else 0
+        median_mana = statistics.median(mana_values) if mana_values else 0
 
         # Generate fun facts HTML
         fun_facts_html = f"""
@@ -733,12 +751,12 @@ def MakeHome():
             <div class="fun-facts-column">
                 <h3>The 5 Characters with the Most Life*:</h3>
                 <ul>{top_life}</ul>
-                <p><strong>Average Life:</strong> {average_life:.2f}</p>
+                <p><strong>Average Life:</strong> {average_life:.2f} | <strong>Median Life:</strong> {median_life:.2f}</p>
             </div>
             <div class="fun-facts-column">
                 <h3>The 5 Characters with the Most Mana*:</h3>
                 <ul>{top_mana}</ul>
-                <p><strong>Average Mana:</strong> {average_mana:.2f}</p>
+                <p><strong>Average Mana:</strong> {average_mana:.2f} | <strong>Median Mana:</strong> {median_mana:.2f}</p>
             </div>
         </div>
         <em>*"Most" Life and Mana values are from a snapshot in time and may or may not be affected by bonuses from BO, Oak, etc.</em>
@@ -747,12 +765,12 @@ def MakeHome():
             <div class="fun-facts-column">
                 <h3>The 5 Characters with the Most Magic Find:</h3>
                 <ul>{top_magic_find}</ul>
-                <p><strong>Average Magic Find:</strong> {average_mf:.2f}</p>
+                <p><strong>Average Magic Find:</strong> {average_mf:.2f} | <strong>Median:</strong> {median_mf:.2f}</p>
             </div>
             <div class="fun-facts-column">
                 <h3>The 5 Characters with the Most Gold Find:</h3>
                 <ul>{top_gold_find}</ul>
-                <p><strong>Average Gold Find:</strong> {average_gf:.2f}</p>
+                <p><strong>Average Gold Find:</strong> {average_gf:.2f} | <strong>Median:</strong> {median_gf:.2f}</p>
             </div>
         </div>
         """
@@ -860,13 +878,20 @@ def MakeHome():
     least_common_uniques = unique_counter.most_common()[:-11:-1]
     least_common_set_items = set_counter.most_common()[:-11:-1]
 
+    def slugify(name):
+        return name.lower().replace(" ", "-").replace("'", "").replace('"', "")
 
     # Generate list items
     def generate_list_items(items):
         return ''.join(
-            f'<li>{"Delirium" if item == "2693" else "Pattern2" if item == "-26" else item}: {count}</li>'
-#            f'<li>{"Pattern" if item == "-26" else item}: {count}</li>'
+            f'<li><a href="#{slug}">{name}</a>: {count}</li>'
             for item, count in items
+            for name in [  # map item IDs to readable names
+                "Delirium" if item == "2693" else 
+                "Pattern2" if item == "-26" else 
+                item
+            ]
+            for slug in [slugify(name)]
         )
 
     def generate_all_list_items(counter, character_data):
@@ -900,7 +925,7 @@ def MakeHome():
                 f""" 
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["Name"]}" target="_blank">
                             {char["Name"]}
                         </a>
                     </div>
@@ -914,13 +939,18 @@ def MakeHome():
                 for char in character_list
             )
 
+            anchor_id = slugify(display_item)
             items_html += f"""
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>{display_item} ({count} users)</strong>
+                <strong>
+                <a href="#{anchor_id}" class="anchor-link">
+                    {display_item} ({count} users)
+                </a>
+                </strong>
             </button>
-            <div class="content">
+            <div class="content" id="{anchor_id}">
                 {character_list_html if character_list else "<p>No characters using this item.</p>"}
             </div>
             """
@@ -938,7 +968,7 @@ def MakeHome():
                 f""" 
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                             {char["name"]}
                         </a>
                     </div>
@@ -951,13 +981,18 @@ def MakeHome():
                 """ for char in character_list
             )
 
-            items_html += f""" 
+            anchor_id = slugify(item)
+            items_html += f"""
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-                <strong>{item} ({count} users)</strong>
+                <strong>
+                <a href="#synth-{anchor_id}" class="anchor-link">
+                    {item} ({count} users)
+                </a>
+                </strong>
             </button>
-            <div class="content">
+            <div class="content" id="synth-{anchor_id}">
                 {character_list_html if character_list else "<p>No characters using this item.</p>"}
             </div>
             """
@@ -976,7 +1011,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                             {char["name"]}
                         </a>
                     </div>
@@ -990,15 +1025,19 @@ def MakeHome():
                 """ for char in characters
             )
 
+            anchor_id = slugify(source_item)
             items_html += f"""
             <button class="collapsible">
                 <img src="icons/open-grey.png" alt="All Runewords Open" class="icon-small open-icon hidden">
                 <img src="icons/closed-grey.png" alt="Runewords Close" class="icon-small close-icon">
-
-                <strong>{source_item} (Found in {len(characters)} Items)</strong>
+                <strong>
+                <a href="#synthsource-{anchor_id}" class="anchor-link">
+                    {source_item} (Found in {len(characters)} Items)
+                </a>
+                </strong>
             </button>
-            <div class="content">
-                {character_list_html if characters else "<p>No synth items used this.</p>"}
+            <div class="content" id="synthsource-{anchor_id}">
+                {character_list_html if characters else "<p>No characters using this item.</p>"}
             </div>
             """
 
@@ -1032,7 +1071,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                             {char["name"]}
                         </a>
                     </div>
@@ -1081,7 +1120,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                             {char["name"]}
                         </a>
                     </div>
@@ -1132,7 +1171,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                             {char["name"]}
                         </a>
                     </div>
@@ -1588,7 +1627,7 @@ def MakeHome():
         unused_runewords = unused_uniques = unused_set_items = set()  # ✅ Prevent crashes
 
 #    print("Unused Runewords:", unused_runewords)
-    print("Unused Unique Items:", unused_uniques)
+#    print("Unused Unique Items:", unused_uniques)
 #    print("Unused Set Items:", unused_set_items)
 
     # ✅ Ensure merc_used_items is case-insensitive
@@ -1611,7 +1650,7 @@ def MakeHome():
                 f"""
                 <div class="character-info">
                     <div class="character-link">
-                        <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char["Name"]}" target="_blank">
                             {char["Name"]}
                         </a>
                     </div>
@@ -1677,8 +1716,9 @@ def MakeHome():
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+                <a class="is-48x48" href="https://beta.pathofdiablo.com/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
     <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <br>
         <span></span>
         <span></span>
         <span></span>
@@ -1686,7 +1726,7 @@ def MakeHome():
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/servers">Servers</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
@@ -1702,8 +1742,15 @@ def MakeHome():
                             <button class="dropdown2-button">Trends History</button>
                             <div class="dropdown2-content">
                                 <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
+                                <div class="dropdown2-item dropdown-sub">
+                                    <a class="dropdown-sub-button">S13</a>
+                                    <div class="dropdown-sub-content">
+                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1717,21 +1764,21 @@ def MakeHome():
             <div class="line"></div>
         </div>
         <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
+            <a href="Home" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
+            <a href="Amazon" id="Amazon" class="top-button amazon-button"></a>
+            <a href="Assassin" id="Assassin" class="top-button assassin-button"></a>
+            <a href="Barbarian" id="Barbarian" class="top-button barbarian-button"></a>
+            <a href="Druid" id="Druid" class="top-button druid-button"></a>
+            <a href="Necromancer" id="Necromancer" class="top-button necromancer-button"></a>
+            <a href="Paladin" id="Paladin" class="top-button paladin-button"></a>
+            <a href="Sorceress" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
 <!--    <div class="dropdown">
         <button>When</button>
         <div class="dropdown-content">
-            <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
+            <a href="https://trends.pathofdiablo.com/Home">Current</a>
             <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
             <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
         </div>
@@ -2062,7 +2109,7 @@ def MakeHome():
         <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
     </a>
 </h2>
-            <h3>Some items get no love at the top of the ladder</h3>
+            <h3>Some items get no love at the top of the ladder *</h3>
 <button type="button" class="collapsible sets-button">
     <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
     <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
@@ -2094,30 +2141,33 @@ def MakeHome():
     <div class="content">{unused_set_items}</div>
 </div>
 <br>
+<em>*Reference list used for <a href="https://github.com/GreenDude120/builds_data/blob/main/items_list.py">all runewords, uniques, and set items</a> can be found here</em>
+<br>
 <hr>
 
 <br>
 
         <h1>Specialty Searches, Character Builds</h1>
         <h2>Special builds and custom querries that don't fit in class specific pages</h2>
-        <h2>Iron Jang Bong & Warpspear</h2>
-        <a href="Bong_and_Warpspear.html"> <img src="icons/Special.png" alt="Iron Jang Bong & Warpspear" style="width:300px;height:50px;" class="collapsible icon"></a>
+<!--        <h2>Iron Jang Bong & Warpspear</h2>
+        <a href="Bong_and_Warpspear"> <img src="icons/Special.png" alt="Iron Jang Bong & Warpspear" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
+-->
         <h2>Unique Arrows & Bolts</h2>
-        <a href="Unique_Bolts_and_Arrows.html"> <img src="icons/Special.png" alt="Unique Arrows & Bolts" style="width:300px;height:50px;" class="collapsible icon"></a>
+        <a href="Unique_Bolts_and_Arrows"> <img src="icons/Special.png" alt="Unique Arrows & Bolts" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
         <h2>Non-Amazon Bow Users</h2>
-        <a href="Notazons.html"> <img src="icons/Special.png" alt="Non-Amazon Bow Users" style="width:300px;height:50px;" class="collapsible icon"></a>
+        <a href="Notazons"> <img src="icons/Special.png" alt="Non-Amazon Bow Users" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
         <h2>Dual Offensive Aura Items Equipped</h2>
-        <a href="2AuraItems.html"> <img src="icons/Special.png" alt="Dual Offensive Aura Items Equipped" style="width:300px;height:50px;" class="collapsible icon"></a>
+        <a href="2AuraItems"> <img src="icons/Special.png" alt="Dual Offensive Aura Items Equipped" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br>
 <!--        <h2>Dashing Strikers</h2>
-        <a href="Dashadin.html"> <img src="icons/Special.png" alt="Dashing Strikers" style="width:300px;height:50px;" class="collapsible icon"></a>
+        <a href="Dashadin"> <img src="icons/Special.png" alt="Dashing Strikers" style="width:300px;height:50px;" class="collapsible icon"></a>
         <br> -->
-        <h2>Possibly Chargers</h2>
-        <a href="Charge.html"> <img src="icons/Special.png" alt="Possibly Chargers" style="width:300px;height:50px;" class="collapsible icon"></a>
-        <br>
+<!--        <h2>Possibly Chargers</h2>
+        <a href="Charge"> <img src="icons/Special.png" alt="Possibly Chargers" style="width:300px;height:50px;" class="collapsible icon"></a>
+        <br> -->
         <br>
         <hr>
         <h1>Specialty Searches, Misc. Data</h1>
@@ -2138,6 +2188,7 @@ def MakeHome():
 
 
 <script>
+// Collapsible elemets
 var coll = document.getElementsByClassName("collapsible");
 for (var i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -2159,7 +2210,7 @@ for (var i = 0; i < coll.length; i++) {
 }
 
 
-//Get the button
+//Back to top button
 var backToTopBtn = document.getElementById("backToTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
@@ -2179,58 +2230,73 @@ document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+//Trends toolbar
+// Trends toolbar
 function toggleMenu() {
     const navMenu = document.querySelector('.top-buttons');
     navMenu.classList.toggle('show');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+    const scHcButton = document.getElementById("SC_HC");
+    const currentUrl = window.location.href;
+    const filename = currentUrl.split("/").pop(); // Get the last part of the URL
 
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
+    // Check if the current page is Hardcore or Softcore
+    const isHardcore = filename.startsWith("hc");
 
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
+    // Update button appearance based on current mode
+    if (isHardcore) {
+        scHcButton.classList.add("hardcore");
+        scHcButton.classList.remove("softcore");
+    } else {
+        scHcButton.classList.add("softcore");
+        scHcButton.classList.remove("hardcore");
+    }
 
-// Update background image based on mode
-updateButtonImage(isHardcore);
+    // Update background image based on mode
+    updateButtonImage(isHardcore);
 
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
+    // Add click event to toggle between SC and HC pages
+    scHcButton.addEventListener("click", function () {
+        let newUrl;
 
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
+        if (isHardcore) {
+            // Convert HC -> SC (remove "hc" from filename)
+            newUrl = currentUrl.replace(/hc(\w+)$/, "$1"); // Remove "hc"
+        } else {
+            // Convert SC -> HC (prepend "hc" to the filename)
+            newUrl = currentUrl.replace(/\/(\w+)$/, "/hc$1"); // Prepend "hc"
+        }
 
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
+        // Redirect to the new page
+        if (newUrl !== currentUrl) {
+            window.location.href = newUrl;
+        }
+    });
+
+    // Function to update button background image
+    function updateButtonImage(isHardcore) {
+        if (isHardcore) {
+            scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
+        } else {
+            scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
+        }
+    }
 });
 
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+    const menuItems = document.querySelectorAll(".top-button");
+
+    menuItems.forEach(item => {
+        const itemPage = item.getAttribute("href");
+        if (itemPage && currentPage === itemPage) {
+            item.classList.add("active");
+        }
+    });
 });
+
 
 document.addEventListener("DOMContentLoaded", function () {
 const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
@@ -2244,6 +2310,7 @@ item.classList.add("active");
 });
 });
 
+//Armory pop up
 document.addEventListener("DOMContentLoaded", function () {
 let activePopup = null;
 
@@ -2291,20 +2358,8 @@ activePopup = null;
 });
 });
 
-document.querySelectorAll('.anchor-link').forEach(link => {
-    link.addEventListener('click', function(event) {
-        event.preventDefault();
-        
-        let url = window.location.origin + window.location.pathname + this.getAttribute('href');
-        navigator.clipboard.writeText(url).then(() => {
-//            alert("Link copied: " + url);
-        });
 
-        window.location.hash = this.getAttribute('href'); // Update URL
-    });
-});
-
-
+//PoD nav buttons
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.navbar-burger');
     const menu = document.querySelector('.navbar-menu');
@@ -2331,6 +2386,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+//Anchor in place fix
+// Expand collapsibles and scroll to anchor
+function scrollWithOffset(el, offset = -50) {
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+function expandToAnchor(anchorId) {
+    console.log("expandToAnchor called with:", anchorId);
+    const target = document.getElementById(anchorId);
+    if (!target) return;
+
+    // Step 1: Collect all parent .content elements that need expanding
+    const stack = [];
+    let el = target;
+    while (el) {
+        if (el.classList?.contains('content')) {
+            stack.unshift(el); // add to beginning to expand outermost first
+        }
+        el = el.parentElement;
+    }
+
+    // Step 2: Expand each .content section in order
+    for (const content of stack) {
+        const button = content.previousElementSibling;
+        if (button?.classList.contains('collapsible')) {
+            button.classList.add('active');
+            content.style.display = "block";
+
+            const openIcon = button.querySelector("img.open-icon");
+            const closeIcon = button.querySelector("img.close-icon");
+            if (openIcon) openIcon.classList.add("hidden");
+            if (closeIcon) closeIcon.classList.remove("hidden");
+        }
+    }
+
+    // Step 3: Delay scroll until DOM has reflowed
+    setTimeout(() => {
+        console.log("scrolling to:", target.id);
+        scrollWithOffset(target);
+    }, 250); // Adjust if necessary
+}
+
+// Handle clicks on .anchor-link elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicks on .anchor-link elements
+    document.querySelectorAll('.anchor-link, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const anchorId = this.getAttribute('href').substring(1);
+            const fullUrl = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            navigator.clipboard.writeText(fullUrl); // Copy full link to clipboard
+            history.pushState(null, '', `#${anchorId}`); // Update URL without page reload
+            expandToAnchor(anchorId); // Expand and scroll
+        });
+    });
+
+    // On initial load with hash
+    if (window.location.hash) {
+        const anchorId = window.location.hash.substring(1);
+        // Wait a bit for collapsibles/content to render
+        setTimeout(() => {
+            expandToAnchor(anchorId);
+        }, 200);
+    }
+});
+
+
+
 </script>
 
 
@@ -2425,978 +2552,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     print("HTML file generated successfully.")
 
-MakeHome()
-
-###############################################################
-#
-# Get dashing strike builds
-#
-# Item counts look funny
-import json
-import pandas as pd
-
-def GetDashers():
-    icons_folder = "icons"
-    what_class = "Dashadin"
-    howmany_skills = 4
-    search_skill = "Dashing Strike"
-    skill_threshold = 10
-
-    # Load the consolidated JSON file
-    with open("sc_ladder.json", "r") as file:
-        all_characters = json.load(file)
-
-    # Filter characters who meet the skill threshold
-    filtered_characters = []
-    
-    for char_data in all_characters:
-        has_high_charge = False
-        
-        for tab in char_data.get('SkillTabs', []):
-            for skill in tab.get('Skills', []):
-                if skill["Name"] == search_skill and skill["Level"] > skill_threshold:
-                    has_high_charge = True
-                    break  # Stop checking once condition is met
-        
-        if has_high_charge:
-            filtered_characters.append(char_data)
-
-        def map_readable_names(mercenary_type, worn_category=""):
-            mercenary_mapping = {
-                "Desert Mercenary": "Act 2 Desert Mercenary",
-                "Rogue Scout": "Act 1 Rogue Scout",
-                "Eastern Sorceror": "Act 3 Eastern Sorceror",
-                "Barbarian": "Act 5 Barbarian"
-            }
-            worn_mapping = {
-                "body": "Armor",
-                "helmet": "Helmet",
-                "weapon1": "Weapon",
-                "weapon2": "Offhand"
-            }
-            readable_mercenary = mercenary_mapping.get(mercenary_type, mercenary_type)
-            readable_worn = worn_mapping.get(worn_category, worn_category)
-            return readable_mercenary, readable_worn
-
-    # Process data from filtered characters
-    def load_data(filtered_characters):
-        all_data = []
-        
-        quality_colors = {
-            "q_runeword": "#edcd74",
-            "q_unique": "#edcd74",
-            "q_set": "#45a823",
-            "q_magic": "#7074c9",
-            "q_rare": "yellow",
-            "q_crafted": "orange"
-        }
-
-        def map_readable_names(mercenary_type, worn_category=""):
-            mercenary_mapping = {
-                "Desert Mercenary": "Act 2 Desert Mercenary",
-                "Rogue Scout": "Act 1 Rogue Scout",
-                "Eastern Sorceror": "Act 3 Eastern Sorceror",
-                "Barbarian": "Act 5 Barbarian"
-            }
-            worn_mapping = {
-                "body": "Armor",
-                "helmet": "Helmet",
-                "weapon1": "Weapon",
-                "weapon2": "Offhand"
-            }
-            readable_mercenary = mercenary_mapping.get(mercenary_type, mercenary_type)
-            readable_worn = worn_mapping.get(worn_category, worn_category)
-            return readable_mercenary, readable_worn
-
-        for char_data in filtered_characters:
-            skill_data = {
-                'Name': char_data.get('Name', 'Unknown'),
-                'Class': char_data.get('Class', 'Unknown'),
-                'Level': char_data.get('Stats', {}).get('Level', 'Unknown'),
-            }
-            
-            # Extract and sort skills
-            skills = []
-            for tab in char_data.get('SkillTabs', []):
-                for skill in tab.get('Skills', []):
-                    skill_name = skill['Name']
-                    skill_level = skill['Level']
-                    skill_data[skill_name] = skill_level  # ✅ Creates a separate column for each skill
-                    skills.append((skill_name, skill_level))
-            
-            skills_sorted = sorted(skills, key=lambda x: x[1], reverse=True)
-            skill_data['Skills'] = ", ".join([f"{name}:{level}" for name, level in skills_sorted])
-
-            # Extract equipment details
-            equipment_titles = {}
-            for item in char_data.get('Equipped', []):
-                worn_category = item.get('Worn', 'Unknown')
-                title = item.get('Title', 'Unknown')
-                quality_code = item.get('QualityCode', 'default')
-                color = quality_colors.get(quality_code, "white")
-                colored_title = f"<span style='color: {color};'>{title}</span>"
-
-                category_map = {
-                    "ring1": "Ring", "ring2": "Ring",
-                    "sweapon1": "Left hand", "weapon1": "Left hand",
-                    "sweapon2": "Offhand", "weapon2": "Offhand",
-                    "body": "Armor", "gloves": "Gloves", "belt": "Belt",
-                    "helmet": "Helmet", "amulet": "Amulet"
-                }
-                
-                worn_category = category_map.get(worn_category, worn_category)
-
-                if worn_category not in equipment_titles:
-                    equipment_titles[worn_category] = {}
-
-                equipment_titles[worn_category][colored_title] = equipment_titles[worn_category].get(colored_title, 0) + 1
-
-            skill_data['Equipment'] = ", ".join(
-                f"{worn}: {title} x{count}" if count > 1 else f"{worn}: {title}"
-                for worn, titles in equipment_titles.items()
-                for title, count in titles.items()
-            )
-
-            # Extract mercenary details
-            mercenary_type = char_data.get("MercenaryType", "No mercenary")
-            readable_mercenary, _ = map_readable_names(mercenary_type)
-            mercenary_equipment = ", ".join(
-                [item.get("Title", "Unknown") for item in char_data.get("MercenaryEquipped", [])]
-            ) if char_data.get("MercenaryEquipped") else "No equipment"
-
-            skill_data['Mercenary'] = readable_mercenary
-            skill_data['MercenaryEquipment'] = mercenary_equipment
-
-            all_data.append(skill_data)
-
-        return pd.DataFrame(all_data).fillna(0)
-
-    # Load the data
-    df = load_data(filtered_characters)
-#    return df
-
-    # Define skill columns (exclude non-skill columns)
-    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment', 'Mercenary', 'MercenaryEquipment']]
-    df = pd.DataFrame(df)  # Ensure it's a DataFrame
-#    print("DataFrame Columns:", df.columns.tolist())  # List column names
-#    print("First Few Rows:\n", df.head())  # Show first few rows
-
-#    print(df[['Name', 'Class']].head())  # Check Class column contents
-    
-    # Determine number of clusters dynamically
-    unique_classes = df['Class'].nunique()  # 🔹 Count unique classes
-    print(f"🔍 Unique Classes Found: {unique_classes}")
-
-    # Ensure at least 2 clusters for meaningful results
-    num_clusters = max(unique_classes, 2)  # 🔹 Avoids issues with a single class
-    print(f"📊 Setting n_clusters = {num_clusters}")
-
-    # Perform PCA
-    pca = PCA(n_components=2)
-    reduced_data = pca.fit_transform(df[skill_columns])
-
-    # Perform KMeans clustering using dynamic `num_clusters`
-    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-    df['Cluster'] = kmeans.fit_predict(df[skill_columns])
-
-    # Calculate the average points invested in skills per cluster
-    df['Total_Points'] = df[skill_columns].sum(axis=1)
-    cluster_averages = df.groupby('Cluster')['Total_Points'].mean().reset_index()
-    cluster_averages.columns = ['Cluster', 'Avg_Points']
-
-    # Merge the averages back into the main DataFrame
-    df = pd.merge(df, cluster_averages, on='Cluster')
-
-    # Get skill averages per cluster
-    skill_averages = df.groupby('Cluster')[skill_columns].mean()
-
-    # Identify the top skills per cluster with their average points
-    top_skills_with_avg = skill_averages.apply(lambda x: [(skill, round(x[skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
-
-
-    # Calculate the correct percentages for each cluster
-    cluster_counts = df['Cluster'].value_counts(normalize=True) * 100
-    df['Percentage'] = df['Cluster'].map(cluster_counts)
-
-    # Map clusters to meaningful names (top skills with average points)
-    cluster_labels = {i: ", ".join([f"{skill} ({avg})" for skill, avg in skills]) for i, skills in enumerate(top_skills_with_avg)}
-    df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
-
-    # Updated HTML template
-    html_template = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>{{ what_class }} Analysis Report</title>
-        <link rel="stylesheet" type="text/css" href="./css/test-css.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    </head>
-    <body class="not-main">
-        <div class="is-clipped">
-        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
-
-            <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
-    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>            </div>
-            <div id="podNavbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
-                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
-                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
-                </div>
-                <div class="navbar-end">
-
-                    <div class="navbar-start">	
-                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
-                        <div class="navbar-item dropdown2">
-                            <button class="dropdown2-button">Trends History</button>
-                            <div class="dropdown2-content">
-                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </nav>  
-        <div class="hamburger hamburger2" onclick="toggleMenu()">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
-            <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
-            <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
-        </div>
-
-        <h1>{{ what_class }} Softcore Skill Distribution </h1>
-        <div class="summary-container">
-                        
-
-        <h3>This group includes anyone with 10 or more points in Dashing Strike</h3>
-        <p class="indented-skills">Popular builds include:<br>{{ summary_label }} </p>
-
-        <hr>
-        {% for clusters, data in clusters.items() %}
-        <!--<h2>{{ data['label'] }}</h2>
-        <p class="indented-skills"><strong>Other Skills:<br></strong> {{ data['other_skills'] }}</p> -->
-        <div class="class-intro">
-        <div id="skills" class="skills-container">
-            <div class="column">
-                <ul id="most-popular-skills">
-                    <h2>{{ data['label'] }}</h2>
-                </ul>
-            </div>
-<!--            <div class="column">
-                <ul id="other-skills">
-                    <h2>Other common skills in this group:</h2> {{ data['other_skills'] }}
-                </ul>
-            </div> -->
-        </div>
-            <button type="button" class="collapsible small-collapsible">
-
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>All Skills</strong></button>
-            <div class="content">
-                <div>{{ data['remaining_skills_with_icons'] }}</div>
-            </div>
-
-            <button type="button" class="collapsible small-collapsible">
-
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>Most Common Equipment:</strong></button>
-            <div class="content">
-                <div>{{ data['top_equipment'] }}</div>
-            </div>
-<!--        
-            <button type="button" class="collapsible small-collapsible">
- 
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>ALL Equipment:</strong></button>
-            <div class="content">
-                <div>{{ data['equipment_counts'] }}</div>
-            </div>
--->
-            <button type="button" class="collapsible small-collapsible">
-
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>{{ data['character_count'] }} Characters in this cluster:</strong>
-        </button>
-        <div class="content2">
-{% for character in data['characters'] %}
-<!--
-<div class="character-container {% if loop.index is even %}char1{% else %}char2{% endif %}">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}
-            </a></strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
-        <div class="hover-trigger" data-character-name="{{ character['name'] }}">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> {{ character['skills'] }}</p>
-    <p><strong>Equipment:<br></strong> {{ character['equipment'] }}</p>
-    <p><strong>Mercenary:<br></strong> {{ character['mercenary'] }} - {{ character['mercenary_equipment'] }}</p>
-
-    <div class="character-section" data-character-name="{{ character['name'] }}"></div>
-</div>
-<hr color="#141414">
-<br>
-{% endfor %}
-            <br>
-            </div>
-            </div>
-<!--            <hr width="90%"> -->
-            <br>
-            {% endfor %}
-            </div>
-        <!--    <h3>Top 5 Most Popular {{ what_class }} Skills:</h3>
-        <ul>
-        </ul>
-
-        <h3>Bottom 5 Least Popular {{ what_class }} Skills:</h3>
-        <ul>
-        </ul> -->
-        <br><br><br>
-        <!-- Embed the Plotly pie chart -->
-        <div>
-            <img src="charts/{{ what_class }}-clusters_distribution_pie.png" alt="{{ what_class }} Skills Distribution">
-        </div>
-
-        <!-- Embed the Plotly scatter plot -->
-        <div>
-            <img src="charts/{{ what_class }}-clusters_with_avg_points.png" alt="{{ what_class }} Skill Clusters Scatter Plot">
-        </div>
-        <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
-            <div class="footer">
-            <p>PoD data current as of {{ timeStamp }}</p>
-            </div>
-        
-
-
-
-<script>
-var coll = document.getElementsByClassName("collapsible");
-for (var i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        var openIcon = this.querySelector("img.icon[alt='Open']");
-        var closeIcon = this.querySelector("img.icon[alt='Close']");
-
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            openIcon.classList.remove("hidden");
-            closeIcon.classList.add("hidden");
-        } else {
-            content.style.display = "block";
-            openIcon.classList.add("hidden");
-            closeIcon.classList.remove("hidden");
-        }
-    });
-}
-
-
-//Get the button
-var backToTopBtn = document.getElementById("backToTopBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-backToTopBtn.style.display = "block";
-} else {
-backToTopBtn.style.display = "none";
-}
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-document.body.scrollTop = 0; // For Safari
-document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-function toggleMenu() {
-    const navMenu = document.querySelector('.top-buttons');
-    navMenu.classList.toggle('show');
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
-
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
-});
-
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
-const menuItems = document.querySelectorAll(".top-button");
-
-menuItems.forEach(item => {
-const itemPage = item.getAttribute("href");
-if (itemPage && currentPage === itemPage) {
-item.classList.add("active");
-}
-});
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-let activePopup = null;
-
-document.querySelectorAll(".hover-trigger").forEach(trigger => {
-trigger.addEventListener("click", function (event) {
-event.stopPropagation();
-const characterName = this.getAttribute("data-character-name");
-
-// Close any open popup first
-if (activePopup) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe for memory efficiency
-activePopup = null;
-}
-
-// Find the associated popup container
-const popup = this.closest(".character-info").nextElementSibling.querySelector(".popup");
-
-// If this popup was already active, just close it
-if (popup === activePopup) {
-return;
-}
-
-// Create an iframe and set its src
-const iframe = document.createElement("iframe");
-iframe.src = `./armory/video_component.html?charName=${encodeURIComponent(characterName)}`;
-iframe.setAttribute("id", "popupFrame");
-
-// Add iframe to the popup
-popup.appendChild(iframe);
-popup.classList.add("active");
-
-// Set this popup as the active one
-activePopup = popup;
-});
-});
-
-// Close the popup when clicking anywhere outside
-document.addEventListener("click", function (event) {
-if (activePopup && !activePopup.contains(event.target)) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe to free memory
-activePopup = null;
-}
-});
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.querySelector('.navbar-burger');
-    const menu = document.querySelector('.navbar-menu');
-
-    burger.addEventListener('click', () => {
-        menu.classList.toggle('is-active');
-        burger.classList.toggle('is-active');
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdownButton = document.querySelector('.dropdown2-button');
-    const dropdownContent = document.querySelector('.dropdown2-content');
-
-    dropdownButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevents clicks from propagating to other elements
-        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
-    });
-
-    // Close the dropdown if you click anywhere outside it
-    document.addEventListener('click', () => {
-        if (dropdownContent.classList.contains('is-active')) {
-            dropdownContent.classList.remove('is-active');
-        }
-    });
-});
-</script>
-
- 
-
-
-
-
-
-    </body>
-    </html>
-    """
-
-    def analyze_mercenaries(characters):
-        mercenary_counts = Counter()
-        mercenary_equipment = defaultdict(lambda: defaultdict(Counter))
-
-        for char_data in characters:
-            if not isinstance(char_data, dict):
-                print(f"Skipping unexpected data format: {char_data}")
-                continue  # Skip invalid entries
-
-            mercenary = char_data.get("MercenaryType")
-            if mercenary:
-                readable_mercenary, _ = map_readable_names(mercenary, "")
-                mercenary_counts[readable_mercenary] += 1
-
-                for item in char_data.get("MercenaryEquipped", []):
-                    worn_category = item.get("Worn", "Unknown")
-                    readable_mercenary, readable_worn = map_readable_names(mercenary, worn_category)
-                    title = item.get("Title", "Unknown")
-                    mercenary_equipment[readable_mercenary][readable_worn][title] += 1
-
-        return mercenary, mercenary_counts, mercenary_equipment
-
-    # Assuming df is your DataFrame and skill_columns contains the column names for the skills
-
-    # Calculate the total usage of each skill across all clusters
-    total_skill_usage = df[skill_columns].sum()
-
-    # Sort skills by total usage in descending order
-    most_used_skills = total_skill_usage.sort_values(ascending=False)
-
-    # Sort skills by total usage in ascending order
-    least_used_skills = total_skill_usage.sort_values(ascending=True)
-
-    # Extract the top 5 most used skills
-    top_5_most_used_skills = most_used_skills.head(5)
-
-    # Extract the bottom 5 least used skills
-    bottom_5_least_used_skills = least_used_skills.head(5)
-
-
-    # Calculate the percentage of characters that have invested in each skill within the cluster
-    skill_percentages = df[skill_columns].astype(bool).groupby(df['Cluster']).mean() * 100
-
-    # Identify the top skills per cluster with their average points and percentages
-    top_skills_with_avg_and_percent = skill_averages.apply(lambda x: [(skill, round(x[skill], 2), round(skill_percentages.loc[x.name, skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
-
-    summary_label = ""
-    summaries = []
-    data_folder = "sc/ladder-all"
-
-    # Gather data for the report
-    clusters = {}
-    for cluster, group in df.groupby('Cluster'):
-        sorted_group = group.sort_values(by='Level', ascending=False)  # Sort by level descending
-        character_count = len(sorted_group)
-        cluster_percentage = cluster_counts[cluster]
-        equipment_counts = {}
-        for row in sorted_group.itertuples():
-            for row in sorted_group.itertuples():
-                equipment_list = row.Equipment.split(", ")
-                for item in equipment_list:
-                    if item:
-                        worn, title_count = item.split(": ", 1)
-                        if " x" in title_count:
-                            title, count = title_count.split(" x", 1)
-                            count = int(count)
-                        else:
-                            title = title_count
-                            count = 1
-
-                        if worn not in equipment_counts:
-                            equipment_counts[worn] = {}
-                        if title in equipment_counts[worn]:
-                            equipment_counts[worn][title] += count
-                        else:
-                            equipment_counts[worn][title] = count  # Initialize with real count
-
-        # Extract character file paths for this cluster
-        cluster_files = [f"{row.Class.lower()}/{row.Name}.json" for row in sorted_group.itertuples()]
-        cluster_files = [path for path in cluster_files if os.path.exists(path)]  # Filter only existing files
-
-        # Get mercenary data **just for this cluster**
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-        # Generate HTML report for mercenaries in this cluster
-        merc_count = f"<h3>Mercenary Equipment Analysis for Cluster {cluster}</h3>"
-
-        # Mercenary type counts
-        merc_count += "<h4>Count of Mercenary Types</h4>"
-        for mercenary, count in mercenary_counts.items():
-            merc_count += f"<p>{mercenary}: {count}</p>"
-
-        # Mercenary equipment titles
-        merc_count += "<h4>Equipment Titles</h4>"
-        for mercenary, equipment in mercenary_equipment.items():
-            merc_count += f"<p><strong>{mercenary}:</strong></p>"
-            for title, count in equipment.items():
-                merc_count += f"<p>{title}: {count}</p>"
-
-        # ✅ Fix: Ensure the cluster exists before adding merc_count
-        if cluster not in clusters:
-            clusters[cluster] = {}
-
-        if 'merc_count' not in clusters[cluster]:
-            clusters[cluster]['merc_count'] = merc_count
-
-        # Calculate total counts for each category
-        total_counts = {
-            worn: sum(titles.values())
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Calculate the percentages based on total counts
-        equipment_percentages = {
-            worn: {title: (count / total_counts[worn]) * 100 for title, count in titles.items()}
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Get top equipment based on count
-        top_equipment = {
-            worn: sorted(titles.items(), key=lambda item: item[1], reverse=True)[:5]
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Use equipment_percentages for display
-        top_equipment_str_list = []
-        for worn, titles in top_equipment.items():
-            titles_str = "<br>".join([f"&nbsp;&nbsp;&nbsp;&nbsp;{title} {equipment_percentages[worn][title]:.2f}%" for title, count in titles])
-            top_equipment_str_list.append(f"<strong>{worn.capitalize()}</strong>: <br>{titles_str}")
-
-        top_equipment_str = "<br>".join(top_equipment_str_list)
-
-        # Use sorted_equipment_counts for full display
-        sorted_equipment_counts = {
-            worn: dict(sorted(titles.items(), key=lambda item: item[1], reverse=True))
-            for worn, titles in equipment_counts.items()
-        }
-
-        equipment_counts_str_list = []
-        for worn, titles in sorted_equipment_counts.items():
-            titles_str = ", ".join([f"{title} {equipment_percentages[worn][title]:.2f}%" for title in titles])
-            equipment_counts_str_list.append(f"<strong>{worn.capitalize()}</strong>: {titles_str}")
-
-        equipment_counts_str = "<br>".join(equipment_counts_str_list)
-
-        # Define a helper function to format numbers
-        def format_number(num):
-            return int(num) if num % 1 == 0 else round(num, 2)
-
-        # Filter top skills
-        top_skills = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
-
-        # Filter other skills, ignoring those with zero points
-        other_skills = skill_averages.loc[cluster].drop(top_skills)
-        other_skills = other_skills[other_skills > 0].nlargest(6)
-        other_skills_pie = "<br>".join([f"{skill} ({format_number(avg)})" for skill, avg in other_skills.items()])
-#        other_skills_str = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(other_skills[skill] * character_count)})" for skill in other_skills.index])
-        other_skills_str = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(other_skills[skill] * character_count)})</span>"
-            for skill in other_skills.index
-        ])
-
-        # Filter remaining skills, ignoring those with zero points
-        remaining_skills = skill_averages.loc[cluster].sort_values(ascending=False)
-        remaining_skills = remaining_skills[remaining_skills > 0]
-#        remaining_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str2 = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(remaining_skills[skill] * character_count)})</span>"
-            for skill in remaining_skills.index
-        ])
-#        remaining_skills_str_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str_with_icons = "\n".join([
-            "<div class='skills-group'>" + "\n".join([
-                "<div class='skills-row'>" +
-                "\n".join([
-                    f"<div class='skill-item'>"
-                    f"<div class='skillbar-container'>"
-                    f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
-                    f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
-                    f"</div>"
-                    f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
-                    f"</div>"
-                    f"</div>"
-                    for skill in remaining_skills.index[row:row+2]
-                ]) +
-                "</div>"  # Close row
-                for row in range(i, min(i+10, len(remaining_skills.index)), 2)
-            ]) + "</div>"  # Close group
-            for i in range(0, len(remaining_skills.index), 10)
-        ])
-
-        sorted_summary_label = ""
-        summary_labels = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
-        summary = f"{cluster_percentage:.2f}% of {what_class}'s invest heavily in " + ", ".join(summary_labels)
-        summaries.append((cluster_percentage, summary))
-
-        clusters[cluster] = {
-    #        'label': f"{cluster_percentage:.2f}% of {what_class}'s: <br>" + "<br>".join([f"{skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-#            'label': f"{cluster_percentage:.2f}%  of {what_class}'s Main Skills:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-            'label': f"{cluster_percentage:.2f}% of {what_class}'s Main Skills:<br>" + "".join([
-                f"""
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar">
-                                <span class="skill-label">{skill} ({int(avg * character_count)})</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                """
-                for skill, avg, percent in top_skills_with_avg_and_percent[cluster]
-            ]),
-            'character_count': character_count,
-            'other_skills': other_skills_str,
-            'other_skills_pie': other_skills_pie,
-            'characters': [{'name': row.Name, 'level': row.Level, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class } for row in sorted_group.itertuples()],
-            'top_equipment': top_equipment_str,  # Add top equipment to the data
-            'equipment_counts': equipment_counts_str,
-            'remaining_skills_with_icons': remaining_skills_str_with_icons,
-            'remaining_skills_str2': remaining_skills_str2,  # Add remaining skills string for display without icons
-    #        'all_skills_str2': all_skills_str2,
-    #        'all_skills_str2_with_icons' : all_skills_str2_with_icons
-            'top_5_most_used_skills': top_5_most_used_skills,
-            'bottom_5_least_used_skills': bottom_5_least_used_skills,
-            'summary_label' : summary_label, 
-            'mercenary': mercenary,  # Store mercenary type
-            'mercenary_equipment': mercenary_equipment,  # Store mercenary's items
-            
-        }
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-
-    # Ensure the correct percentage values are used
-    pie_data = df.groupby('Cluster').agg({
-        'Percentage': 'mean',  # Get the mean percentage for each cluster
-        'Cluster_Label': 'first'  # Use the first cluster label as representative
-    }).reset_index()
-
-    # Include other_skills in customdata
-    pie_data['other_skills_pie'] = pie_data['Cluster'].map(lambda cluster: clusters[cluster]['other_skills_pie'])
-
-    # Combine cluster label and percentage for the pie chart labels
-    pie_data['Cluster_Label_Percentage'] = pie_data.apply(lambda row: f"{row['Percentage']:.2f}% - Main Skills and avg points: {row['Cluster_Label']}", axis=1)
-
-    import plotly.express as px
-
-    # Get unique clusters
-    unique_clusters = sorted(df['Cluster'].unique())  # Sorting ensures consistent ordering
-
-    # Assign colors from a predefined palette
-    color_palette = px.colors.qualitative.Safe  # You can change this to Vivid, Bold, etc.
-    color_map = {cluster: color_palette[i % len(color_palette)] for i, cluster in enumerate(unique_clusters)}
-
-    # Create a pie chart
-    fig_pie = px.pie(
-        pie_data,
-        values='Percentage',
-        names='Cluster_Label_Percentage',
-        title=f"{what_class} Skills Distribution",
-        hover_data={'Cluster_Label': True, 'other_skills_pie': True},
-        color_discrete_map={row['Cluster_Label_Percentage']: color_map[row['Cluster']] for _, row in pie_data.iterrows()}  # ✅ Maps labels to the same colors
-    )
-
-    # Update customdata to pass Cluster_Label
-    fig_pie.update_traces(customdata=pie_data[['Cluster_Label', 'other_skills_pie']])
-
-    # Customize the hover template for the pie chart
-    fig_pie.update_traces(
-        textinfo='percent',  # Keep percentages on the pie slices
-        textposition='inside',  # Position percentages inside the pie slices
-        hovertemplate="<b>%{customdata[0]}</b><br>Other Skills and Average Point Investment:<br>%{customdata[1]}<extra></extra>",
-        marker=dict(line=dict(color='black', width=1)),  # Add a slight outline for clarity
-        pull=[0.05] * len(pie_data),  # Slightly pull slices apart to increase visibility
-        hole=0  # Ensure it's a full pie (not a donut)
-    )
-
-    # Position the legend outside the pie chart and adjust the pie chart size
-    fig_pie.update_layout(
-        legend=dict(
-            orientation="h",  # Horizontal legend
-            yanchor="top",
-            y=-0.15,  # Move it closer
-            xanchor="center",
-            x=0.5,  # Keep it centered
-            font=dict(size=10, color='white'),
-            bgcolor='rgba(0,0,0,0)',
-#                font=dict(color='white'),  # ✅ Transparent background
-        ),
-        paper_bgcolor='rgba(0,0,0,0)', # ✅ Transparent background
-        margin=dict(l=10, r=10, t=50, b=20),  # Reduce bottom margin to make more space
-        width=900,  # Set the width of the entire chart
-        height=600,  # Set the height of the entire chart
-        font=dict(color='white'),  # ✅ Makes all text white
-        title=dict(font=dict(color='white')),  # ✅ Ensures title is also white
-#            legend=dict(font=dict(color='white'))  # ✅ Ensures legend text is white
-    )
-
-    # Increase the pie size explicitly
-    fig_pie.update_traces(domain=dict(x=[0, 1], y=[0.1, 1]))  # Expands pie upward
-
-    # Save the pie chart as a PNG file
-    fig_pie.write_image(f"pod-stats/charts/{what_class}-clusters_distribution_pie.png")
-
-    # Create a DataFrame for visualization
-    plot_data = pd.DataFrame({
-        'PCA1': reduced_data[:, 0],
-        'PCA2': reduced_data[:, 1],
-        'Cluster': df['Cluster'],
-        'Cluster_Label': df['Cluster_Label'],
-        'Percentage': df['Percentage']
-    })
-
-    # Create an interactive scatter plot
-    fig_scatter = px.scatter(
-        plot_data,
-        x='PCA1',
-        y='PCA2',
-        color='Cluster',  # Assign color based on the cluster
-        title=f"{what_class} Skill Clusters (Ladder Top 200 {what_class}'s Highlighted)<br>This highlights how similar (or not) a character is to the rest<br>The tighter the grouping, the more they are alike",
-        hover_data={'Cluster_Label': True, 'Percentage': ':.2f%', 'Cluster': True},
-        color_discrete_map=color_map  # Use the same colors as the pie chart
-    )
-
-    # Customize the legend labels
-    for trace in fig_scatter.data:
-        if trace.name.isnumeric():  # Ensure that the trace name is numeric
-            trace.update(name=legend_labels[int(trace.name)])
-
-    # Customize hover template to include top skills and percentage
-    fig_scatter.update_traces(
-        hovertemplate="<b>Cluster skills and average point investment:</b><br> %{customdata[0]}<br>" +
-                    "This cluster (%{customdata[2]}) makes up %{customdata[1]:.2f}% of the total<extra></extra>"
-    )
-
-    # Hide the axis titles and tick labels
-    fig_scatter.update_layout(
-        xaxis_title=None,
-        yaxis_title=None,
-        xaxis_showticklabels=False,
-        yaxis_showticklabels=False
-    )
-
-    # Save the scatter plot as a PNG file
-    fig_scatter.write_image(f"pod-stats/charts/{what_class}-clusters_with_avg_points.png")
-
-    print("Pie chart and scatter plot saved as PNG files.")
-
-
-    # Sort clusters by percentage in descending order
-    sorted_clusters = dict(sorted(clusters.items(), key=lambda item: item[1]['character_count'], reverse=True))
-
-    # Split the entries into a list
-    entries = summary_label.strip().split("<br>\n")
-    # Remove any empty strings from the list (if any)
-    entries = [entry for entry in entries if entry.strip()]
-    # Sort the entries in descending order based on the percentage value
-    sorted_entries = sorted(entries, key=lambda x: float(x.split('%')[0]), reverse=False)
-    # Join the sorted entries back into a single string
-    sorted_summaries = sorted(summaries, key=lambda x: x[0], reverse=True)
-    summary_label = "<br>".join(summary for _, summary in sorted_summaries)
-    #print(summary_label)
-
-    # Ensure the cluster exists before adding merc_count
-    if cluster not in clusters:
-        clusters[cluster] = {}
-
-    clusters[cluster]['merc_count'] = merc_count
-
-    print(f"✅ Added merc data for cluster {cluster}:")
-    print(merc_count)
-
-    dt = datetime.now()
-    # format it to a string
-    timeStamp = dt.strftime('%Y-%m-%d %H:%M')
-    
-    # Render the HTML report
-    template = Template(html_template)
-    html_content = template.render(clusters=sorted_clusters, what_class=what_class, top_5_most_used_skills=top_5_most_used_skills, bottom_5_least_used_skills=bottom_5_least_used_skills, summary_label=summary_label, merc_count=merc_count, mercenary=mercenary, mercenary_equipment=mercenary_equipment, timeStamp=timeStamp)  # Pass sorted clusters to the template
-
-    # Save the report to a file
-    output_file = f"pod-stats/{what_class}.html"
-    with open(output_file, "w") as file:
-        file.write(html_content)
-
-    print(f"Cluster analysis report saved to {output_file}")
-
-#GetDashers()
-
-
+#MakeHome()
 
 ###############################################################
 #
@@ -3530,39 +2686,41 @@ def GetNonZon():
     # Define skill columns (exclude non-skill columns)
 #    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment']]
     # Ensure skill_columns only includes numeric skill values
+    # Define the skill columns
     skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment', 'Mercenary', 'MercenaryEquipment']]
 
-    # Perform PCA
-    pca = PCA(n_components=2)
-    reduced_data = pca.fit_transform(df[skill_columns])
+    # Just use Class as the cluster
+    df['Cluster'] = df['Class']
 
-#    print(df.dtypes)  # Check which columns are non-numeric
-#    print(df.head())  # See if 'Mercenary' appears in the dataset
+    # Drop duplicates before calculating percentage-based stuff
+    deduped_df = df.drop_duplicates(subset='Name')
 
-    # Perform KMeans clustering
-    kmeans = KMeans(n_clusters=howmany_clusters, random_state=42)
-    df['Cluster'] = kmeans.fit_predict(df[skill_columns])
-
-    # Calculate the average points invested in skills per cluster
+    # Total points per character
     df['Total_Points'] = df[skill_columns].sum(axis=1)
+
+    # Average total points per cluster (i.e., per class)
     cluster_averages = df.groupby('Cluster')['Total_Points'].mean().reset_index()
     cluster_averages.columns = ['Cluster', 'Avg_Points']
-
-    # Merge the averages back into the main DataFrame
     df = pd.merge(df, cluster_averages, on='Cluster')
 
-    # Get skill averages per cluster
+    # Skill averages per cluster (i.e., per class)
     skill_averages = df.groupby('Cluster')[skill_columns].mean()
 
-    # Identify the top skills per cluster with their average points
-    top_skills_with_avg = skill_averages.apply(lambda x: [(skill, round(x[skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
+    # Top skills per cluster with average points
+    top_skills_with_avg = skill_averages.apply(
+        lambda x: [(skill, round(x[skill], 2)) for skill in x.nlargest(howmany_skills).index],
+        axis=1
+    )
 
-    # Calculate the correct percentages for each cluster
-    cluster_counts = df['Cluster'].value_counts(normalize=True) * 100
+    # ✅ Calculate percentage of each class using deduplicated data
+    cluster_counts = deduped_df['Cluster'].value_counts(normalize=True) * 100
     df['Percentage'] = df['Cluster'].map(cluster_counts)
 
-    # Map clusters to meaningful names (top skills with average points)
-    cluster_labels = {i: ", ".join([f"{skill} ({avg})" for skill, avg in skills]) for i, skills in enumerate(top_skills_with_avg)}
+    # Assign cluster labels
+    cluster_labels = {
+        class_name: ", ".join([f"{skill} ({avg})" for skill, avg in skills])
+        for class_name, skills in zip(skill_averages.index, top_skills_with_avg)
+    }
     df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
 
     # Updated HTML template
@@ -3580,8 +2738,9 @@ def GetNonZon():
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+                <a class="is-48x48" href="https://beta.pathofdiablo.com/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
     <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <br>
         <span></span>
         <span></span>
         <span></span>
@@ -3589,7 +2748,7 @@ def GetNonZon():
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/servers">Servers</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
@@ -3605,8 +2764,15 @@ def GetNonZon():
                             <button class="dropdown2-button">Trends History</button>
                             <div class="dropdown2-content">
                                 <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
+                                <div class="dropdown2-item dropdown-sub">
+                                    <a class="dropdown-sub-button">S13</a>
+                                    <div class="dropdown-sub-content">
+                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3619,15 +2785,15 @@ def GetNonZon():
             <div class="line"></div>
         </div>
         <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
+            <a href="Home" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
+            <a href="Amazon" id="Amazon" class="top-button amazon-button"></a>
+            <a href="Assassin" id="Assassin" class="top-button assassin-button"></a>
+            <a href="Barbarian" id="Barbarian" class="top-button barbarian-button"></a>
+            <a href="Druid" id="Druid" class="top-button druid-button"></a>
+            <a href="Necromancer" id="Necromancer" class="top-button necromancer-button"></a>
+            <a href="Paladin" id="Paladin" class="top-button paladin-button"></a>
+            <a href="Sorceress" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
 
@@ -3692,7 +2858,7 @@ def GetNonZon():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
+        <div class="character-link"><strong>Name: <a href="https://beta.pathofdiablo.com/armory?name={{ character['name'] }}" target="_blank">
                 {{ character['name'] }}
             </a></strong></div>
         <div>Level: {{ character['level'] }}</div>
@@ -3725,7 +2891,6 @@ def GetNonZon():
             <br>
             <hr>
             <br>
-        <p class="indented-skills">Popular builds include:<br>{{ summary_label }} </p>
             <br>
             </div>
             <br><br>
@@ -3734,10 +2899,6 @@ def GetNonZon():
             <img src="charts/{{ what_class }}-clusters_distribution_pie.png" alt="{{ what_class }} Skills Distribution">
         </div>
 
-        <!-- Embed the Plotly scatter plot -->
-        <div>
-            <img src="charts/{{ what_class }}-clusters_with_avg_points.png" alt="{{ what_class }} Skill Clusters Scatter Plot">
-        </div>
         <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
             <div class="footer">
             <p>PoD data current as of {{ timeStamp }}</p>
@@ -3747,6 +2908,7 @@ def GetNonZon():
 
 
 <script>
+// Collapsible elemets
 var coll = document.getElementsByClassName("collapsible");
 for (var i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -3768,7 +2930,7 @@ for (var i = 0; i < coll.length; i++) {
 }
 
 
-//Get the button
+//Back to top button
 var backToTopBtn = document.getElementById("backToTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
@@ -3788,59 +2950,73 @@ document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+//Trends toolbar
+// Trends toolbar
 function toggleMenu() {
     const navMenu = document.querySelector('.top-buttons');
     navMenu.classList.toggle('show');
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const scHcButton = document.getElementById("SC_HC");
+    const currentUrl = window.location.href;
+    const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+
+    // Check if the current page is Hardcore or Softcore
+    const isHardcore = filename.startsWith("hc");
+
+    // Update button appearance based on current mode
+    if (isHardcore) {
+        scHcButton.classList.add("hardcore");
+        scHcButton.classList.remove("softcore");
+    } else {
+        scHcButton.classList.add("softcore");
+        scHcButton.classList.remove("hardcore");
+    }
+
+    // Update background image based on mode
+    updateButtonImage(isHardcore);
+
+    // Add click event to toggle between SC and HC pages
+    scHcButton.addEventListener("click", function () {
+        let newUrl;
+
+        if (isHardcore) {
+            // Convert HC -> SC (remove "hc" from filename)
+            newUrl = currentUrl.replace(/hc(\w+)$/, "$1"); // Remove "hc"
+        } else {
+            // Convert SC -> HC (prepend "hc" to the filename)
+            newUrl = currentUrl.replace(/\/(\w+)$/, "/hc$1"); // Prepend "hc"
+        }
+
+        // Redirect to the new page
+        if (newUrl !== currentUrl) {
+            window.location.href = newUrl;
+        }
+    });
+
+    // Function to update button background image
+    function updateButtonImage(isHardcore) {
+        if (isHardcore) {
+            scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
+        } else {
+            scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
+        }
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+    const menuItems = document.querySelectorAll(".top-button");
 
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
+    menuItems.forEach(item => {
+        const itemPage = item.getAttribute("href");
+        if (itemPage && currentPage === itemPage) {
+            item.classList.add("active");
+        }
+    });
 });
 
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
 
 document.addEventListener("DOMContentLoaded", function () {
 const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
@@ -3854,6 +3030,7 @@ item.classList.add("active");
 });
 });
 
+//Armory pop up
 document.addEventListener("DOMContentLoaded", function () {
 let activePopup = null;
 
@@ -3902,6 +3079,7 @@ activePopup = null;
 });
 
 
+//PoD nav buttons
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.navbar-burger');
     const menu = document.querySelector('.navbar-menu');
@@ -3929,8 +3107,78 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-</script>
 
+//Anchor in place fix
+// Expand collapsibles and scroll to anchor
+function scrollWithOffset(el, offset = -50) {
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+function expandToAnchor(anchorId) {
+    console.log("expandToAnchor called with:", anchorId);
+    const target = document.getElementById(anchorId);
+    if (!target) return;
+
+    // Step 1: Collect all parent .content elements that need expanding
+    const stack = [];
+    let el = target;
+    while (el) {
+        if (el.classList?.contains('content')) {
+            stack.unshift(el); // add to beginning to expand outermost first
+        }
+        el = el.parentElement;
+    }
+
+    // Step 2: Expand each .content section in order
+    for (const content of stack) {
+        const button = content.previousElementSibling;
+        if (button?.classList.contains('collapsible')) {
+            button.classList.add('active');
+            content.style.display = "block";
+
+            const openIcon = button.querySelector("img.open-icon");
+            const closeIcon = button.querySelector("img.close-icon");
+            if (openIcon) openIcon.classList.add("hidden");
+            if (closeIcon) closeIcon.classList.remove("hidden");
+        }
+    }
+
+    // Step 3: Delay scroll until DOM has reflowed
+    setTimeout(() => {
+        console.log("scrolling to:", target.id);
+        scrollWithOffset(target);
+    }, 250); // Adjust if necessary
+}
+
+// Handle clicks on .anchor-link elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicks on .anchor-link elements
+    document.querySelectorAll('.anchor-link, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const anchorId = this.getAttribute('href').substring(1);
+            const fullUrl = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            navigator.clipboard.writeText(fullUrl); // Copy full link to clipboard
+            history.pushState(null, '', `#${anchorId}`); // Update URL without page reload
+            expandToAnchor(anchorId); // Expand and scroll
+        });
+    });
+
+    // On initial load with hash
+    if (window.location.hash) {
+        const anchorId = window.location.hash.substring(1);
+        // Wait a bit for collapsibles/content to render
+        setTimeout(() => {
+            expandToAnchor(anchorId);
+        }, 200);
+    }
+});
+
+
+
+</script>
 
 
     </body>
@@ -3990,6 +3238,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaries = []
 #    data_folder = "sc/ladder-all"
 
+    df = df.drop_duplicates(subset=['Name', 'Class'])
     # Gather data for the report
     clusters = {}
     for cluster, group in df.groupby('Cluster'):
@@ -3997,6 +3246,8 @@ document.addEventListener('DOMContentLoaded', () => {
         character_count = len(sorted_group)
         cluster_percentage = cluster_counts[cluster]
         equipment_counts = {}
+
+        # Process equipment
         for row in sorted_group.itertuples():
             equipment_list = row.Equipment.split(", ")
             for item in equipment_list:
@@ -4016,21 +3267,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     else:
                         equipment_counts[worn][title] = count  # Initialize with real count
 
-
-#            print("🔹 Original Equipment Counts:")
-#            pp.pprint(equipment_counts)
-
         # Extract character file paths for this cluster
         cluster_files = [f"{row.Class.lower()}/{row.Name}.json" for row in sorted_group.itertuples()]
         cluster_files = [path for path in cluster_files if os.path.exists(path)]  # Filter only existing files
 
-        # Get mercenary data **just for this cluster**
+        # Get mercenary data for the cluster
         mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
 
         # Generate HTML report for mercenaries in this cluster
         merc_count = f"<h3>Mercenary Equipment Analysis for Cluster {cluster}</h3>"
-
-        # Mercenary type counts
         merc_count += "<h4>Count of Mercenary Types</h4>"
         for mercenary, count in mercenary_counts.items():
             merc_count += f"<p>{mercenary}: {count}</p>"
@@ -4042,12 +3287,13 @@ document.addEventListener('DOMContentLoaded', () => {
             for title, count in equipment.items():
                 merc_count += f"<p>{title}: {count}</p>"
 
-        # ✅ Fix: Ensure the cluster exists before adding merc_count
+        # Ensure the cluster exists before adding merc_count and avoid overwrite
         if cluster not in clusters:
             clusters[cluster] = {}
 
-        if 'merc_count' not in clusters[cluster]:
-            clusters[cluster]['merc_count'] = merc_count
+        clusters[cluster].update({
+            'merc_count': merc_count,
+        })
 
         # Calculate total counts for each category
         total_counts = {
@@ -4075,7 +3321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         top_equipment_str = "<br>".join(top_equipment_str_list)
 
-        # Use sorted_equipment_counts for full display
+        # Full display of equipment counts
         sorted_equipment_counts = {
             worn: dict(sorted(titles.items(), key=lambda item: item[1], reverse=True))
             for worn, titles in equipment_counts.items()
@@ -4088,7 +3334,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         equipment_counts_str = "<br>".join(equipment_counts_str_list)
 
-
         # Define a helper function to format numbers
         def format_number(num):
             return int(num) if num % 1 == 0 else round(num, 2)
@@ -4100,7 +3345,8 @@ document.addEventListener('DOMContentLoaded', () => {
         other_skills = skill_averages.loc[cluster].drop(top_skills)
         other_skills = other_skills[other_skills > 0].nlargest(6)
         other_skills_pie = "<br>".join([f"{skill} ({format_number(avg)})" for skill, avg in other_skills.items()])
-#        other_skills_str = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(other_skills[skill] * character_count)})" for skill in other_skills.index])
+
+        # Other skills display with icons
         other_skills_str = "<br>".join([
             f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
             f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
@@ -4112,7 +3358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         # Filter remaining skills, ignoring those with zero points
         remaining_skills = skill_averages.loc[cluster].sort_values(ascending=False)
         remaining_skills = remaining_skills[remaining_skills > 0]
-#        remaining_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
+
         remaining_skills_str2 = "<br>".join([
             f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
             f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
@@ -4120,38 +3366,19 @@ document.addEventListener('DOMContentLoaded', () => {
             f"({format_number(remaining_skills[skill] * character_count)})</span>"
             for skill in remaining_skills.index
         ])
-#        remaining_skills_str_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str_with_icons = "\n".join([
-            "<div class='skills-group'>" + "\n".join([
-                "<div class='skills-row'>" +
-                "\n".join([
-                    f"<div class='skill-item'>"
-                    f"<div class='skillbar-container'>"
-                    f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
-                    f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
-                    f"</div>"
-                    f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
-                    f"</div>"
-                    f"</div>"
-                    for skill in remaining_skills.index[row:row+2]
-                ]) +
-                "</div>"  # Close row
-                for row in range(i, min(i+10, len(remaining_skills.index)), 2)
-            ]) + "</div>"  # Close group
-            for i in range(0, len(remaining_skills.index), 10)
-        ])
-    #    all_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({round(remaining_skills[skill] * character_count, 2)})" for skill in all_skills.index])
-    #    all_skills_str2_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({round(remaining_skills[skill] * character_count, 2)})" for skill in all_skills.index])
-        sorted_summary_label = ""
+
+        # Sorted summary label
         summary_labels = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
         summary = f"{cluster_percentage:.2f}% of {what_class}'s invest heavily in " + ", ".join(summary_labels)
-        summaries.append((cluster_percentage, summary))
 
-        clusters[cluster] = {
-    #        'label': f"{cluster_percentage:.2f}% of {what_class}'s: <br>" + "<br>".join([f"{skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-#            'label': f"{cluster_percentage:.2f}%  of {what_class}'s Main Skills:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-            'label': f"{cluster_percentage:.2f}% of {what_class}'s Main Skills:<br>" + "".join([
+        clusters[cluster].update({
+            'label': f'<div id="cluster-{cluster}">' +
+#                    f"{cluster_percentage:.2f}% of {what_class}'s are {class_name}'s:" +
+                    f"{cluster_percentage:.2f}% of {what_class}'s are {cluster}'s:" +
+                    f'<a href="#cluster-{cluster}" class="anchor-link">' +
+                    f'<img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a>' +
+                    '<br>' +
+                    "".join([
                 f"""
                 <div class="skillbar-container">
                     <div class="skill-row">
@@ -4166,38 +3393,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 """
                 for skill, avg, percent in top_skills_with_avg_and_percent[cluster]
             ]),
-           'character_count': character_count,
+            'character_count': character_count,
             'other_skills': other_skills_str,
             'other_skills_pie': other_skills_pie,
             'characters': [{'name': row.Name, 'level': row.Level, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class } for row in sorted_group.itertuples()],
-            'top_equipment': top_equipment_str,  # Add top equipment to the data
+            'top_equipment': top_equipment_str,
             'equipment_counts': equipment_counts_str,
-            'remaining_skills_with_icons': remaining_skills_str_with_icons,
-            'remaining_skills_str2': remaining_skills_str2,  # Add remaining skills string for display without icons
-    #        'all_skills_str2': all_skills_str2,
-    #        'all_skills_str2_with_icons' : all_skills_str2_with_icons
-            'top_5_most_used_skills': top_5_most_used_skills,
-            'bottom_5_least_used_skills': bottom_5_least_used_skills,
-            'summary_label' : summary_label, 
-            'merc_count': merc_count,
-#            'mercenary': row.Mercenary,  # Store mercenary type
-#            'mercenary_equipment': row.MercenaryEquipment  # Store mercenary's items
-            'mercenary': mercenary,  # Store mercenary type
-            'mercenary_equipment': mercenary_equipment,  # Store mercenary's items
-            
-        }
+#            'remaining_skills_with_icons': remaining_skills_str_with_icons,
+            'remaining_skills_str2': remaining_skills_str2,
+            'summary_label': summary,
+            'mercenary': mercenary,
+            'mercenary_equipment': mercenary_equipment,
+        })
+
         mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
         
 
 
-    # Ensure the correct percentage values are used
+    # Rename groupby to reflect you're grouping by class now
     pie_data = df.groupby('Cluster').agg({
-        'Percentage': 'mean',  # Get the mean percentage for each cluster
-        'Cluster_Label': 'first'  # Use the first cluster label as representative
+        'Percentage': 'mean',  # This is still fine
+        'Cluster_Label': 'first'  # You can replace this if it's not needed
     }).reset_index()
 
-    # Include other_skills in customdata
-    pie_data['other_skills_pie'] = pie_data['Cluster'].map(lambda cluster: clusters[cluster]['other_skills_pie'])
+    # Add the class name explicitly
+    pie_data['Class'] = pie_data['Cluster']  # Since Cluster == Class
 
     # Combine cluster label and percentage for the pie chart labels
     pie_data['Cluster_Label_Percentage'] = pie_data.apply(lambda row: f"{row['Percentage']:.2f}% - Main Skills and avg points: {row['Cluster_Label']}", axis=1)
@@ -4211,18 +3431,17 @@ document.addEventListener('DOMContentLoaded', () => {
     color_palette = px.colors.qualitative.Safe  # You can change this to Vivid, Bold, etc.
     color_map = {cluster: color_palette[i % len(color_palette)] for i, cluster in enumerate(unique_clusters)}
 
-    # Create a pie chart
     fig_pie = px.pie(
         pie_data,
         values='Percentage',
-        names='Cluster_Label_Percentage',
-        title=f"{what_class} Skills Distribution",
-        hover_data={'Cluster_Label': True, 'other_skills_pie': True},
-        color_discrete_map={row['Cluster_Label_Percentage']: color_map[row['Cluster']] for _, row in pie_data.iterrows()}  # ✅ Maps labels to the same colors
+        names='Class',  # ✅ Show the class name directly on the pie
+        title=f"Base Class Distribution",
+        hover_data={'Class': True, 'Cluster_Label': True},
+        color_discrete_map={row['Class']: color_map[row['Cluster']] for _, row in pie_data.iterrows()}
     )
 
     # Update customdata to pass Cluster_Label
-    fig_pie.update_traces(customdata=pie_data[['Cluster_Label', 'other_skills_pie']])
+#    fig_pie.update_traces(customdata=pie_data[['Cluster_Label', 'other_skills_pie']])
 
     # Customize the hover template for the pie chart
     fig_pie.update_traces(
@@ -4261,47 +3480,6 @@ document.addEventListener('DOMContentLoaded', () => {
     # Save the pie chart as a PNG file
     fig_pie.write_image(f"pod-stats/charts/{what_class}-clusters_distribution_pie.png")
 
-    # Create a DataFrame for visualization
-    plot_data = pd.DataFrame({
-        'PCA1': reduced_data[:, 0],
-        'PCA2': reduced_data[:, 1],
-        'Cluster': df['Cluster'],
-        'Cluster_Label': df['Cluster_Label'],
-        'Percentage': df['Percentage']
-    })
-
-    # Create an interactive scatter plot
-    fig_scatter = px.scatter(
-        plot_data,
-        x='PCA1',
-        y='PCA2',
-        color='Cluster',  # Assign color based on the cluster
-        title=f"{what_class} Skill Clusters (Ladder Top 200 {what_class}'s Highlighted)<br>This highlights how similar (or not) a character is to the rest<br>The tighter the grouping, the more they are alike",
-        hover_data={'Cluster_Label': True, 'Percentage': ':.2f%', 'Cluster': True},
-        color_discrete_map=color_map  # Use the same colors as the pie chart
-    )
-
-    # Customize the legend labels
-    for trace in fig_scatter.data:
-        if trace.name.isnumeric():  # Ensure that the trace name is numeric
-            trace.update(name=legend_labels[int(trace.name)])
-
-    # Customize hover template to include top skills and percentage
-    fig_scatter.update_traces(
-        hovertemplate="<b>Cluster skills and average point investment:</b><br> %{customdata[0]}<br>" +
-                    "This cluster (%{customdata[2]}) makes up %{customdata[1]:.2f}% of the total<extra></extra>"
-    )
-
-    # Hide the axis titles and tick labels
-    fig_scatter.update_layout(
-        xaxis_title=None,
-        yaxis_title=None,
-        xaxis_showticklabels=False,
-        yaxis_showticklabels=False
-    )
-
-    # Save the scatter plot as a PNG file
-    fig_scatter.write_image(f"pod-stats/charts/{what_class}-clusters_with_avg_points.png")
 
     print("Pie chart and scatter plot saved as PNG files.")
 
@@ -4591,8 +3769,9 @@ def GetUniqueProjectiles():
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+                <a class="is-48x48" href="https://beta.pathofdiablo.com/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
     <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <br>
         <span></span>
         <span></span>
         <span></span>
@@ -4600,7 +3779,7 @@ def GetUniqueProjectiles():
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/servers">Servers</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
@@ -4616,8 +3795,15 @@ def GetUniqueProjectiles():
                             <button class="dropdown2-button">Trends History</button>
                             <div class="dropdown2-content">
                                 <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
+                                <div class="dropdown2-item dropdown-sub">
+                                    <a class="dropdown-sub-button">S13</a>
+                                    <div class="dropdown-sub-content">
+                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4630,22 +3816,21 @@ def GetUniqueProjectiles():
             <div class="line"></div>
         </div>
         <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
+            <a href="Home" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
+            <a href="Amazon" id="Amazon" class="top-button amazon-button"></a>
+            <a href="Assassin" id="Assassin" class="top-button assassin-button"></a>
+            <a href="Barbarian" id="Barbarian" class="top-button barbarian-button"></a>
+            <a href="Druid" id="Druid" class="top-button druid-button"></a>
+            <a href="Necromancer" id="Necromancer" class="top-button necromancer-button"></a>
+            <a href="Paladin" id="Paladin" class="top-button paladin-button"></a>
+            <a href="Sorceress" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
 
         <h1>Unique Arrows and Bolts </h1>
         <div class="summary-container">
-        <br>
-        <h3>Let's see which Unique projectiles are being used</h3>
+        <h3>Which Unique projectiles are in use</h3>
 
         {% for clusters, data in clusters.items() %}
         <!--<h2>{{ data['label'] }}</h2>
@@ -4703,7 +3888,7 @@ def GetUniqueProjectiles():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
+        <div class="character-link"><strong>Name: <a href="https://beta.pathofdiablo.com/armory?name={{ character['name'] }}" target="_blank">
                 {{ character['name'] }}
             </a></strong></div>
         <div>Level: {{ character['level'] }}</div>
@@ -4746,9 +3931,9 @@ def GetUniqueProjectiles():
         </div>
 
         <!-- Embed the Plotly scatter plot -->
-        <div>
+<!--        <div>
             <img src="charts/{{ what_class }}-clusters_with_avg_points.png" alt="{{ what_class }} Skill Clusters Scatter Plot">
-        </div>
+        </div> -->
         <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
             <div class="footer">
             <p>PoD data current as of {{ timeStamp }}</p>
@@ -4758,6 +3943,7 @@ def GetUniqueProjectiles():
 
 
 <script>
+// Collapsible elemets
 var coll = document.getElementsByClassName("collapsible");
 for (var i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -4779,7 +3965,7 @@ for (var i = 0; i < coll.length; i++) {
 }
 
 
-//Get the button
+//Back to top button
 var backToTopBtn = document.getElementById("backToTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
@@ -4799,59 +3985,73 @@ document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+//Trends toolbar
+// Trends toolbar
 function toggleMenu() {
     const navMenu = document.querySelector('.top-buttons');
     navMenu.classList.toggle('show');
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const scHcButton = document.getElementById("SC_HC");
+    const currentUrl = window.location.href;
+    const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+
+    // Check if the current page is Hardcore or Softcore
+    const isHardcore = filename.startsWith("hc");
+
+    // Update button appearance based on current mode
+    if (isHardcore) {
+        scHcButton.classList.add("hardcore");
+        scHcButton.classList.remove("softcore");
+    } else {
+        scHcButton.classList.add("softcore");
+        scHcButton.classList.remove("hardcore");
+    }
+
+    // Update background image based on mode
+    updateButtonImage(isHardcore);
+
+    // Add click event to toggle between SC and HC pages
+    scHcButton.addEventListener("click", function () {
+        let newUrl;
+
+        if (isHardcore) {
+            // Convert HC -> SC (remove "hc" from filename)
+            newUrl = currentUrl.replace(/hc(\w+)$/, "$1"); // Remove "hc"
+        } else {
+            // Convert SC -> HC (prepend "hc" to the filename)
+            newUrl = currentUrl.replace(/\/(\w+)$/, "/hc$1"); // Prepend "hc"
+        }
+
+        // Redirect to the new page
+        if (newUrl !== currentUrl) {
+            window.location.href = newUrl;
+        }
+    });
+
+    // Function to update button background image
+    function updateButtonImage(isHardcore) {
+        if (isHardcore) {
+            scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
+        } else {
+            scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
+        }
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+    const menuItems = document.querySelectorAll(".top-button");
 
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
+    menuItems.forEach(item => {
+        const itemPage = item.getAttribute("href");
+        if (itemPage && currentPage === itemPage) {
+            item.classList.add("active");
+        }
+    });
 });
 
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
 
 document.addEventListener("DOMContentLoaded", function () {
 const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
@@ -4865,6 +4065,7 @@ item.classList.add("active");
 });
 });
 
+//Armory pop up
 document.addEventListener("DOMContentLoaded", function () {
 let activePopup = null;
 
@@ -4912,6 +4113,8 @@ activePopup = null;
 });
 });
 
+
+//PoD nav buttons
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.navbar-burger');
     const menu = document.querySelector('.navbar-menu');
@@ -4938,6 +4141,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+//Anchor in place fix
+// Expand collapsibles and scroll to anchor
+function scrollWithOffset(el, offset = -50) {
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+function expandToAnchor(anchorId) {
+    console.log("expandToAnchor called with:", anchorId);
+    const target = document.getElementById(anchorId);
+    if (!target) return;
+
+    // Step 1: Collect all parent .content elements that need expanding
+    const stack = [];
+    let el = target;
+    while (el) {
+        if (el.classList?.contains('content')) {
+            stack.unshift(el); // add to beginning to expand outermost first
+        }
+        el = el.parentElement;
+    }
+
+    // Step 2: Expand each .content section in order
+    for (const content of stack) {
+        const button = content.previousElementSibling;
+        if (button?.classList.contains('collapsible')) {
+            button.classList.add('active');
+            content.style.display = "block";
+
+            const openIcon = button.querySelector("img.open-icon");
+            const closeIcon = button.querySelector("img.close-icon");
+            if (openIcon) openIcon.classList.add("hidden");
+            if (closeIcon) closeIcon.classList.remove("hidden");
+        }
+    }
+
+    // Step 3: Delay scroll until DOM has reflowed
+    setTimeout(() => {
+        console.log("scrolling to:", target.id);
+        scrollWithOffset(target);
+    }, 250); // Adjust if necessary
+}
+
+// Handle clicks on .anchor-link elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicks on .anchor-link elements
+    document.querySelectorAll('.anchor-link, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const anchorId = this.getAttribute('href').substring(1);
+            const fullUrl = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            navigator.clipboard.writeText(fullUrl); // Copy full link to clipboard
+            history.pushState(null, '', `#${anchorId}`); // Update URL without page reload
+            expandToAnchor(anchorId); // Expand and scroll
+        });
+    });
+
+    // On initial load with hash
+    if (window.location.hash) {
+        const anchorId = window.location.hash.substring(1);
+        // Wait a bit for collapsibles/content to render
+        setTimeout(() => {
+            expandToAnchor(anchorId);
+        }, 200);
+    }
+});
+
+
+
 </script>
 
 
@@ -5168,11 +4443,36 @@ document.addEventListener('DOMContentLoaded', () => {
         # Output results (example: print summaries)
 #        for summary in summaries:
 #            print(summary)
+        projectile_extras = {
+            "Hailstorm Arrows": "(Glacial Spike During Strafe)",
+            "Hailstorm Bolts": "(Glacial Spike During Strafe)",
+            "Moonfire Arrows": "(Magic Arrow)",
+            "Moonfire Bolts": "(Magic Arrow)",
+            "Swiftheart Arrows": "(+Strafe)",
+            "Swiftheart Bolts": "(+Strafe)",
+            "Dragonbreath Arrows": "(Fires explosive w/ larger radius)",
+            "Dragonbreath Bolts": "(Fires explosive w/ larger radius)",
+            "Frostbite Arrows": "(Freezing Arrow Radius)",
+            "Frostbite Bolts": "(Freezing Arrow Radius)",
+        }
+
+        cluster_prefix = cluster.lower().split()[0]
+        extra = projectile_extras.get(cluster_prefix, '')
 
         clusters[cluster] = {
     #        'label': f"{cluster_percentage:.2f}% of {what_class}'s: <br>" + "<br>".join([f"{skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
 #            'label': f"{cluster} make up {cluster_percentage:.2f}%  of Unique Projectiles in use <br>Most popular skills used by characters with them equipped:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-            'label': f"{cluster_percentage:.2f}% of Unique Arrows and Bolts are {cluster}:<br>" + "".join([
+#            'label': f"{cluster_percentage:.2f}% of {what_class}'s Main Skills:" + f'<a href="#cluster-{cluster}" class="anchor-link"><img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a><br>'+ "".join([
+#            'label': f"{cluster_percentage:.2f}% of Unique Arrows and Bolts are {cluster}:" + f'<a href="#cluster-{cluster}" class="anchor-link"><img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a><br>'+ "".join([
+            'label': f'<div id="cluster-{cluster}">' +
+#                    f"{cluster_percentage:.2f}% of Unique Arrows and Bolts are {cluster}:" +
+#                    f"{cluster_percentage:.2f}% are {cluster} {extra}:" +
+#                    f"{cluster_percentage:.2f}% are {cluster} {projectile_extras.get(cluster, '')}:"
+                    f"{cluster} {projectile_extras.get(cluster, '')}:"
+                    f'<a href="#cluster-{cluster}" class="anchor-link">' +
+                    f'<img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a>' +
+                    '<br>' +
+                    "".join([
                 f"""
                 <div class="skillbar-container">
                     <div class="skill-row">
@@ -5289,1921 +4589,6 @@ document.addEventListener('DOMContentLoaded', () => {
     print(f"Cluster analysis report saved to {output_file}")
 
 #GetUniqueProjectiles()
-
-###############################################################
-#
-# Get Bong and Warpspear 
-#
-import requests
-import os
-import time
-# Get non zon
-import pandas as pd
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-import plotly.express as px
-import json
-import os
-from jinja2 import Template
-
-# Chargers
-# Hithub push
-import subprocess
-
-from collections import defaultdict, Counter
-import json
-import pandas as pd
-
-def GetBong():
-    icons_folder = "icons"
-    what_class = "Bong_and_Warpspear"
-    search_tags = {"The Iron Jang Bong", "Warpspear"}  # ✅ Use a set for faster lookups
-    howmany_clusters = 2
-    howmany_skills = 4
-
-    # ✅ Load consolidated JSON
-    with open("sc_ladder.json", "r") as file:
-        all_characters = json.load(file)
-
-    # ✅ Filter characters who have the item equipped
-    filtered_characters = []
-    for char_data in all_characters:
-        if not isinstance(char_data, dict):
-            continue
-        
-        # Add columns with default 0
-        char_data["The Iron Jang Bong"] = 0
-        char_data["Warpspear"] = 0
-
-        for item in char_data.get("Equipped", []):
-            if item.get("Title") == "The Iron Jang Bong":
-                char_data["The Iron Jang Bong"] = 1
-            elif item.get("Title") == "Warpspear":
-                char_data["Warpspear"] = 1
-
-        # Only add character if they have one of the items
-        if char_data["The Iron Jang Bong"] or char_data["Warpspear"]:
-            filtered_characters.append(char_data)
-
-    def map_readable_names(mercenary_type, worn_category=""):
-        mercenary_mapping = {
-            "Desert Mercenary": "Act 2 Desert Mercenary",
-            "Rogue Scout": "Act 1 Rogue Scout",
-            "Eastern Sorceror": "Act 3 Eastern Sorceror",
-            "Barbarian": "Act 5 Barbarian"
-        }
-        worn_mapping = {
-            "body": "Armor",
-            "helmet": "Helmet",
-            "weapon1": "Weapon",
-            "weapon2": "Offhand"
-        }
-        readable_mercenary = mercenary_mapping.get(mercenary_type, mercenary_type)
-        readable_worn = worn_mapping.get(worn_category, worn_category)
-        return readable_mercenary, readable_worn
-
-    def load_data(filtered_characters):
-        all_data = []
-        quality_colors = {
-            "q_runeword": "#edcd74",
-            "q_unique": "#edcd74",
-            "q_set": "#45a823",
-            "q_magic": "#7074c9",
-            "q_rare": "yellow",
-            "q_crafted": "orange"
-        }
-
-        for char_data in filtered_characters:
-            if "SkillTabs" in char_data and "Equipped" in char_data:
-                skill_data = {
-                    "Name": char_data.get("Name", "Unknown"),
-                    "Class": char_data.get("Class", "Unknown"),
-                    "Level": char_data.get("Stats", {}).get("Level", "Unknown"),
-                    "The Iron Jang Bong": char_data["The Iron Jang Bong"],  # ✅ Keep filtered data
-                    "Warpspear": char_data["Warpspear"],  # ✅ Keep filtered data
-                }
-
-                # ✅ Extract and sort skills
-                skills = []
-                for tab in char_data.get('SkillTabs', []):
-                    for skill in tab.get('Skills', []):
-                        skill_name = skill['Name']
-                        skill_level = skill['Level']
-                        skill_data[skill_name] = skill_level  # ✅ Creates a separate column for each skill
-                        skills.append((skill_name, skill_level))
-
-                skills_sorted = sorted(skills, key=lambda x: x[1], reverse=True)
-                skill_data["Skills"] = ", ".join([f"{name}:{level}" for name, level in skills_sorted])
-
-                # ✅ Process equipment
-                equipment_titles = defaultdict(Counter)
-                for item in char_data["Equipped"]:
-                    worn_category = item.get("Worn", "Unknown")
-                    title = item.get("Title", "Unknown")
-                    quality_code = item.get("QualityCode", "default")
-                    tag = item.get("Tag", "")
-
-                    # ✅ Standardize worn category names
-                    worn_category = {
-                        "ring1": "Ring", "ring2": "Ring",
-                        "sweapon1": "Left hand", "weapon1": "Left hand",
-                        "sweapon2": "Offhand", "weapon2": "Offhand",
-                        "body": "Armor", "gloves": "Gloves",
-                        "belt": "Belt", "helmet": "Helmet",
-                        "boots": "Boots", "amulet": "Amulet"
-                    }.get(worn_category, worn_category)
-
-                    # ✅ Set colored title
-                    color = quality_colors.get(quality_code, "white")
-                    if quality_code in ["q_magic", "q_rare", "q_crafted"]:
-                        formatted_tag = f" {tag}" if tag else ""  # Avoids extra space if `tag` is empty
-                        colored_title = f"<span style='color: {color};'>{quality_code.split('_')[1].capitalize()}{formatted_tag}</span>"
-                    else:
-                        colored_title = f"<span style='color: {color};'>{title}</span>"
-
-                    equipment_titles[worn_category][colored_title] += 1
-
-                # ✅ Convert equipment data to a readable string
-                skill_data["Equipment"] = ", ".join([
-                    f"{worn}: {title} x{count}" if count > 1 else f"{worn}: {title}"
-                    for worn, titles in equipment_titles.items()
-                    for title, count in titles.items()
-                ])
-
-                # ✅ Process mercenary info
-                mercenary_type = char_data.get("MercenaryType", "No mercenary")
-                readable_mercenary, _ = map_readable_names(mercenary_type)
-                mercenary_equipment = ", ".join(
-                    [item.get("Title", "Unknown") for item in char_data.get("MercenaryEquipped", [])]
-                ) if char_data.get("MercenaryEquipped") else "No equipment"
-
-                skill_data["Mercenary"] = readable_mercenary
-                skill_data["MercenaryEquipment"] = mercenary_equipment
-
-                all_data.append(skill_data)
-
-        return pd.DataFrame(all_data).fillna(0)  # ✅ Fill missing skills with 0
-
-    # ✅ Load the data
-    df = load_data(filtered_characters)#    return df  # ✅ Ensure function returns the DataFrame
-
-    # Define skill columns (exclude non-skill columns)
-    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment', 'Mercenary', 'MercenaryEquipment'] + list(search_tags)]
-#    print("🔍 Sample DataFrame:\n", df.head())
-
-#    print("🧐 Checking columns:", df.columns)
-#    print("🔍 Unique values in 'The Iron Jang Bong':", df.get("The Iron Jang Bong", pd.Series()).unique())
-#    print("🔍 Unique values in 'Warpspear':", df.get("Warpspear", pd.Series()).unique())
-
-#    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment'] + search_tags]
-
-   # Create clusters based on item presence
-    df["Cluster"] = df.apply(
-        lambda row: "The Iron Jang Bong" if row["The Iron Jang Bong"] > 0
-        else ("Warpspear" if row["Warpspear"] > 0 else "Other"), axis=1
-    )
-#    print("📝 DataFrame Columns:", df.columns)
-#    print("🔍 Sample Data:", df.head())
-
-    # Group by clusters and count characters
-    cluster_counts = df.groupby("Cluster")["Name"].count()
-
-    # Calculate the average points invested in skills per cluster
-    df['Total_Points'] = df[skill_columns].sum(axis=1)
-    cluster_averages = df.groupby('Cluster')['Total_Points'].mean().reset_index()
-    cluster_averages.columns = ['Cluster', 'Avg_Points']
-
-    # Merge the averages back into the main DataFrame
-    df = pd.merge(df, cluster_averages, on='Cluster')
-
-    # Get skill averages per cluster
-    skill_averages = df.groupby('Cluster')[skill_columns].mean()
-
-    # Identify the top skills per cluster with their average points
-    top_skills_with_avg = skill_averages.apply(lambda x: [(skill, round(x[skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
-
-    # Calculate the correct percentages for each cluster
-    cluster_counts = df['Cluster'].value_counts(normalize=True) * 100
-    df['Percentage'] = df['Cluster'].map(cluster_counts)
-
-    # Map clusters to meaningful names (top skills with average points)
-    cluster_labels = {cluster: f"{cluster} users favor the skills " + ", ".join([f"{skill} {avg:.2f}%" for skill, avg in skills]) for cluster, skills in top_skills_with_avg.items()}
-    df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
-
-    # Updated HTML template
-    html_template = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>{{ what_class }} Analysis Report</title>
-        <link rel="stylesheet" type="text/css" href="./css/test-css.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    </head>
-    <body class="not-main">
-        <div class="is-clipped">
-        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
-
-            <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
-    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>            </div>
-            <div id="podNavbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
-                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
-                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
-                </div>
-                <div class="navbar-end">
-
-                    <div class="navbar-start">	
-                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
-                        <div class="navbar-item dropdown2">
-                            <button class="dropdown2-button">Trends History</button>
-                            <div class="dropdown2-content">
-                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </nav>  
-
-        <div class="hamburger hamburger2" onclick="toggleMenu()">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
-            <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
-            <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
-        </div>
-
-            <h1>Warpspear and The Iron Jang Bong Usage </h1>
-            <div class="summary-container">
-                <br>
-        <h3>This is characters who have Warpspear or The Iron Jang Bong equipped</h3>
-            
-            <p class="indented-skills"> </p>
-
-
-<!--        <h2>Detailed Grouping Information, Ordered Highest to Lowest %</h2>-->
-
-        {% for clusters, data in clusters.items() %}
-        <!--<h2>{{ data['label'] }}</h2>
-        <p class="indented-skills"><strong>Other Skills:<br></strong> {{ data['other_skills'] }}</p> -->
-        <div class="class-intro">
-        <div id="skills" class="skills-container">
-            <div class="column">
-                <ul id="most-popular-skills">
-                    <h2>{{ data['label'] }}</h2>
-                </ul>
-            </div>
-<!--            <div class="column">
-                <ul id="other-skills">
-                    <h2>Other common skills in this group:</h2> {{ data['other_skills'] }}
-                </ul>
-            </div> -->
-        </div>
-
-    <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>All Skills</strong></button>
-                <div class="content">
-                    <div>{{ data['remaining_skills_with_icons'] }}</div>
-                </div>
-
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>Most Common Equipment:</strong></button>
-                <div class="content">
-                    <div>{{ data['top_equipment'] }}</div>
-                </div>
-<!--            
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>ALL Equipment:</strong></button>
-                <div class="content">
-                    <div>{{ data['equipment_counts'] }}</div>
-                </div>
--->
-            <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>{{ data['character_count'] }} Characters in this cluster:</strong>
-        </button>
-        <div class="content">
-{% for character in data['characters'] %}
-<!--
-<div class="character-container {% if loop.index is even %}char1{% else %}char2{% endif %}">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}
-            </a></strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
-        <div class="hover-trigger" data-character-name="{{ character['name'] }}">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> {{ character['skills'] }}</p>
-    <p><strong>Equipment:<br></strong> {{ character['equipment'] }}</p>
-    <p><strong>Mercenary:<br></strong> {{ character['mercenary'] }} - {{ character['mercenary_equipment'] }}</p>
-
-    <div class="character-section" data-character-name="{{ character['name'] }}"></div>
-</div>
-<hr color="#141414">
-<br>
-{% endfor %}
-            <br>
-            </div>
-            </div>
-        <!--    <hr width="90%"> -->
-            <br>
-            {% endfor %}
-                <h3>Top 5 Most Popular {{ what_class }} Skills:</h3>
-            <ul>
-                {% for skill, usage in top_5_most_used_skills.items() %}
-                <li>{{ skill }}: {{ usage }}</li>
-                {% endfor %}
-            </ul>
-
-            <h3>Bottom 5 Least Popular {{ what_class }} Skills:</h3>
-            <ul>
-                {% for skill, usage in bottom_5_least_used_skills.items() %}
-                <li>{{ skill }}: {{ usage }}</li>
-                {% endfor %}
-            </ul>
-            <br>
-            <hr>
-            <br>
-        <p class="indented-skills">Popular builds include:<br>{{ summary_label }} </p>
-            <br>
-            </div>
-            <br><br>
-                    <!-- Embed the Plotly pie chart -->
-<!--            <div>
-                <img src="charts/{{ what_class }}-clusters_distribution_pie.png" alt="{{ what_class }} Skills Distribution">
-            </div> 
--->
-            <!-- Embed the Plotly scatter plot -->
-<!--            <div>
-                <img src="charts/{{ what_class }}-clusters_with_avg_points.png" alt="{{ what_class }} Skill Clusters Scatter Plot">
-            </div>
- -->
-           <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
-
-            <div class="footer">
-            <p>PoD class data current as of {{ timeStamp }}</p>
-            </div>            
-        
-
-
-
-<script>
-var coll = document.getElementsByClassName("collapsible");
-for (var i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        var openIcon = this.querySelector("img.icon[alt='Open']");
-        var closeIcon = this.querySelector("img.icon[alt='Close']");
-
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            openIcon.classList.remove("hidden");
-            closeIcon.classList.add("hidden");
-        } else {
-            content.style.display = "block";
-            openIcon.classList.add("hidden");
-            closeIcon.classList.remove("hidden");
-        }
-    });
-}
-</script>
-
-<script>
-//Get the button
-var backToTopBtn = document.getElementById("backToTopBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-backToTopBtn.style.display = "block";
-} else {
-backToTopBtn.style.display = "none";
-}
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-document.body.scrollTop = 0; // For Safari
-document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-function toggleMenu() {
-    const navMenu = document.querySelector('.top-buttons');
-    navMenu.classList.toggle('show');
-}
-
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
-
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
-});
-
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
-const menuItems = document.querySelectorAll(".top-button");
-
-menuItems.forEach(item => {
-const itemPage = item.getAttribute("href");
-if (itemPage && currentPage === itemPage) {
-item.classList.add("active");
-}
-});
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-let activePopup = null;
-
-document.querySelectorAll(".hover-trigger").forEach(trigger => {
-trigger.addEventListener("click", function (event) {
-event.stopPropagation();
-const characterName = this.getAttribute("data-character-name");
-
-// Close any open popup first
-if (activePopup) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe for memory efficiency
-activePopup = null;
-}
-
-// Find the associated popup container
-const popup = this.closest(".character-info").nextElementSibling.querySelector(".popup");
-
-// If this popup was already active, just close it
-if (popup === activePopup) {
-return;
-}
-
-// Create an iframe and set its src
-const iframe = document.createElement("iframe");
-iframe.src = `./armory/video_component.html?charName=${encodeURIComponent(characterName)}`;
-iframe.setAttribute("id", "popupFrame");
-
-// Add iframe to the popup
-popup.appendChild(iframe);
-popup.classList.add("active");
-
-// Set this popup as the active one
-activePopup = popup;
-});
-});
-
-// Close the popup when clicking anywhere outside
-document.addEventListener("click", function (event) {
-if (activePopup && !activePopup.contains(event.target)) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe to free memory
-activePopup = null;
-}
-});
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.querySelector('.navbar-burger');
-    const menu = document.querySelector('.navbar-menu');
-
-    burger.addEventListener('click', () => {
-        menu.classList.toggle('is-active');
-        burger.classList.toggle('is-active');
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdownButton = document.querySelector('.dropdown2-button');
-    const dropdownContent = document.querySelector('.dropdown2-content');
-
-    dropdownButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevents clicks from propagating to other elements
-        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
-    });
-
-    // Close the dropdown if you click anywhere outside it
-    document.addEventListener('click', () => {
-        if (dropdownContent.classList.contains('is-active')) {
-            dropdownContent.classList.remove('is-active');
-        }
-    });
-});
-</script>
-
-
-
-    </body>
-    </html>
-    """
-
-    def analyze_mercenaries(characters):
-        mercenary_counts = Counter()
-        mercenary_equipment = defaultdict(lambda: defaultdict(Counter))
-
-        for char_data in characters:
-            if not isinstance(char_data, dict):
-                print(f"Skipping unexpected data format: {char_data}")
-                continue  # Skip invalid entries
-
-            mercenary = char_data.get("MercenaryType")
-            if mercenary:
-                readable_mercenary, _ = map_readable_names(mercenary, "")
-                mercenary_counts[readable_mercenary] += 1
-
-                for item in char_data.get("MercenaryEquipped", []):
-                    worn_category = item.get("Worn", "Unknown")
-                    readable_mercenary, readable_worn = map_readable_names(mercenary, worn_category)
-                    title = item.get("Title", "Unknown")
-                    mercenary_equipment[readable_mercenary][readable_worn][title] += 1
-
-        return mercenary, mercenary_counts, mercenary_equipment
-
-    # Assuming df is your DataFrame and skill_columns contains the column names for the skills
-
-    # Calculate the total usage of each skill across all clusters
-    total_skill_usage = df[skill_columns].sum()
-
-    # Sort skills by total usage in descending order
-    most_used_skills = total_skill_usage.sort_values(ascending=False)
-
-    # Sort skills by total usage in ascending order
-    least_used_skills = total_skill_usage.sort_values(ascending=True)
-
-    # Extract the top 5 most used skills
-    top_5_most_used_skills = most_used_skills.head(5)
-
-    # Extract the bottom 5 least used skills
-    bottom_5_least_used_skills = least_used_skills.head(5)
-
-
-    # Calculate the percentage of characters that have invested in each skill within the cluster
-    skill_percentages = df[skill_columns].astype(bool).groupby(df['Cluster']).mean() * 100
-
-    # Identify the top skills per cluster with their average points and percentages
-    top_skills_with_avg_and_percent = skill_averages.apply(lambda x: [(skill, round(x[skill], 2), round(skill_percentages.loc[x.name, skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
-
-    summary_label = ""
-    summaries = []
-#    data_folder = "sc/ladder-all"
-    # Generate the cluster labels
-    cluster_labels = {cluster: f"{cluster} users favor the skills: " + ", ".join([f"{skill} ({avg}%)" for skill, avg in skills]) for cluster, skills in top_skills_with_avg.items()}
-    df['Cluster_Label'] = df['Cluster'].map(cluster_labels)
-
-    # Combine summaries into a single string
-    summary_label = "<br>".join(df['Cluster_Label'].unique())
-
-    # Gather data for the report
-    clusters = {}
-    for cluster, group in df.groupby('Cluster'):
-        sorted_group = group.sort_values(by='Level', ascending=False)  # Sort by level descending
-        character_count = len(sorted_group)
-        cluster_percentage = cluster_counts[cluster]
-        equipment_counts = {}
-        for row in sorted_group.itertuples():
-            equipment_list = row.Equipment.split(", ")
-            for item in equipment_list:
-                if item:
-                    worn, title_count = item.split(": ", 1)
-                    if " x" in title_count:
-                        title, count = title_count.split(" x", 1)
-                        count = int(count)
-                    else:
-                        title = title_count
-                        count = 1
-
-                    if worn not in equipment_counts:
-                        equipment_counts[worn] = {}
-                    if title in equipment_counts[worn]:
-                        equipment_counts[worn][title] += count
-                    else:
-                        equipment_counts[worn][title] = count  # Initialize with real count
-
-        # Extract character file paths for this cluster
-        cluster_files = [f"{row.Class.lower()}/{row.Name}.json" for row in sorted_group.itertuples()]
-        cluster_files = [path for path in cluster_files if os.path.exists(path)]  # Filter only existing files
-
-        # Get mercenary data **just for this cluster**
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-        # Generate HTML report for mercenaries in this cluster
-        merc_count = f"<h3>Mercenary Equipment Analysis for Cluster {cluster}</h3>"
-
-        # Mercenary type counts
-        merc_count += "<h4>Count of Mercenary Types</h4>"
-        for mercenary, count in mercenary_counts.items():
-            merc_count += f"<p>{mercenary}: {count}</p>"
-
-        # Mercenary equipment titles
-        merc_count += "<h4>Equipment Titles</h4>"
-        for mercenary, equipment in mercenary_equipment.items():
-            merc_count += f"<p><strong>{mercenary}:</strong></p>"
-            for title, count in equipment.items():
-                merc_count += f"<p>{title}: {count}</p>"
-
-        # ✅ Fix: Ensure the cluster exists before adding merc_count
-        if cluster not in clusters:
-            clusters[cluster] = {}
-
-        if 'merc_count' not in clusters[cluster]:
-            clusters[cluster]['merc_count'] = merc_count
-
-        # Calculate total counts for each category
-        total_counts = {
-            worn: sum(titles.values())
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Calculate the percentages based on total counts
-        equipment_percentages = {
-            worn: {title: (count / total_counts[worn]) * 100 for title, count in titles.items()}
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Get top equipment based on count
-        top_equipment = {
-            worn: sorted(titles.items(), key=lambda item: item[1], reverse=True)[:5]
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Use equipment_percentages for display
-        top_equipment_str_list = []
-        for worn, titles in top_equipment.items():
-            titles_str = "<br>".join([f"&nbsp;&nbsp;&nbsp;&nbsp;{title} {equipment_percentages[worn][title]:.2f}% ({count})" for title, count in titles])
-            top_equipment_str_list.append(f"<strong>{worn.capitalize()}</strong>: <br>{titles_str}")
-
-        top_equipment_str = "<br>".join(top_equipment_str_list)
-
-        # Use sorted_equipment_counts for full display
-        sorted_equipment_counts = {
-            worn: dict(sorted(titles.items(), key=lambda item: item[1], reverse=True))
-            for worn, titles in equipment_counts.items()
-        }
-
-        equipment_counts_str_list = []
-        for worn, titles in sorted_equipment_counts.items():
-            titles_str = ", ".join([f"{title} {equipment_percentages[worn][title]:.2f}%" for title in titles])
-            equipment_counts_str_list.append(f"<strong>{worn.capitalize()}</strong>: {titles_str}")
-
-        equipment_counts_str = "<br>".join(equipment_counts_str_list)
-
-
-        # Define a helper function to format numbers
-        def format_number(num):
-            return int(num) if num % 1 == 0 else round(num, 2)
-
-        # Filter top skills
-        top_skills = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
-
-        # Filter other skills, ignoring those with zero points
-        other_skills = skill_averages.loc[cluster].drop(top_skills)
-        other_skills = other_skills[other_skills > 0].nlargest(6)
-        other_skills_pie = "<br>".join([f"{skill} ({format_number(avg)})" for skill, avg in other_skills.items()])
-#        other_skills_str = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(other_skills[skill] * character_count)})" for skill in other_skills.index])
-        other_skills_str = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(other_skills[skill] * character_count)})</span>"
-            for skill in other_skills.index
-        ])
-
-        # Filter remaining skills, ignoring those with zero points
-        remaining_skills = skill_averages.loc[cluster].sort_values(ascending=False)
-        remaining_skills = remaining_skills[remaining_skills > 0]
-#        remaining_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str2 = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(remaining_skills[skill] * character_count)})</span>"
-            for skill in remaining_skills.index
-        ])
-#        remaining_skills_str_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str_with_icons = "\n".join([
-            "<div class='skills-group'>" + "\n".join([
-                "<div class='skills-row'>" +
-                "\n".join([
-                    f"<div class='skill-item'>"
-                    f"<div class='skillbar-container'>"
-                    f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
-                    f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
-                    f"</div>"
-                    f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
-                    f"</div>"
-                    f"</div>"
-                    for skill in remaining_skills.index[row:row+2]
-                ]) +
-                "</div>"  # Close row
-                for row in range(i, min(i+10, len(remaining_skills.index)), 2)
-            ]) + "</div>"  # Close group
-            for i in range(0, len(remaining_skills.index), 10)
-        ])
-
-        # Generate summaries for each unique Cluster_Label
-        unique_cluster_labels = df['Cluster_Label'].unique()
-
-        summaries = []
-#        data_folder = "sc/ladder-all"
-        for cluster_label in unique_cluster_labels:
-            # Get the rows corresponding to the current cluster label
-            cluster_data = df[df['Cluster_Label'] == cluster_label]
-            
-            # Extract summary labels (e.g., top skills or other details you want to include)
-            summary_labels = cluster_data['Skills'].unique()  # Adjust this based on what summary_labels should contain
-            
-            # Create summary string
-            summary = f"{cluster_label} favor the skills " + ", ".join(summary_labels)
-            summaries.append(summary)
-            
-
-
-
-        clusters[cluster] = {
-#            'label': f"{cluster} users:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-#            'label': f"{cluster_percentage:.2f}% of {cluster} {what_class}'s Main Skills:<br>" + "".join([
-            'label': f"{cluster} users Main Skills:<br>" + "".join([
-                f"""
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar">
-                                <span class="skill-label">{skill} ({int(avg * character_count)})</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                """
-                for skill, avg, percent in top_skills_with_avg_and_percent[cluster]
-            ]),
-            'character_count': character_count,
-            'other_skills': other_skills_str,
-            'other_skills_pie': other_skills_pie,
-            'characters': [{'name': row.Name, 'level': row.Level, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class } for row in sorted_group.itertuples()],
-            'top_equipment': top_equipment_str,  # Add top equipment to the data
-            'equipment_counts': equipment_counts_str,
-            'remaining_skills_with_icons': remaining_skills_str_with_icons,
-            'remaining_skills_str2': remaining_skills_str2,  # Add remaining skills string for display without icons
-            'top_5_most_used_skills': top_5_most_used_skills,
-            'bottom_5_least_used_skills': bottom_5_least_used_skills,
-            'summary_label' : summary_label, 
-            'Cluster_labels' : cluster_labels,
-            'mercenary': mercenary,  # Store mercenary type
-            'mercenary_equipment': mercenary_equipment,  # Store mercenary's items
-            
-        }
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-
-    # Ensure the correct percentage values are used
-    pie_data = df.groupby('Cluster').agg({
-        'Percentage': 'mean',  # Get the mean percentage for each cluster
-        'Cluster_Label': 'first'  # Use the first cluster label as representative
-    }).reset_index()
-
-    # Include other_skills in customdata
-    pie_data['other_skills_pie'] = pie_data['Cluster'].map(lambda cluster: clusters[cluster]['other_skills_pie'])
-
-    # Combine cluster label and percentage for the pie chart labels
-    pie_data['Cluster_Label_Percentage'] = pie_data.apply(lambda row: f"{row['Percentage']:.2f}% - Main Skills and avg points: {row['Cluster_Label']}", axis=1)
-
-    # Create a pie chart
-    fig_pie = px.pie(
-        pie_data,
-        values='Percentage',  # Use the correct percentage values
-        names='Cluster_Label_Percentage',
-        title=f"{what_class} Skills Distribution",
-        hover_data={'Cluster_Label': True, 'other_skills_pie': True}
-    )
-
-    # Update customdata to pass Cluster_Label
-    fig_pie.update_traces(customdata=pie_data[['Cluster_Label', 'other_skills_pie']])
-
-    # Customize the hover template for the pie chart
-    fig_pie.update_traces(
-        textinfo='percent',  # Keep percentages on the pie slices
-        textposition='inside',  # Position percentages inside the pie slices
-        hovertemplate="<b>%{customdata[0]}</b><br>Other Skills and Average Point Investment:<br>%{customdata[1]}<extra></extra>",
-    )
-
-    # Position the legend outside the pie chart and adjust the pie chart size
-    fig_pie.update_layout(
-        legend=dict(
-            x=1.05,  # Position the legend to the right
-            y=0.5,  # Center the legend vertically
-            traceorder='normal',
-            font=dict(
-                size=10,
-            ),
-        ),
-        margin=dict(l=0, r=0, t=50, b=0),  # Remove extra margins
-        width=800,  # Set the width of the entire chart
-        height=400,  # Set the height of the entire chart
-    )
-
-    # Save the pie chart as a PNG file
-    fig_pie.write_image(f"pod-stats/charts/{what_class}-clusters_distribution_pie.png")
-
-    # Create a DataFrame for visualization
-
-
-    # Sort clusters by percentage in descending order
-    sorted_clusters = dict(sorted(clusters.items(), key=lambda item: item[1]['character_count'], reverse=True))
-
-    # Ensure the cluster exists before adding merc_count
-    if cluster not in clusters:
-        clusters[cluster] = {}
-
-    clusters[cluster]['merc_count'] = merc_count
-
-#    print(f"✅ Added merc data for cluster {cluster}:")
-#    print(merc_count)
-
-    dt = datetime.now()
-    # format it to a string
-    timeStamp = dt.strftime('%Y-%m-%d %H:%M')
-
-    # Render the HTML report
-    template = Template(html_template)
-    html_content = template.render(clusters=sorted_clusters, what_class=what_class, top_5_most_used_skills=top_5_most_used_skills, bottom_5_least_used_skills=bottom_5_least_used_skills, summary_label=summary_label, merc_count=merc_count, mercenary=mercenary, mercenary_equipment=mercenary_equipment, timeStamp=timeStamp)  # Pass sorted clusters to the template
-
-    # Save the report to a file
-    output_file = f"pod-stats/{what_class}.html"
-    with open(output_file, "w") as file:
-        file.write(html_content)
-
-    print(f"Cluster analysis report saved to {output_file}")
-
-#GetBong()
-
-
-###############################################################
-#
-# Chargers????
-#
-# Define search criteria
-def GetChargers():
-
-    icons_folder = "icons"
-    what_class = "Charge"
-    howmany_clusters = 5
-    howmany_skills = 4
-
-    search_item = "Templar's Might"
-    search_skill = "Charge"
-    skill_threshold = 3
-
-    # ✅ Load consolidated JSON
-    with open("sc_ladder.json", "r") as file:
-        all_characters = json.load(file)
-
-    # ✅ Filter characters who meet the conditions
-    filtered_characters = []
-    for char_data in all_characters:
-        if not isinstance(char_data, dict):
-            continue
-
-        # Check if they meet the Charge skill threshold
-        has_high_charge = any(
-            skill.get("Name") == search_skill and skill.get("Level", 0) >= skill_threshold
-            for tab in char_data.get("SkillTabs", [])
-            for skill in tab.get("Skills", [])
-        )
-
-        # Check if they are wearing "Templar's Might"
-        has_templars_might = any(
-            item.get("Title") == search_item for item in char_data.get("Equipped", [])
-        )
-
-        if has_high_charge or has_templars_might:
-            filtered_characters.append(char_data)
-
-        def map_readable_names(mercenary_type, worn_category=""):
-            mercenary_mapping = {
-                "Desert Mercenary": "Act 2 Desert Mercenary",
-                "Rogue Scout": "Act 1 Rogue Scout",
-                "Eastern Sorceror": "Act 3 Eastern Sorceror",
-                "Barbarian": "Act 5 Barbarian"
-            }
-            worn_mapping = {
-                "body": "Armor",
-                "helmet": "Helmet",
-                "weapon1": "Weapon",
-                "weapon2": "Offhand"
-            }
-            readable_mercenary = mercenary_mapping.get(mercenary_type, mercenary_type)
-            readable_worn = worn_mapping.get(worn_category, worn_category)
-            return readable_mercenary, readable_worn
-
-    # ✅ Function to process data
-    def load_data(filtered_characters):
-        all_data = []
-        quality_colors = {
-            "q_runeword": "#edcd74",
-            "q_unique": "#edcd74",
-            "q_set": "#45a823",
-            "q_magic": "#7074c9",
-            "q_rare": "yellow",
-            "q_crafted": "orange"
-        }
-
-        for char_data in filtered_characters:
-            skill_data = {
-                "Name": char_data.get("Name", "Unknown"),
-                "Class": char_data.get("Class", "Unknown"),
-                "Level": char_data.get("Stats", {}).get("Level", "Unknown")
-            }
-
-            # ✅ Extract and sort skills
-            skills = []
-            for tab in char_data.get("SkillTabs", []):
-                for skill in tab.get("Skills", []):
-                    skill_name = skill["Name"]
-                    skill_level = skill["Level"]
-                    skill_data[skill_name] = skill_level
-                    skills.append((skill_name, skill_level))
-
-            skills_sorted = sorted(skills, key=lambda x: x[1], reverse=True)
-            skill_data["Skills"] = ", ".join([f"{name}:{level}" for name, level in skills_sorted])
-
-            # ✅ Process equipment
-            equipment_titles = defaultdict(Counter)
-            for item in char_data.get("Equipped", []):
-                worn_category = item.get("Worn", "Unknown")
-                title = item.get("Title", "Unknown")
-                quality_code = item.get("QualityCode", "default")
-
-                # ✅ Standardize worn category names
-                worn_category = {
-                    "ring1": "Ring", "ring2": "Ring",
-                    "sweapon1": "Left hand", "weapon1": "Left hand",
-                    "sweapon2": "Offhand", "weapon2": "Offhand",
-                    "body": "Armor", "gloves": "Gloves",
-                    "belt": "Belt", "helmet": "Helmet",
-                    "boots": "Boots", "amulet": "Amulet"
-                }.get(worn_category, worn_category)
-
-                # ✅ Set colored title
-                color = quality_colors.get(quality_code, "white")
-                colored_title = f"<span style='color: {color};'>{title}</span>"
-
-                equipment_titles[worn_category][colored_title] += 1
-
-            # ✅ Convert equipment data to a readable string
-            skill_data["Equipment"] = ", ".join([
-                f"{worn}: {title} x{count}" if count > 1 else f"{worn}: {title}"
-                for worn, titles in equipment_titles.items()
-                for title, count in titles.items()
-            ])
-
-            # ✅ Process mercenary info
-            mercenary_type = char_data.get("MercenaryType", "No mercenary")
-            readable_mercenary = {
-                "Desert Mercenary": "Act 2 Desert Mercenary",
-                "Rogue Scout": "Act 1 Rogue Scout",
-                "Eastern Sorceror": "Act 3 Eastern Sorceror",
-                "Barbarian": "Act 5 Barbarian"
-            }.get(mercenary_type, mercenary_type)
-
-            mercenary_equipment = ", ".join(
-                [item.get("Title", "Unknown") for item in char_data.get("MercenaryEquipped", [])]
-            ) if char_data.get("MercenaryEquipped") else "No equipment"
-
-            skill_data["Mercenary"] = readable_mercenary
-            skill_data["MercenaryEquipment"] = mercenary_equipment
-
-            all_data.append(skill_data)
-
-        return pd.DataFrame(all_data).fillna(0)  # ✅ Fill missing skills with 0
-
-    # ✅ Load the DataFrame
-    df = load_data(filtered_characters)
-
-    # ✅ Define skill columns (exclude non-skill columns)
-    skill_columns = [col for col in df.columns if col not in ['Name', 'Class', 'Level', 'Skills', 'Equipment', 'Mercenary', 'MercenaryEquipment']]
-
-    # ✅ Determine number of unique classes
-    unique_classes = df["Class"].nunique()
-
-    # ✅ Ensure at least 2 clusters for meaningful results
-    num_clusters = max(unique_classes, 2)  # 🔹 Avoids issues with a single class
-    print(f"📊 Setting n_clusters = {num_clusters}")
-
-    # Convert Class column to one-hot encoded features
-    class_encoded = pd.get_dummies(df["Class"], prefix="Class")
-
-    # Combine skill columns with class-encoded features
-    features = pd.concat([df[skill_columns], class_encoded], axis=1)
-
-    # Perform PCA with the new feature set
-    pca = PCA(n_components=2)
-    reduced_data = pca.fit_transform(features)
-
-    # Perform K-Means clustering
-    kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10)
-    df["Cluster"] = kmeans.fit_predict(reduced_data)
-
-    # ✅ Calculate the average points invested in skills per cluster
-    df["Total_Points"] = df[skill_columns].sum(axis=1)
-    cluster_averages = df.groupby("Cluster")["Total_Points"].mean().reset_index()
-    cluster_averages.columns = ["Cluster", "Avg_Points"]
-
-    # ✅ Merge the averages back into the main DataFrame
-    df = pd.merge(df, cluster_averages, on="Cluster")
-
-    # ✅ Get skill averages per cluster
-    skill_averages = df.groupby("Cluster")[skill_columns].mean()
-
-    # ✅ Identify the top skills per cluster with their average points
-    top_skills_with_avg = skill_averages.apply(
-        lambda x: [(skill, round(x[skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1
-    )
-
-    # ✅ Calculate the correct percentages for each cluster
-    cluster_counts = df["Cluster"].value_counts(normalize=True) * 100
-    df["Percentage"] = df["Cluster"].map(cluster_counts)
-
-    # ✅ Map clusters to meaningful names (top skills with average points)
-    cluster_labels = {
-        cluster: f"{cluster} users favor the skills " + ", ".join([f"{skill} {avg:.2f}%" for skill, avg in skills])
-        for cluster, skills in top_skills_with_avg.items()
-    }
-    df["Cluster_Label"] = df["Cluster"].map(cluster_labels)
-
-    # Updated HTML template
-    html_template = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>{{ what_class }} Analysis Report</title>
-        <link rel="stylesheet" type="text/css" href="./css/test-css.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    </head>
-    <body class="not-main">
-        <div class="is-clipped">
-        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
-
-            <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
-    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>            </div>
-            <div id="podNavbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
-                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
-                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
-                </div>
-                <div class="navbar-end">
-
-                    <div class="navbar-start">	
-                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
-                        <div class="navbar-item dropdown2">
-                            <button class="dropdown2-button">Trends History</button>
-                            <div class="dropdown2-content">
-                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </nav>  
-
-        <div class="hamburger hamburger2" onclick="toggleMenu()">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
-            <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
-            <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
-        </div>
-
-
-        <h1>{{ what_class }} Softcore Skill Distribution </h1>
-            <div class="summary-container">
-                <br>
-        <h3>This group includes anyone with 3 or more points in Charge OR has Templars equipped</h3>
-            
-            <p class="indented-skills"> </p>
-
-
-<!--        <h2>Detailed Grouping Information, Ordered Highest to Lowest %</h2>-->
-
-        {% for clusters, data in clusters.items() %}
-        <!--<h2>{{ data['label'] }}</h2>
-        <p class="indented-skills"><strong>Other Skills:<br></strong> {{ data['other_skills'] }}</p> -->
-        <div class="class-intro">
-        <div id="skills" class="skills-container">
-            <div class="column">
-                <ul id="most-popular-skills">
-                    <h2>{{ data['label'] }}</h2>
-                </ul>
-            </div>
-<!--            <div class="column">
-                <ul id="other-skills">
-                    <h2>Other common skills in this group:</h2> {{ data['other_skills'] }}
-                </ul>
-            </div> -->
-        </div>
-
-    <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>All Skills</strong></button>
-                <div class="content">
-                    <div>{{ data['remaining_skills_with_icons'] }}</div>
-                </div>
-
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>Most Common Equipment:</strong></button>
-                <div class="content">
-                    <div>{{ data['top_equipment'] }}</div>
-                </div>
-<!--            
-                <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-                <strong>ALL Equipment:</strong></button>
-                <div class="content">
-                    <div>{{ data['equipment_counts'] }}</div>
-                </div>
--->
-            <button type="button" class="collapsible small-collapsible">
-        <img src="icons/open.png" alt="Open" class="icon-small open-icon hidden">
-        <img src="icons/closed.png" alt="Close" class="icon-small close-icon">
-            <strong>{{ data['character_count'] }} Characters in this cluster:</strong>
-        </button>
-        <div class="content">
-{% for character in data['characters'] %}
-<!--
-<div class="character-container {% if loop.index is even %}char1{% else %}char2{% endif %}">
--->
-<div class="character-container char2">
-    <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
-                {{ character['name'] }}
-            </a></strong></div>
-        <div>Level: {{ character['level'] }}</div>
-        <div>Class: {{ character['class'] }}</div>
-        <div class="hover-trigger" data-character-name="{{ character['name'] }}">
-            <!-- Armory Quickview -->
-        </div>
-    </div>
-
-    <div class="character">
-        <div class="popup hidden"></div> <!-- No iframe inside initially -->
-    </div>
-
-    <p><strong>Skills:<br></strong> {{ character['skills'] }}</p>
-    <p><strong>Equipment:<br></strong> {{ character['equipment'] }}</p>
-    <p><strong>Mercenary:<br></strong> {{ character['mercenary'] }} - {{ character['mercenary_equipment'] }}</p>
-
-    <div class="character-section" data-character-name="{{ character['name'] }}"></div>
-</div>
-<hr color="#141414">
-<br>
-{% endfor %}
-            <br>
-            </div>
-            </div>
-        <!--    <hr width="90%"> -->
-            <br>
-            {% endfor %}
-                <h3>Top 5 Most Popular {{ what_class }} Skills:</h3>
-            <ul>
-                {% for skill, usage in top_5_most_used_skills.items() %}
-                <li>{{ skill }}: {{ usage }}</li>
-                {% endfor %}
-            </ul>
-
-            <h3>Bottom 5 Least Popular {{ what_class }} Skills:</h3>
-            <ul>
-                {% for skill, usage in bottom_5_least_used_skills.items() %}
-                <li>{{ skill }}: {{ usage }}</li>
-                {% endfor %}
-            </ul>
-            <br>
-            <hr>
-            <br>
-        <p class="indented-skills">Popular builds include:<br>{{ summary_label }} </p>
-            <br>
-            </div>
-            <br><br>
-                    <!-- Embed the Plotly pie chart -->
-            <div>
-                <img src="charts/{{ what_class }}-clusters_distribution_pie.png" alt="{{ what_class }} Skills Distribution">
-            </div> 
-
-            <!-- Embed the Plotly scatter plot -->
-<!--            <div>
-                <img src="charts/{{ what_class }}-clusters_with_avg_points.png" alt="{{ what_class }} Skill Clusters Scatter Plot">
-            </div>
- -->
-           <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
-
-            <div class="footer">
-            <p>PoD class data current as of {{ timeStamp }}</p>
-            </div>   
-        
-
-
-
-<script>
-var coll = document.getElementsByClassName("collapsible");
-for (var i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        var openIcon = this.querySelector("img.icon[alt='Open']");
-        var closeIcon = this.querySelector("img.icon[alt='Close']");
-
-        if (content.style.display === "block") {
-            content.style.display = "none";
-            openIcon.classList.remove("hidden");
-            closeIcon.classList.add("hidden");
-        } else {
-            content.style.display = "block";
-            openIcon.classList.add("hidden");
-            closeIcon.classList.remove("hidden");
-        }
-    });
-}
-
-
-//Get the button
-var backToTopBtn = document.getElementById("backToTopBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-backToTopBtn.style.display = "block";
-} else {
-backToTopBtn.style.display = "none";
-}
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-document.body.scrollTop = 0; // For Safari
-document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-function toggleMenu() {
-    const navMenu = document.querySelector('.top-buttons');
-    navMenu.classList.toggle('show');
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
-
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
-});
-
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
-const menuItems = document.querySelectorAll(".top-button");
-
-menuItems.forEach(item => {
-const itemPage = item.getAttribute("href");
-if (itemPage && currentPage === itemPage) {
-item.classList.add("active");
-}
-});
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-let activePopup = null;
-
-document.querySelectorAll(".hover-trigger").forEach(trigger => {
-trigger.addEventListener("click", function (event) {
-event.stopPropagation();
-const characterName = this.getAttribute("data-character-name");
-
-// Close any open popup first
-if (activePopup) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe for memory efficiency
-activePopup = null;
-}
-
-// Find the associated popup container
-const popup = this.closest(".character-info").nextElementSibling.querySelector(".popup");
-
-// If this popup was already active, just close it
-if (popup === activePopup) {
-return;
-}
-
-// Create an iframe and set its src
-const iframe = document.createElement("iframe");
-iframe.src = `./armory/video_component.html?charName=${encodeURIComponent(characterName)}`;
-iframe.setAttribute("id", "popupFrame");
-
-// Add iframe to the popup
-popup.appendChild(iframe);
-popup.classList.add("active");
-
-// Set this popup as the active one
-activePopup = popup;
-});
-});
-
-// Close the popup when clicking anywhere outside
-document.addEventListener("click", function (event) {
-if (activePopup && !activePopup.contains(event.target)) {
-activePopup.classList.remove("active");
-activePopup.innerHTML = ""; // Remove iframe to free memory
-activePopup = null;
-}
-});
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.querySelector('.navbar-burger');
-    const menu = document.querySelector('.navbar-menu');
-
-    burger.addEventListener('click', () => {
-        menu.classList.toggle('is-active');
-        burger.classList.toggle('is-active');
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdownButton = document.querySelector('.dropdown2-button');
-    const dropdownContent = document.querySelector('.dropdown2-content');
-
-    dropdownButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevents clicks from propagating to other elements
-        dropdownContent.classList.toggle('is-active'); // Toggles the dropdown visibility
-    });
-
-    // Close the dropdown if you click anywhere outside it
-    document.addEventListener('click', () => {
-        if (dropdownContent.classList.contains('is-active')) {
-            dropdownContent.classList.remove('is-active');
-        }
-    });
-});
-</script>
-
-
-
-    </body>
-    </html>
-    """
-
-    def analyze_mercenaries(characters):
-        mercenary_counts = Counter()
-        mercenary_equipment = defaultdict(lambda: defaultdict(Counter))
-
-        for char_data in characters:
-            if not isinstance(char_data, dict):
-                print(f"Skipping unexpected data format: {char_data}")
-                continue  # Skip invalid entries
-
-            mercenary = char_data.get("MercenaryType")
-            if mercenary:
-                readable_mercenary, _ = map_readable_names(mercenary, "")
-                mercenary_counts[readable_mercenary] += 1
-
-                for item in char_data.get("MercenaryEquipped", []):
-                    worn_category = item.get("Worn", "Unknown")
-                    readable_mercenary, readable_worn = map_readable_names(mercenary, worn_category)
-                    title = item.get("Title", "Unknown")
-                    mercenary_equipment[readable_mercenary][readable_worn][title] += 1
-
-        return mercenary, mercenary_counts, mercenary_equipment
-
-    # Assuming df is your DataFrame and skill_columns contains the column names for the skills
-
-    # Calculate the total usage of each skill across all clusters
-    total_skill_usage = df[skill_columns].sum()
-
-    # Sort skills by total usage in descending order
-    most_used_skills = total_skill_usage.sort_values(ascending=False)
-
-    # Sort skills by total usage in ascending order
-    least_used_skills = total_skill_usage.sort_values(ascending=True)
-
-    # Extract the top 5 most used skills
-    top_5_most_used_skills = most_used_skills.head(5)
-
-    # Extract the bottom 5 least used skills
-    bottom_5_least_used_skills = least_used_skills.head(5)
-
-
-    # Calculate the percentage of characters that have invested in each skill within the cluster
-    skill_percentages = df[skill_columns].astype(bool).groupby(df['Cluster']).mean() * 100
-
-    # Identify the top skills per cluster with their average points and percentages
-    top_skills_with_avg_and_percent = skill_averages.apply(lambda x: [(skill, round(x[skill], 2), round(skill_percentages.loc[x.name, skill], 2)) for skill in x.nlargest(howmany_skills).index], axis=1)
-
-    summary_label = ""
-    summaries = []
-    data_folder = "sc/ladder-all"
-
-    # Gather data for the report
-    clusters = {}
-    for cluster, group in df.groupby('Cluster'):
-        sorted_group = group.sort_values(by='Level', ascending=False)  # Sort by level descending
-        character_count = len(sorted_group)
-        cluster_percentage = cluster_counts[cluster]
-        equipment_counts = {}
-        for row in sorted_group.itertuples():
-            equipment_list = row.Equipment.split(", ")
-            for item in equipment_list:
-                if item:
-                    worn, title_count = item.split(": ", 1)
-                    if " x" in title_count:
-                        title, count = title_count.split(" x", 1)
-                        count = int(count)
-                    else:
-                        title = title_count
-                        count = 1
-
-                    if worn not in equipment_counts:
-                        equipment_counts[worn] = {}
-                    if title in equipment_counts[worn]:
-                        equipment_counts[worn][title] += count
-                    else:
-                        equipment_counts[worn][title] = count  # Initialize with real count
-
-        # Extract character file paths for this cluster
-        cluster_files = [f"{row.Class.lower()}/{row.Name}.json" for row in sorted_group.itertuples()]
-        cluster_files = [path for path in cluster_files if os.path.exists(path)]  # Filter only existing files
-
-        # Get mercenary data **just for this cluster**
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-        # Generate HTML report for mercenaries in this cluster
-        merc_count = f"<h3>Mercenary Equipment Analysis for Cluster {cluster}</h3>"
-
-        # Mercenary type counts
-        merc_count += "<h4>Count of Mercenary Types</h4>"
-        for mercenary, count in mercenary_counts.items():
-            merc_count += f"<p>{mercenary}: {count}</p>"
-
-        # Mercenary equipment titles
-        merc_count += "<h4>Equipment Titles</h4>"
-        for mercenary, equipment in mercenary_equipment.items():
-            merc_count += f"<p><strong>{mercenary}:</strong></p>"
-            for title, count in equipment.items():
-                merc_count += f"<p>{title}: {count}</p>"
-
-        # ✅ Fix: Ensure the cluster exists before adding merc_count
-        if cluster not in clusters:
-            clusters[cluster] = {}
-
-        if 'merc_count' not in clusters[cluster]:
-            clusters[cluster]['merc_count'] = merc_count
-
-        # Calculate total counts for each category
-        total_counts = {
-            worn: sum(titles.values())
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Calculate the percentages based on total counts
-        equipment_percentages = {
-            worn: {title: (count / total_counts[worn]) * 100 for title, count in titles.items()}
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Get top equipment based on count
-        top_equipment = {
-            worn: sorted(titles.items(), key=lambda item: item[1], reverse=True)[:5]
-            for worn, titles in equipment_counts.items()
-        }
-
-        # Use equipment_percentages for display
-        top_equipment_str_list = []
-        for worn, titles in top_equipment.items():
-            titles_str = "<br>".join([f"&nbsp;&nbsp;&nbsp;&nbsp;{title} {equipment_percentages[worn][title]:.2f}% ({count})" for title, count in titles])
-            top_equipment_str_list.append(f"<strong>{worn.capitalize()}</strong>: <br>{titles_str}")
-
-        top_equipment_str = "<br>".join(top_equipment_str_list)
-
-        # Use sorted_equipment_counts for full display
-        sorted_equipment_counts = {
-            worn: dict(sorted(titles.items(), key=lambda item: item[1], reverse=True))
-            for worn, titles in equipment_counts.items()
-        }
-
-        equipment_counts_str_list = []
-        for worn, titles in sorted_equipment_counts.items():
-            titles_str = ", ".join([f"{title} {equipment_percentages[worn][title]:.2f}%" for title in titles])
-            equipment_counts_str_list.append(f"<strong>{worn.capitalize()}</strong>: {titles_str}")
-
-        equipment_counts_str = "<br>".join(equipment_counts_str_list)
-
-        # Define a helper function to format numbers
-        def format_number(num):
-            return int(num) if num % 1 == 0 else round(num, 2)
-
-        # Filter top skills
-        top_skills = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
-
-        # Filter other skills, ignoring those with zero points
-        other_skills = skill_averages.loc[cluster].drop(top_skills)
-        other_skills = other_skills[other_skills > 0].nlargest(6)
-        other_skills_pie = "<br>".join([f"{skill} ({format_number(avg)})" for skill, avg in other_skills.items()])
-#        other_skills_str = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(other_skills[skill] * character_count)})" for skill in other_skills.index])
-        other_skills_str = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(other_skills[skill] * character_count)})</span>"
-            for skill in other_skills.index
-        ])
-
-        # Filter remaining skills, ignoring those with zero points
-        remaining_skills = skill_averages.loc[cluster].sort_values(ascending=False)
-        remaining_skills = remaining_skills[remaining_skills > 0]
-#        remaining_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str2 = "<br>".join([
-            f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> "
-            f"<span class='{'highlight-100' if round(skill_percentages.loc[cluster, skill], 2) == 100 else 'normal-skill'}'>"
-            f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% "
-            f"({format_number(remaining_skills[skill] * character_count)})</span>"
-            for skill in remaining_skills.index
-        ])
-#        remaining_skills_str_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})" for skill in remaining_skills.index])
-        remaining_skills_str_with_icons = "\n".join([
-            "<div class='skills-group'>" + "\n".join([
-                "<div class='skills-row'>" +
-                "\n".join([
-                    f"<div class='skill-item'>"
-                    f"<div class='skillbar-container'>"
-                    f"<div class='skill-info'>"
-                    f"<img src='{icons_folder}/{skill}.png' alt='{skill}' class='skill-icon'> "
-                    f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({format_number(remaining_skills[skill] * character_count)})"
-                    f"</div>"
-                    f"<div class='skill-mini-bar' style='width: {round(skill_percentages.loc[cluster, skill], 2) * 4}px;'></div>"
-                    f"</div>"
-                    f"</div>"
-                    for skill in remaining_skills.index[row:row+2]
-                ]) +
-                "</div>"  # Close row
-                for row in range(i, min(i+10, len(remaining_skills.index)), 2)
-            ]) + "</div>"  # Close group
-            for i in range(0, len(remaining_skills.index), 10)
-        ])
-   #    all_skills_str2 = "<br>".join([f"{skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({round(remaining_skills[skill] * character_count, 2)})" for skill in all_skills.index])
-    #    all_skills_str2_with_icons = "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {round(skill_percentages.loc[cluster, skill], 2)}% ({round(remaining_skills[skill] * character_count, 2)})" for skill in all_skills.index])
-        sorted_summary_label = ""
-        summary_labels = [skill for skill, _, _ in top_skills_with_avg_and_percent[cluster]]
-        summary = f"{cluster_percentage:.2f}% of {what_class}'s invest heavily in " + ", ".join(summary_labels)
-        summaries.append((cluster_percentage, summary))
-
-        clusters[cluster] = {
-    #        'label': f"{cluster_percentage:.2f}% of {what_class}'s: <br>" + "<br>".join([f"{skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-#            'label': f"{cluster_percentage:.2f}%  of {what_class}'s Main Skills:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-            'label': f"{cluster_percentage:.2f}% of {cluster} {what_class}'s Main Skills:<br>" + "".join([
-                f"""
-                <div class="skillbar-container">
-                    <div class="skill-row">
-                        <img src="{icons_folder}/{skill}.png" alt="{skill}" class="skill-icon">
-                        <div class="skill-bar-container">
-                            <div class="skill-bar">
-                                <span class="skill-label">{skill} ({int(avg * character_count)})</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                """
-                for skill, avg, percent in top_skills_with_avg_and_percent[cluster]
-            ]),
-            'character_count': character_count,
-            'other_skills': other_skills_str,
-            'other_skills_pie': other_skills_pie,
-            'characters': [{'name': row.Name, 'level': row.Level, 'skills': row.Skills, 'equipment': row.Equipment, 'mercenary': row.Mercenary, 'mercenary_equipment': row.MercenaryEquipment, 'class': row.Class } for row in sorted_group.itertuples()],
-            'top_equipment': top_equipment_str,  # Add top equipment to the data
-            'equipment_counts': equipment_counts_str,
-            'remaining_skills_with_icons': remaining_skills_str_with_icons,
-            'remaining_skills_str2': remaining_skills_str2,  # Add remaining skills string for display without icons
-    #        'all_skills_str2': all_skills_str2,
-    #        'all_skills_str2_with_icons' : all_skills_str2_with_icons
-            'top_5_most_used_skills': top_5_most_used_skills,
-            'bottom_5_least_used_skills': bottom_5_least_used_skills,
-            'summary_label' : summary_label, 
-            
-            'mercenary': mercenary,  # Store mercenary type
-            'mercenary_equipment': mercenary_equipment,  # Store mercenary's items
-            
-        }
-        mercenary, mercenary_counts, mercenary_equipment = analyze_mercenaries(filtered_characters)
-
-
-    # Ensure the correct percentage values are used
-    pie_data = df.groupby('Cluster').agg({
-        'Percentage': 'mean',  # Get the mean percentage for each cluster
-        'Cluster_Label': 'first'  # Use the first cluster label as representative
-    }).reset_index()
-
-    # Include other_skills in customdata
-    pie_data['other_skills_pie'] = pie_data['Cluster'].map(lambda cluster: clusters[cluster]['other_skills_pie'])
-
-    # Combine cluster label and percentage for the pie chart labels
-    pie_data['Cluster_Label_Percentage'] = pie_data.apply(lambda row: f"{row['Percentage']:.2f}% - Main Skills and avg points: {row['Cluster_Label']}", axis=1)
-
-    import plotly.express as px
-
-    # Get unique clusters
-    unique_clusters = sorted(df['Cluster'].unique())  # Sorting ensures consistent ordering
-
-    # Assign colors from a predefined palette
-    color_palette = px.colors.qualitative.Safe  # You can change this to Vivid, Bold, etc.
-    color_map = {cluster: color_palette[i % len(color_palette)] for i, cluster in enumerate(unique_clusters)}
-
-    # Create a pie chart
-    fig_pie = px.pie(
-        pie_data,
-        values='Percentage',
-        names='Cluster_Label_Percentage',
-        title=f"{what_class} Skills Distribution",
-        hover_data={'Cluster_Label': True, 'other_skills_pie': True},
-        color_discrete_map={row['Cluster_Label_Percentage']: color_map[row['Cluster']] for _, row in pie_data.iterrows()}  # ✅ Maps labels to the same colors
-    )
-
-    # Update customdata to pass Cluster_Label
-    fig_pie.update_traces(customdata=pie_data[['Cluster_Label', 'other_skills_pie']])
-
-    # Customize the hover template for the pie chart
-    fig_pie.update_traces(
-        textinfo='percent',  # Keep percentages on the pie slices
-        textposition='inside',  # Position percentages inside the pie slices
-        hovertemplate="<b>%{customdata[0]}</b><br>Other Skills and Average Point Investment:<br>%{customdata[1]}<extra></extra>",
-        marker=dict(line=dict(color='black', width=1)),  # Add a slight outline for clarity
-        pull=[0.05] * len(pie_data),  # Slightly pull slices apart to increase visibility
-        hole=0  # Ensure it's a full pie (not a donut)
-    )
-
-    # Position the legend outside the pie chart and adjust the pie chart size
-    fig_pie.update_layout(
-        legend=dict(
-            orientation="h",  # Horizontal legend
-            yanchor="top",
-            y=-0.15,  # Move it closer
-            xanchor="center",
-            x=0.5,  # Keep it centered
-            font=dict(size=10, color='white'),
-            bgcolor='rgba(0,0,0,0)',
-#                font=dict(color='white'),  # ✅ Transparent background
-        ),
-        paper_bgcolor='rgba(0,0,0,0)', # ✅ Transparent background
-        margin=dict(l=10, r=10, t=50, b=20),  # Reduce bottom margin to make more space
-        width=900,  # Set the width of the entire chart
-        height=600,  # Set the height of the entire chart
-        font=dict(color='white'),  # ✅ Makes all text white
-        title=dict(font=dict(color='white')),  # ✅ Ensures title is also white
-#            legend=dict(font=dict(color='white'))  # ✅ Ensures legend text is white
-    )
-
-    # Increase the pie size explicitly
-    fig_pie.update_traces(domain=dict(x=[0, 1], y=[0.1, 1]))  # Expands pie upward
-
-    # Save the pie chart as a PNG file
-    fig_pie.write_image(f"pod-stats/charts/{what_class}-clusters_distribution_pie.png")
-
-    # Create a DataFrame for visualization
-    plot_data = pd.DataFrame({
-        'PCA1': reduced_data[:, 0],
-        'PCA2': reduced_data[:, 1],
-        'Cluster': df['Cluster'],
-        'Cluster_Label': df['Cluster_Label'],
-        'Percentage': df['Percentage']
-    })
-
-    # Create an interactive scatter plot
-    fig_scatter = px.scatter(
-        plot_data,
-        x='PCA1',
-        y='PCA2',
-        color='Cluster',  # Assign color based on the cluster
-        title=f"{what_class} Skill Clusters (Ladder Top 200 {what_class}'s Highlighted)<br>This highlights how similar (or not) a character is to the rest<br>The tighter the grouping, the more they are alike",
-        hover_data={'Cluster_Label': True, 'Percentage': ':.2f%', 'Cluster': True},
-        color_discrete_map=color_map  # Use the same colors as the pie chart
-    )
-
-    # Customize the legend labels
-    for trace in fig_scatter.data:
-        if trace.name.isnumeric():  # Ensure that the trace name is numeric
-            trace.update(name=legend_labels[int(trace.name)])
-
-    # Customize hover template to include top skills and percentage
-    fig_scatter.update_traces(
-        hovertemplate="<b>Cluster skills and average point investment:</b><br> %{customdata[0]}<br>" +
-                    "This cluster (%{customdata[2]}) makes up %{customdata[1]:.2f}% of the total<extra></extra>"
-    )
-
-    # Hide the axis titles and tick labels
-    fig_scatter.update_layout(
-        xaxis_title=None,
-        yaxis_title=None,
-        xaxis_showticklabels=False,
-        yaxis_showticklabels=False
-    )
-
-    # Save the scatter plot as a PNG file
-    fig_scatter.write_image(f"pod-stats/charts/{what_class}-clusters_with_avg_points.png")
-
-    print("Pie chart and scatter plot saved as PNG files.")
-
-
-    # Sort clusters by percentage in descending order
-    sorted_clusters = dict(sorted(clusters.items(), key=lambda item: item[1]['character_count'], reverse=True))
-
-    # Split the entries into a list
-    entries = summary_label.strip().split("<br>\n")
-    # Remove any empty strings from the list (if any)
-    entries = [entry for entry in entries if entry.strip()]
-    # Sort the entries in descending order based on the percentage value
-    sorted_entries = sorted(entries, key=lambda x: float(x.split('%')[0]), reverse=False)
-    # Join the sorted entries back into a single string
-    sorted_summaries = sorted(summaries, key=lambda x: x[0], reverse=True)
-    summary_label = "<br>".join(summary for _, summary in sorted_summaries)
-    #print(summary_label)
-
-    # Ensure the cluster exists before adding merc_count
-    if cluster not in clusters:
-        clusters[cluster] = {}
-
-    clusters[cluster]['merc_count'] = merc_count
-
-#    print(f"✅ Added merc data for cluster {cluster}:")
-#    print(merc_count)
-
-    dt = datetime.now()
-    # format it to a string
-    timeStamp = dt.strftime('%Y-%m-%d %H:%M')
-
-    # Render the HTML report
-    template = Template(html_template)
-    html_content = template.render(clusters=sorted_clusters, what_class=what_class, top_5_most_used_skills=top_5_most_used_skills, bottom_5_least_used_skills=bottom_5_least_used_skills, summary_label=summary_label, merc_count=merc_count, mercenary=mercenary, mercenary_equipment=mercenary_equipment, timeStamp=timeStamp)  # Pass sorted clusters to the template
-
-    # Save the report to a file
-    output_file = f"pod-stats/{what_class}.html"
-    with open(output_file, "w") as file:
-        file.write(html_content)
-
-    print(f"Cluster analysis report saved to {output_file}")
-
-#GetChargers()
 
 ###############################################################
 #
@@ -7408,8 +4793,9 @@ def GetOffensiveAuraItemsEquipped():
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+                <a class="is-48x48" href="https://beta.pathofdiablo.com/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
     <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
+        <br>
         <span></span>
         <span></span>
         <span></span>
@@ -7417,7 +4803,7 @@ def GetOffensiveAuraItemsEquipped():
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/servers">Servers</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
@@ -7433,8 +4819,15 @@ def GetOffensiveAuraItemsEquipped():
                             <button class="dropdown2-button">Trends History</button>
                             <div class="dropdown2-content">
                                 <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
+                                <div class="dropdown2-item dropdown-sub">
+                                    <a class="dropdown-sub-button">S13</a>
+                                    <div class="dropdown-sub-content">
+                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -7447,15 +4840,15 @@ def GetOffensiveAuraItemsEquipped():
             <div class="line"></div>
         </div>
         <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
+            <a href="Home" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
+            <a href="Amazon" id="Amazon" class="top-button amazon-button"></a>
+            <a href="Assassin" id="Assassin" class="top-button assassin-button"></a>
+            <a href="Barbarian" id="Barbarian" class="top-button barbarian-button"></a>
+            <a href="Druid" id="Druid" class="top-button druid-button"></a>
+            <a href="Necromancer" id="Necromancer" class="top-button necromancer-button"></a>
+            <a href="Paladin" id="Paladin" class="top-button paladin-button"></a>
+            <a href="Sorceress" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
 
@@ -7524,7 +4917,7 @@ def GetOffensiveAuraItemsEquipped():
 -->
 <div class="character-container char2">
     <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
+        <div class="character-link"><strong>Name: <a href="https://beta.pathofdiablo.com/armory?name={{ character['name'] }}" target="_blank">
                 {{ character['name'] }}
             </a></strong></div>
         <div>Level: {{ character['level'] }}</div>
@@ -7593,6 +4986,7 @@ def GetOffensiveAuraItemsEquipped():
 
 
 <script>
+// Collapsible elemets
 var coll = document.getElementsByClassName("collapsible");
 for (var i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -7614,7 +5008,7 @@ for (var i = 0; i < coll.length; i++) {
 }
 
 
-//Get the button
+//Back to top button
 var backToTopBtn = document.getElementById("backToTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
@@ -7634,59 +5028,73 @@ document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+//Trends toolbar
+// Trends toolbar
 function toggleMenu() {
     const navMenu = document.querySelector('.top-buttons');
     navMenu.classList.toggle('show');
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const scHcButton = document.getElementById("SC_HC");
+    const currentUrl = window.location.href;
+    const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+
+    // Check if the current page is Hardcore or Softcore
+    const isHardcore = filename.startsWith("hc");
+
+    // Update button appearance based on current mode
+    if (isHardcore) {
+        scHcButton.classList.add("hardcore");
+        scHcButton.classList.remove("softcore");
+    } else {
+        scHcButton.classList.add("softcore");
+        scHcButton.classList.remove("hardcore");
+    }
+
+    // Update background image based on mode
+    updateButtonImage(isHardcore);
+
+    // Add click event to toggle between SC and HC pages
+    scHcButton.addEventListener("click", function () {
+        let newUrl;
+
+        if (isHardcore) {
+            // Convert HC -> SC (remove "hc" from filename)
+            newUrl = currentUrl.replace(/hc(\w+)$/, "$1"); // Remove "hc"
+        } else {
+            // Convert SC -> HC (prepend "hc" to the filename)
+            newUrl = currentUrl.replace(/\/(\w+)$/, "/hc$1"); // Prepend "hc"
+        }
+
+        // Redirect to the new page
+        if (newUrl !== currentUrl) {
+            window.location.href = newUrl;
+        }
+    });
+
+    // Function to update button background image
+    function updateButtonImage(isHardcore) {
+        if (isHardcore) {
+            scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
+        } else {
+            scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
+        }
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+    const menuItems = document.querySelectorAll(".top-button");
 
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
+    menuItems.forEach(item => {
+        const itemPage = item.getAttribute("href");
+        if (itemPage && currentPage === itemPage) {
+            item.classList.add("active");
+        }
+    });
 });
 
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
 
 document.addEventListener("DOMContentLoaded", function () {
 const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
@@ -7700,6 +5108,7 @@ item.classList.add("active");
 });
 });
 
+//Armory pop up
 document.addEventListener("DOMContentLoaded", function () {
 let activePopup = null;
 
@@ -7748,6 +5157,7 @@ activePopup = null;
 });
 
 
+//PoD nav buttons
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.navbar-burger');
     const menu = document.querySelector('.navbar-menu');
@@ -7774,6 +5184,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+//Anchor in place fix
+// Expand collapsibles and scroll to anchor
+function scrollWithOffset(el, offset = -50) {
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+function expandToAnchor(anchorId) {
+    console.log("expandToAnchor called with:", anchorId);
+    const target = document.getElementById(anchorId);
+    if (!target) return;
+
+    // Step 1: Collect all parent .content elements that need expanding
+    const stack = [];
+    let el = target;
+    while (el) {
+        if (el.classList?.contains('content')) {
+            stack.unshift(el); // add to beginning to expand outermost first
+        }
+        el = el.parentElement;
+    }
+
+    // Step 2: Expand each .content section in order
+    for (const content of stack) {
+        const button = content.previousElementSibling;
+        if (button?.classList.contains('collapsible')) {
+            button.classList.add('active');
+            content.style.display = "block";
+
+            const openIcon = button.querySelector("img.open-icon");
+            const closeIcon = button.querySelector("img.close-icon");
+            if (openIcon) openIcon.classList.add("hidden");
+            if (closeIcon) closeIcon.classList.remove("hidden");
+        }
+    }
+
+    // Step 3: Delay scroll until DOM has reflowed
+    setTimeout(() => {
+        console.log("scrolling to:", target.id);
+        scrollWithOffset(target);
+    }, 250); // Adjust if necessary
+}
+
+// Handle clicks on .anchor-link elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicks on .anchor-link elements
+    document.querySelectorAll('.anchor-link, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const anchorId = this.getAttribute('href').substring(1);
+            const fullUrl = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            navigator.clipboard.writeText(fullUrl); // Copy full link to clipboard
+            history.pushState(null, '', `#${anchorId}`); // Update URL without page reload
+            expandToAnchor(anchorId); // Expand and scroll
+        });
+    });
+
+    // On initial load with hash
+    if (window.location.hash) {
+        const anchorId = window.location.hash.substring(1);
+        // Wait a bit for collapsibles/content to render
+        setTimeout(() => {
+            expandToAnchor(anchorId);
+        }, 200);
+    }
+});
+
+
+
 </script>
 
 
@@ -8029,7 +5511,13 @@ document.addEventListener('DOMContentLoaded', () => {
     #        'label': f"{cluster_percentage:.2f}% of {what_class}'s: <br>" + "<br>".join([f"{skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
 #            'label': f"{cluster} make up {cluster_percentage:.2f}% of Dual Offensive Aura Granting Items in use <br>Most popular skills used by characters with them equipped:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
 #            'label': f"<span style='color:white;'>{cluster} make up {cluster_percentage:.2f}% of Dual Offensive Aura Granting Items in use <br>Most popular skills used by characters with them equipped:<br>" + "<br>".join([f"<img src='{icons_folder}/{skill}.png' alt='{skill}' width='20' height='20'> {skill} {percent:.2f}% ({int(avg*character_count)})" for skill, avg, percent in top_skills_with_avg_and_percent[cluster]]),  # Use top skills with average points and percentages as cluster label        'character_count': character_count,  # Add character count to the data
-            'label': f"{cluster_percentage:.2f}% of users with two or more Aura items use {cluster}:<br>" + "".join([
+#            'label': f"{cluster_percentage:.2f}% of users with two or more Aura items use {cluster}:" + f'<a href="#cluster-{cluster}" class="anchor-link"><img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a><br>'+ "".join([
+            'label': f'<div id="cluster-{cluster}">' +
+                    f"{cluster_percentage:.2f}% of users with two or more Aura items use {cluster}" +
+                    f'<a href="#cluster-{cluster}" class="anchor-link">' +
+                    f'<img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a>' +
+                    '<br>' +
+                    "".join([
                 f"""
                 <div class="skillbar-container">
                     <div class="skill-row">
@@ -8155,8 +5643,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 #GetOffensiveAuraItemsEquipped()
 
-
-
 ###############################################################
 #
 # Generate class html's
@@ -8165,12 +5651,12 @@ def MakeClassPages():
     # ✅ Class configurations (previously used for folder paths)
     classes = [
         {"what_class": "Barbarian", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Druid", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Amazon", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Assassin", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Necromancer", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Paladin", "howmany_clusters": 14, "howmany_skills": 5},
-        {"what_class": "Sorceress", "howmany_clusters": 14, "howmany_skills": 5}
+        {"what_class": "Druid", "howmany_clusters": 7, "howmany_skills": 5},
+        {"what_class": "Amazon", "howmany_clusters": 11, "howmany_skills": 5},
+        {"what_class": "Assassin", "howmany_clusters": 9, "howmany_skills": 5},
+        {"what_class": "Necromancer", "howmany_clusters": 6, "howmany_skills": 5},
+        {"what_class": "Paladin", "howmany_clusters": 8, "howmany_skills": 5},
+        {"what_class": "Sorceress", "howmany_clusters": 11, "howmany_skills": 5}
     ]
 
     icons_folder = "icons"
@@ -8199,6 +5685,25 @@ def MakeClassPages():
     def generate_report(what_class, howmany_clusters, howmany_skills, all_characters):
         # ✅ Filter characters by class
         filtered_characters = [char for char in all_characters if char.get("Class") == what_class]
+
+        maxed_skills = defaultdict(list)  # skill_name -> list of character names
+
+        for char in filtered_characters:
+            name = char.get("Name", "Unknown")
+            for skill_tab in char.get("SkillTabs", []):
+                for skill in skill_tab.get("Skills", []):
+                    if skill.get("Level", 0) == 20:
+                        skill_name = skill.get("Name", "Unknown Skill")
+                        maxed_skills[skill_name].append(name)
+
+        # 🔎 Optional: Sort for display
+        sorted_maxed_skills = sorted(maxed_skills.items(), key=lambda x: len(x[1]), reverse=True)
+
+        ## Print maxed skill details
+#        print(f"\n=== Maxed Skills for {what_class} ===")
+#        for skill, names in sorted_maxed_skills:
+#            print(f"{skill}: {len(names)} characters")
+#            print(f"  e.g. {', '.join(names[:5])}")
 
         # ✅ Process Data
         def load_data(filtered_characters):
@@ -8576,6 +6081,9 @@ def MakeClassPages():
         least_common_uniques = unique_counter.most_common()[:-11:-1]
         least_common_set_items = set_counter.most_common()[:-11:-1]
 
+        def slugify(name):
+            return name.lower().replace(" ", "-").replace("'", "").replace('"', "")
+
         # Generate list items
         def generate_list_items(items):
             return ''.join(f'<li>{item}: {count}</li>' for item, count in items)
@@ -8613,7 +6121,7 @@ def MakeClassPages():
                     f""" 
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["Name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["Name"]}" target="_blank">
                                 {char["Name"]}
                             </a>
                         </div>
@@ -8654,7 +6162,7 @@ def MakeClassPages():
                     f""" 
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                                 {char["name"]}
                             </a>
                         </div>
@@ -8692,7 +6200,7 @@ def MakeClassPages():
                     f"""
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                                 {char["name"]}
                             </a>
                         </div>
@@ -8743,7 +6251,7 @@ def MakeClassPages():
                     f"""
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                                 {char["name"]}
                             </a>
                         </div>
@@ -8793,7 +6301,7 @@ def MakeClassPages():
                     f"""
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                                 {char["name"]}
                             </a>
                         </div>
@@ -8843,7 +6351,7 @@ def MakeClassPages():
                     f"""
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char["name"]}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["name"]}" target="_blank">
                                 {char["name"]}
                             </a>
                         </div>
@@ -9072,7 +6580,7 @@ def MakeClassPages():
                     f"""
                     <div class="character-info">
                         <div class="character-link">
-                            <a href="https://pathofdiablo.com/p/armory/?name={char.get("Name", "Unknown")}" target="_blank">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char.get("Name", "Unknown")}" target="_blank">
                                 {char.get("Name", "Unknown")}
                             </a>
                         </div>
@@ -9097,12 +6605,17 @@ def MakeClassPages():
 
                 return "".join(
                     f"""<li>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="https://pathofdiablo.com/p/armory/?name={char.get('Name', 'Unknown')}" target="_blank">
+                        <a href="https://beta.pathofdiablo.com/armory?name={char.get('Name', 'Unknown')}" target="_blank">
                             {char.get('Name', 'Unknown')} ({char.get('Stats', {}).get(stat_name, 0) + char.get('Bonus', {}).get(stat_name, 0)})
                         </a>
                     </li>"""
                     for char in ranked
                 )
+            # lists for median calculations
+            mf_values = []
+            gf_values = []
+            life_values = []
+            mana_values = []
 
             # ✅ Get the top 5 for each stat
             top_strength = get_top_characters("Strength")
@@ -9133,6 +6646,11 @@ def MakeClassPages():
                 total_life += life
                 total_mana += mana
 
+                mf_values.append(mf)
+                gf_values.append(gf)
+                life_values.append(life)
+                mana_values.append(mana)
+
             top_magic_find = get_top_characters("MagicFind")
             top_gold_find = get_top_characters("GoldFind")
 
@@ -9141,6 +6659,12 @@ def MakeClassPages():
             average_gf = total_gf / character_count if character_count > 0 else 0
             average_life = total_life / character_count if character_count > 0 else 0
             average_mana = total_mana / character_count if character_count > 0 else 0
+
+            #calculate medians
+            median_mf = statistics.median(mf_values) if mf_values else 0
+            median_gf = statistics.median(gf_values) if gf_values else 0
+            median_life = statistics.median(life_values) if life_values else 0
+            median_mana = statistics.median(mana_values) if mana_values else 0
 
             # ✅ Generate fun facts HTML
             fun_facts_html = f"""
@@ -9184,12 +6708,12 @@ def MakeClassPages():
                 <div class="fun-facts-column">
                     <h3>Top 5 {what_class}'s with the Most Life:</h3>
                     <ul>{top_life}</ul>
-                    <p><strong>Average Life:</strong> {average_life:.2f}</p>
+                    <p><strong>Average Life:</strong> {average_life:.2f} | <strong>Median Life:</strong> {median_life:.2f}</p>
                 </div>
                 <div class="fun-facts-column">
                     <h3>Top 5 {what_class}'s with the Most Mana:</h3>
                     <ul>{top_mana}</ul>
-                    <p><strong>Average Mana:</strong> {average_mana:.2f}</p>
+                    <p><strong>Average Mana:</strong> {average_mana:.2f} | <strong>Median Mana:</strong> {median_mana:.2f}</p>
                 </div>
             </div>
 
@@ -9198,12 +6722,12 @@ def MakeClassPages():
                 <div class="fun-facts-column">
                     <h3>Top 5 {what_class}'s with the Most Magic Find:</h3>
                     <ul>{top_magic_find}</ul>
-                    <p><strong>Average Magic Find:</strong> {average_mf:.2f}</p>
+                    <p><strong>Average Magic Find:</strong> {average_mf:.2f} | <strong>Median:</strong> {median_mf:.2f}</p>
                 </div>
                 <div class="fun-facts-column">
                     <h3>Top 5 {what_class}'s with the Most Gold Find:</h3>
                     <ul>{top_gold_find}</ul>
-                    <p><strong>Average Gold Find:</strong> {average_gf:.2f}</p>
+                    <p><strong>Average Gold Find:</strong> {average_gf:.2f} | <strong>Median:</strong> {median_gf:.2f}</p>
                 </div>
             </div>
             """
@@ -9216,6 +6740,69 @@ def MakeClassPages():
 
         fun_facts_html = GetSCFunFacts(filtered_characters)
 
+        def generate_maxed_skills_section(maxed_skills, all_characters):
+            section_html = ""
+            
+            # Sort skills by number of characters with 20 points
+            sorted_skills = sorted(maxed_skills.items(), key=lambda x: len(x[1]), reverse=True)
+
+            for skill_name, char_names in sorted_skills:
+                # Get full character info from all_characters
+                characters = [char for char in all_characters if char["Name"] in char_names]
+
+                # Build character display block
+                character_list_html = "".join(
+                    f"""
+                    <div class="character-info">
+                        <div class="character-link">
+                            <a href="https://beta.pathofdiablo.com/armory?name={char["Name"]}" target="_blank">
+                                {char["Name"]}
+                            </a>
+                        </div>
+                    <div>Level {char.get("Stats", {}).get("Level", "?")} {char.get("Class", "Unknown")}</div>                        <div class="hover-trigger" data-character-name="{char["Name"]}"></div>
+                    </div>
+                    <div class="character">
+                        <div class="popup hidden"></div>
+                    </div>
+                    """ for char in characters
+                )
+
+                # Collapsible block per maxed skill
+                section_html += f"""
+                <span id="{skill_name}"></span>
+                <button class="collapsible">
+                    <img src="icons/open-grey.png" alt="Open" class="icon-small open-icon hidden">
+                    <img src="icons/closed-grey.png" alt="Closed" class="icon-small close-icon">
+                    <strong>{skill_name} ({len(characters)} users)</strong>     
+                    <a href="#{skill_name}" class="anchor-link">
+                        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+                    </a>
+                </button>
+                <div class="content">
+                    {character_list_html if characters else "<p>No characters maxed this skill.</p>"}
+                </div>
+                """
+
+            # Wrap in container with section header
+            if section_html:
+                return f"""
+                <h3 id="maxed-skills">Maxed Skills
+                    <a href="#maxed-skills" class="anchor-link">
+                        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+                    </a>
+                </h3>
+                <p>These skills have been maxed (20 points) by one or more characters.</p>
+                <button type="button" class="collapsible sets-button">
+                    <img src="icons/Special_click.png" alt="Undead Open" class="icon open-icon hidden">
+                    <img src="icons/Special.png" alt="Undead Close" class="icon close-icon">
+                </button>
+                <div class="content">  
+                    <div id="special">{section_html}</div>
+                </div>
+                """
+            else:
+                return ""
+            
 
         # Updated HTML template
         html_template = """
@@ -9224,6 +6811,9 @@ def MakeClassPages():
         <head>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Path of Diablo (PoD) {{ what_class }} build trends. This page includes data anaylitics and statistics for {{ what_class }} skills and equipment.">
+        <meta name="keywords" content="{meta_tag}">
+        <meta name="robots" content="index, follow">
             <title>{{ what_class }} Analysis Report</title>
 
         </head>
@@ -9232,7 +6822,7 @@ def MakeClassPages():
         <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
 
             <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
+                <a class="is-48x48" href="https://beta.pathofdiablo.com/"><img src="icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
     <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
         <span></span>
         <span></span>
@@ -9241,7 +6831,7 @@ def MakeClassPages():
             <div id="podNavbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
+                    <a class="navbar-item" href="https://beta.pathofdiablo.com/servers">Servers</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
                     <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
@@ -9257,8 +6847,15 @@ def MakeClassPages():
                             <button class="dropdown2-button">Trends History</button>
                             <div class="dropdown2-content">
                                 <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">S13-February</a>
-                                <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">S13-March</a>
+                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
+                                <div class="dropdown2-item dropdown-sub">
+                                    <a class="dropdown-sub-button">S13</a>
+                                    <div class="dropdown-sub-content">
+                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
+                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -9271,21 +6868,21 @@ def MakeClassPages():
             <div class="line"></div>
         </div>
         <div class="top-buttons">
-            <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
+            <a href="Home" class="top-button home-button" onclick="setActive('Home')"></a>
             <a href="#" id="SC_HC" class="top-button"> </a>
-            <a href="Amazon.html" id="Amazon" class="top-button amazon-button"></a>
-            <a href="Assassin.html" id="Assassin" class="top-button assassin-button"></a>
-            <a href="Barbarian.html" id="Barbarian" class="top-button barbarian-button"></a>
-            <a href="Druid.html" id="Druid" class="top-button druid-button"></a>
-            <a href="Necromancer.html" id="Necromancer" class="top-button necromancer-button"></a>
-            <a href="Paladin.html" id="Paladin" class="top-button paladin-button"></a>
-            <a href="Sorceress.html" id="Sorceress" class="top-button sorceress-button"></a>
+            <a href="Amazon" id="Amazon" class="top-button amazon-button"></a>
+            <a href="Assassin" id="Assassin" class="top-button assassin-button"></a>
+            <a href="Barbarian" id="Barbarian" class="top-button barbarian-button"></a>
+            <a href="Druid" id="Druid" class="top-button druid-button"></a>
+            <a href="Necromancer" id="Necromancer" class="top-button necromancer-button"></a>
+            <a href="Paladin" id="Paladin" class="top-button paladin-button"></a>
+            <a href="Sorceress" id="Sorceress" class="top-button sorceress-button"></a>
             <a href="https://github.com/qordwasalreadytaken/pod-stats/blob/main/README.md" class="top-button about-button" target="_blank"></a>
         </div>
 <div page-intro-class>
             <h1>{{ what_class }} Softcore Skill Distribution </h1>
             <div class="summary-container">
-
+            {intro_summary}
             <p class="indented-skills"> </p>
 
 
@@ -9342,12 +6939,16 @@ def MakeClassPages():
 <!--
 <div class="character-container {% if loop.index is even %}char1{% else %}char2{% endif %}">
 -->
-<div class="character-container char2">
+<div class="character-container char2" id="{{ character['name'] }}">
     <div class="character-info">
-        <div class="character-link"><strong>Name: <a href="https://pathofdiablo.com/p/armory/?name={{ character['name'] }}" target="_blank">
+        <div class="character-link"><strong>Name: <a href="https://beta.pathofdiablo.com/armory?name={{ character['name'] }}" target="_blank">
                 {{ character['name'] }}
             </a></strong></div>
-        <div>Level: {{ character['level'] }}</div>
+                <strong>Level: {{ character['level'] }}</strong>
+                <a href="#{{ character['name'] }}" class="anchor-link">
+                    <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+                </a>
+
         <div class="hover-trigger" data-character-name="{{ character['name'] }}">
             <!-- Armory Quickview -->
         </div>
@@ -9386,10 +6987,11 @@ def MakeClassPages():
                 {% endfor %}
             </ul>
             <br>
+            <!-- Maxed skill list below -->
+            {all_maxed}
             <hr>
             <br>
-                            {{ full_summary_output }}
-            <br>
+<!--                           {{ full_summary_output }} -->
             </div>
             </div>
             <br><br>
@@ -9680,6 +7282,7 @@ def MakeClassPages():
 
 
 <script>
+// Collapsible elemets
 var coll = document.getElementsByClassName("collapsible");
 for (var i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
@@ -9701,7 +7304,7 @@ for (var i = 0; i < coll.length; i++) {
 }
 
 
-//Get the button
+//Back to top button
 var backToTopBtn = document.getElementById("backToTopBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
@@ -9721,59 +7324,73 @@ document.body.scrollTop = 0; // For Safari
 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
+//Trends toolbar
+// Trends toolbar
 function toggleMenu() {
     const navMenu = document.querySelector('.top-buttons');
     navMenu.classList.toggle('show');
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const scHcButton = document.getElementById("SC_HC");
+    const currentUrl = window.location.href;
+    const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+
+    // Check if the current page is Hardcore or Softcore
+    const isHardcore = filename.startsWith("hc");
+
+    // Update button appearance based on current mode
+    if (isHardcore) {
+        scHcButton.classList.add("hardcore");
+        scHcButton.classList.remove("softcore");
+    } else {
+        scHcButton.classList.add("softcore");
+        scHcButton.classList.remove("hardcore");
+    }
+
+    // Update background image based on mode
+    updateButtonImage(isHardcore);
+
+    // Add click event to toggle between SC and HC pages
+    scHcButton.addEventListener("click", function () {
+        let newUrl;
+
+        if (isHardcore) {
+            // Convert HC -> SC (remove "hc" from filename)
+            newUrl = currentUrl.replace(/hc(\w+)$/, "$1"); // Remove "hc"
+        } else {
+            // Convert SC -> HC (prepend "hc" to the filename)
+            newUrl = currentUrl.replace(/\/(\w+)$/, "/hc$1"); // Prepend "hc"
+        }
+
+        // Redirect to the new page
+        if (newUrl !== currentUrl) {
+            window.location.href = newUrl;
+        }
+    });
+
+    // Function to update button background image
+    function updateButtonImage(isHardcore) {
+        if (isHardcore) {
+            scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
+        } else {
+            scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
+        }
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-const scHcButton = document.getElementById("SC_HC");
-const currentUrl = window.location.href;
-const filename = currentUrl.split("/").pop(); // Get the last part of the URL
+    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+    const menuItems = document.querySelectorAll(".top-button");
 
-// Check if the current page is Hardcore or Softcore
-const isHardcore = filename.startsWith("hc");
-
-// Update button appearance based on current mode
-if (isHardcore) {
-scHcButton.classList.add("hardcore");
-scHcButton.classList.remove("softcore");
-} else {
-scHcButton.classList.add("softcore");
-scHcButton.classList.remove("hardcore");
-}
-
-// Update background image based on mode
-updateButtonImage(isHardcore);
-
-// Add click event to toggle between SC and HC pages
-scHcButton.addEventListener("click", function () {
-let newUrl;
-
-if (isHardcore) {
-// Convert HC -> SC (remove "hc" from filename)
-newUrl = currentUrl.replace(/hc(\w+\.html)$/, "$1");
-} else {
-// Convert SC -> HC (prepend "hc" to the filename)
-newUrl = currentUrl.replace(/(\w+\.html)$/, "hc$1");
-}
-
-// Redirect to the new page
-if (newUrl !== currentUrl) {
-window.location.href = newUrl;
-}
+    menuItems.forEach(item => {
+        const itemPage = item.getAttribute("href");
+        if (itemPage && currentPage === itemPage) {
+            item.classList.add("active");
+        }
+    });
 });
 
-// Function to update button background image
-function updateButtonImage(isHardcore) {
-if (isHardcore) {
-scHcButton.style.backgroundImage = "url('icons/Hardcore_click.png')";
-} else {
-scHcButton.style.backgroundImage = "url('icons/Softcore_click.png')";
-}
-}
-});
 
 document.addEventListener("DOMContentLoaded", function () {
 const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
@@ -9787,7 +7404,7 @@ item.classList.add("active");
 });
 });
 
-
+//Armory pop up
 document.addEventListener("DOMContentLoaded", function () {
 let activePopup = null;
 
@@ -9836,6 +7453,7 @@ activePopup = null;
 });
 
 
+//PoD nav buttons
 document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.navbar-burger');
     const menu = document.querySelector('.navbar-menu');
@@ -9862,6 +7480,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+//Anchor in place fix
+// Expand collapsibles and scroll to anchor
+function scrollWithOffset(el, offset = -50) {
+    const y = el.getBoundingClientRect().top + window.pageYOffset + offset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+function expandToAnchor(anchorId) {
+    console.log("expandToAnchor called with:", anchorId);
+    const target = document.getElementById(anchorId);
+    if (!target) return;
+
+    // Step 1: Collect all parent .content elements that need expanding
+    const stack = [];
+    let el = target;
+    while (el) {
+        if (el.classList?.contains('content')) {
+            stack.unshift(el); // add to beginning to expand outermost first
+        }
+        el = el.parentElement;
+    }
+
+    // Step 2: Expand each .content section in order
+    for (const content of stack) {
+        const button = content.previousElementSibling;
+        if (button?.classList.contains('collapsible')) {
+            button.classList.add('active');
+            content.style.display = "block";
+
+            const openIcon = button.querySelector("img.open-icon");
+            const closeIcon = button.querySelector("img.close-icon");
+            if (openIcon) openIcon.classList.add("hidden");
+            if (closeIcon) closeIcon.classList.remove("hidden");
+        }
+    }
+
+    // Step 3: Delay scroll until DOM has reflowed
+    setTimeout(() => {
+        console.log("scrolling to:", target.id);
+        scrollWithOffset(target);
+    }, 250); // Adjust if necessary
+}
+
+// Handle clicks on .anchor-link elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle clicks on .anchor-link elements
+    document.querySelectorAll('.anchor-link, a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const anchorId = this.getAttribute('href').substring(1);
+            const fullUrl = `${window.location.origin}${window.location.pathname}#${anchorId}`;
+
+            navigator.clipboard.writeText(fullUrl); // Copy full link to clipboard
+            history.pushState(null, '', `#${anchorId}`); // Update URL without page reload
+            expandToAnchor(anchorId); // Expand and scroll
+        });
+    });
+
+    // On initial load with hash
+    if (window.location.hash) {
+        const anchorId = window.location.hash.substring(1);
+        // Wait a bit for collapsibles/content to render
+        setTimeout(() => {
+            expandToAnchor(anchorId);
+        }, 200);
+    }
+});
+
+
+
 </script>
 
 
@@ -10227,7 +7917,12 @@ document.addEventListener('DOMContentLoaded', () => {
             summaries.append((cluster_percentage, summary))
 
             clusters[cluster] = {
-                'label': f"{cluster_percentage:.2f}% of {what_class}'s Main Skills:<br>" + "".join([
+                'label': f'<div id="cluster-{cluster}">' +
+                        f"{cluster_percentage:.2f}% of {what_class}'s Main Skills:" +
+                        f'<a href="#cluster-{cluster}" class="anchor-link">' +
+                        f'<img src="icons/anchor.png" alt="🔗" class="anchor-icon"></a>' +
+                        '<br>' +
+                        "".join([
                     f"""
                     <div class="skillbar-container">
                         <div class="skill-row">
@@ -10241,7 +7936,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     """
                     for skill, avg, percent in top_skills_with_avg_and_percent[cluster]
-                ]),
+                ]) +
+                        '</div>',
 
                 'character_count': character_count,
                 'other_skills': other_skills_str,
@@ -10401,7 +8097,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             "Assassin":{
                 "Martial Arts": {"Claws of Thunder", "Fists of Fire", "Blades of Ice"},
-                "Trap": {"Wake of Fire", "Wake of Inferno", "Lightning Sentry", "Death Sentry", "Charged Bolt Sentry", "Shock Web"},
+                "Traps": {"Wake of Fire", "Wake of Inferno", "Lightning Sentry", "Death Sentry", "Charged Bolt Sentry", "Shock Web"},
         #        "Lightning Traps": {"Lightning Sentry", "Death Sentry", "Charged Bolt Sentry", "Shock Web"},
 
             },
@@ -10423,16 +8119,16 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             "Paladin": {
                 "FoH Builds": {"Fist of the Heavens", "Holy Bolt"},
-                "Combat Builds": {"Smite", "Charge", "Zeal", "Dashing Strike"},
+                "Melee Combat Builds": {"Smite", "Charge", "Zeal", "Dashing Strike"},
                 "Hammerdins": {"Blessed Hammer", "Blessed Aim"}
         #        "Offensive Auras": {"Fanaticism", "Conviction", "Holy Fire", "Holy Shock"},
         #        "Defensive Auras": {"Defiance", "Resist Fire", "Resist Cold", "Resist Lightning"},
             },
             "Necromancer": {
-        #        "CE": {"Corpse Explosion"},
+#                "CE": {"Corpse Explosion", "Fire Golem"},
                 "Poison & Bone": {"Bone Spear", "Bone Spirit", "Poison Nova", "Teeth", "Corpse Explosion", "Deadly Poison"},
                 "Summoning": {"Raise Skeleton", "Skeleton Mastery", "Revive", "Clay Golem", "Fire Golem"},
-                "Curses": {"Hemorrhage", "Amplify Damage", "Decrepify", "Lower Resist", "Iron Maiden"},
+                "Hemo": {"Hemorrhage", "Amplify Damage", "Decrepify", "Lower Resist", "Iron Maiden"},
             },
             "Druid": {
                 "Elemental": {"Hurricane", "Tornado", "Firestorm", "Molten Boulder"},
@@ -10460,15 +8156,47 @@ document.addEventListener('DOMContentLoaded', () => {
                     tree_investment[assigned_tree] += pct
                     sorted_builds[assigned_tree].append(f" {summary}")  # ✅ Remove unnecessary breaks
 
+#            intro_summary = []
             final_summary = []
             for tree, pct in tree_investment.items():
                 if pct > 0:
+#                    intro_summary.append(f"<br><strong>{pct:.2f}% of all {class_name}s favor {tree} </strong>")
                     final_summary.append(f"<br><strong>{pct:.2f}% of all {class_name}s favor {tree} </strong>")
                     final_summary.extend(sorted_builds[tree])  # ✅ Ensures builds are close to category header
 
-            return "<br>".join(final_summary)  # ✅ Join without excessive spacing
+            return "<br>".join(final_summary) #, "<br>".join(intro_summary)  # ✅ Join without excessive spacing
         
         organize_by_skill_tree(what_class, sorted_summaries)
+
+        def organize_by_skill_tree_intro(class_name, sorted_summaries):
+            if class_name not in skill_tree_mappings:
+                return "<br>".join(f"{pct:.2f}% {summary}" for pct, summary in sorted_summaries)
+
+            skill_trees = skill_tree_mappings[class_name]
+            tree_investment = {tree: 0 for tree in skill_trees}
+            sorted_builds = {tree: [] for tree in skill_trees}
+
+            for pct, summary in sorted_summaries:
+                assigned_tree = None
+                for tree, skills in skill_trees.items():
+                    if any(skill in summary for skill in skills):
+                        assigned_tree = tree
+                        break  # Only assign once
+
+                if assigned_tree:
+                    tree_investment[assigned_tree] += pct
+                    sorted_builds[assigned_tree].append(f" {summary}")  # ✅ Remove unnecessary breaks
+
+            intro_summary = []
+            # Sort the dictionary by values in descending order
+            sorted_tree_investment = sorted(tree_investment.items(), key=lambda item: item[1], reverse=True)
+
+            for tree, pct in sorted_tree_investment:
+                if pct > 0:
+                    intro_summary.append(f"<strong>{pct:.2f}% of all {class_name}s favor {tree}</strong>")
+
+            return "<br>".join(intro_summary)  # ✅ Join without excessive spacing        
+        organize_by_skill_tree_intro(what_class, sorted_summaries)
 
         amazon_summary =  ""       
         amazon_summary = ""
@@ -10478,6 +8206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         necromancer_summary = ""
         paladin_summary = ""
         sorceress_summary = ""
+        intro_summary = ""
 
 #        amazon_summary = "<br><strong>46% of all Amazons favor Spear and Javelin Skills</strong><br>" \
 #                        "<strong>54% of all Amazons favor Bow Skills</strong><br><br>More detailed breakdown:<br>"
@@ -10496,29 +8225,40 @@ document.addEventListener('DOMContentLoaded', () => {
 #                        "<strong>42% of all Sorcs favor Cold</strong><br>" \
 #                        "<strong>14% of all Sorcs favor Fire</strong><br><br>More detailed breakdown:<br>"
         
+        meta_tag = what_class + ", path of diablo, builds, stats, statistics, data, analysis, analytics, trends, "
         structured_summary = organize_by_skill_tree(what_class, sorted_summaries)
+        intro_summary = organize_by_skill_tree_intro(what_class, sorted_summaries)
 
         if what_class == "Amazon":
             summary_label = amazon_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = amazon_summary + "" + structured_summary
+            intro_summary = intro_summary
+
         elif what_class == "Assassin":
             summary_label = assassin_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = assassin_summary + "" + structured_summary
+            intro_summary = intro_summary
         elif what_class == "Barbarian":
             summary_label = barbarian_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = barbarian_summary + "" + structured_summary
+            intro_summary = intro_summary
         elif what_class == "Druid":
             summary_label = druid_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = druid_summary + "" + structured_summary
+            intro_summary = intro_summary
         elif what_class == "Necromancer":
             summary_label = necromancer_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = necromancer_summary + "" + structured_summary
+            intro_summary = intro_summary
         elif what_class == "Paladin":
             summary_label = paladin_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = paladin_summary + "" + structured_summary
+            intro_summary = intro_summary
         elif what_class == "Sorceress":
             summary_label = sorceress_summary + "<br>".join(summary for _, summary in sorted_summaries)
             structured_summary_label = sorceress_summary + "" + structured_summary
+            meta_tag += "Sorc, Frigerate, Enflame, Blizzard, Hydra, Frozen Orb, Freezing Pulse, Ice Bolt, Cold Mastery, Glacial Spike, Nova, Lightning, Chain Lightning, Thunder Storm, Fire Ball, Meteor, Hydra, Fire Mastery"
+            intro_summary = intro_summary
         else:
             structured_summary_label = structured_summary  # Default case
 
@@ -10562,7 +8302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                        bottom_5_least_used_skills=bottom_5_least_used_skills, 
                                        summary_label=summary_label, merc_count=merc_count, 
                                        mercenary=mercenary, mercenary_equipment=mercenary_equipment, 
-                                       timeStamp=timeStamp, full_summary_output=full_summary_output, 
+                                       timeStamp=timeStamp, # full_summary_output=full_summary_output, 
                                        fun_facts_html=fun_facts_html
                                        )  # Pass sorted clusters to the template
 
@@ -10617,6 +8357,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 "{all_other_items}", other_items_html
             ).replace(
                 "{fun_facts_html}", fun_facts_html
+            ).replace(
+                "{all_maxed}", generate_maxed_skills_section(maxed_skills, filtered_characters)
+            ).replace(
+                "{meta_tag}", meta_tag
+            ).replace(
+                "{intro_summary}", intro_summary
             ).replace(
                 "{html_output}", html_output
             )
@@ -10676,5 +8422,5 @@ def GitHubSync():
     remote = 'origin'  # Replace 'origin' with the desired remote name
 
     # Call the git_sync function with the specified remote
-    git_sync()
+#    git_sync()
 
