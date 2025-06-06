@@ -171,7 +171,7 @@
             <div class="fun-facts-column">
                 <h3>Accounts with the most experience</h3>
                     <ul>
-                        <li><a href='https://beta.pathofdiablo.com/account/Cripler'>Cripler</a>: 17,382,304,557 XP, 8 chars, avg level 92.75</li><li><a href='https://beta.pathofdiablo.com/account/danm93m'>danm93m</a>: 16,352,163,213 XP, 9 chars, avg level 90.89</li><li><a href='https://beta.pathofdiablo.com/account/Ogginok'>Ogginok</a>: 15,989,231,142 XP, 7 chars, avg level 93.14</li><li><a href='https://beta.pathofdiablo.com/account/ArtD'>ArtD</a>: 13,526,322,991 XP, 9 chars, avg level 82.89</li><li><a href='https://beta.pathofdiablo.com/account/sebrooks'>sebrooks</a>: 12,726,200,685 XP, 7 chars, avg level 88.14</li>
+                        <li><a href='https://beta.pathofdiablo.com/account/Cripler'>Cripler</a>: 17,382,304,557 XP, 8 chars, avg level 92.75</li><li><a href='https://beta.pathofdiablo.com/account/danm93m'>danm93m</a>: 16,352,163,213 XP, 9 chars, avg level 90.89</li><li><a href='https://beta.pathofdiablo.com/account/Ogginok'>Ogginok</a>: 15,989,231,142 XP, 7 chars, avg level 93.14</li><li><a href='https://beta.pathofdiablo.com/account/ArtD'>ArtD</a>: 13,526,322,991 XP, 9 chars, avg level 82.89</li><li><a href='https://beta.pathofdiablo.com/account/sebrooks'>sebrooks</a>: 12,726,201,245 XP, 7 chars, avg level 88.14</li>
                     </ul>
            </div>
             <div class="fun-facts-column">
@@ -212,13 +212,48 @@
         <!-- Moved the Plotly scatter plot to the bottom -->
         <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
         <hr> 
-        <h1>Non-Class specific reporting</h1>
-<h3 id="runeword-usage">
+        <h1>Mercenary reporting</h1>
+<h3 id="merc-equipment">
+    Mercenary counts and Most Used Runewords, Uniques, and Set items equipped
+    <a href="#merc-equipment" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h3>
+
+        <button type="button" class="collapsible">
+            <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
+            <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
+<!--            <strong>Mercenary Details</strong> -->
+        </button>
+        <div class="content">
+        <div id="mercequips">
+            <p><h2>Mercenary Analysis and Popular Equipment</h2></p><p><h3>Mercenary Type Counts</h3></p><ul><li>Act 2 Desert Mercenary: 397</li><li>Act 5 Barbarian: 72</li><li>Act 1 Rogue Scout: 48</li><li>Act 3 Eastern Sorceror: 42</li></ul><h3>Most Common Mercenary Names</h3><ul><li>Waheed: 30</li><li>Emilio: 29</li><li>Razan: 25</li><li>Leharas: 24</li><li>Azrael: 23</li><li>Haseen: 19</li><li>Ahsab: 19</li><li>Pratham: 19</li><li>Alhizeer: 18</li><li>Mizan: 17</li><li>Durga: 17</li><li>Fazel: 17</li><li>Chalan: 17</li><li>Aliza: 17</li><li>Hazade: 16</li></ul><p><h3>Popular Equipment by Mercenary Type</h3></p><div class='row'><p><strong>Act 2 Desert Mercenary</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 97</li><li>Steel Shade: 32</li><li>Vampire Gaze: 23</li><li>Crown of Thieves: 22</li><li>Andariel's Visage: 18</li><li>Guillaume's Face: 12</li><li>Stealskull: 11</li><li>Wormskull: 11</li><li>Undead Crown: 9</li><li>Duskdeep: 8</li><li>Bulwark: 8</li><li>Rockstopper: 5</li><li>Crown of Ages: 5</li><li>The Face of Horror: 4</li><li>Mask: 4</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 81</li><li>Fortitude: 27</li><li>Duriel's Shell: 27</li><li>Shaftstop: 16</li><li>Smoke: 15</li><li>Leviathan: 14</li><li>Guardian Angel: 10</li><li>Skin of the Flayed One: 10</li><li>Griswold's Heart: 8</li><li>Toothrow: 7</li><li>Haemosu's Adamant: 7</li><li>Hustle: 6</li><li>Naj's Light Plate: 5</li><li>Goldskin: 5</li><li>Black Hades: 5</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Insight: 241</li><li>Infinity: 36</li><li>The Reaper's Toll: 19</li><li>Obedience: 11</li><li>Bonehew: 4</li><li>Viperfork: 4</li><li>Pride: 3</li><li>Hwanin's Justice: 3</li><li>Spire of Honor: 3</li><li>Tomb Reaver: 3</li><li>Plague: 2</li><li>Kelpie Snare: 2</li><li>The Meat Scraper: 2</li><li>Doom: 2</li><li>Hone Sundan: 2</li></ul></div></div><div class='row'><p><strong>Act 5 Barbarian</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 18</li><li>Shaftstop: 9</li><li>Duriel's Shell: 6</li><li>The Gladiator's Bane: 5</li><li>Leviathan: 3</li><li>Darkglow: 2</li><li>Smoke: 2</li><li>Fortitude: 2</li><li>Hustle: 2</li><li>Haemosu's Adamant: 2</li><li>Rockfleece: 1</li><li>Boneflesh: 1</li><li>Sazabi's Ghost Liberator: 1</li><li>Bramble Coat: 1</li><li>Griswold's Heart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 17</li><li>Steel Shade: 12</li><li>Arreat's Face: 4</li><li>Vampire Gaze: 3</li><li>Andariel's Visage: 3</li><li>Crown of Thieves: 2</li><li>Guillaume's Face: 2</li><li>Sazabi's Mental Sheath: 2</li><li>Blackhorn's Face: 1</li><li>Harlequin Crest: 1</li><li>Cap: 1</li><li>Immortal King's Will: 1</li><li>Crown of Ages: 1</li><li>Hearth: 1</li><li>Demonhorn's Edge: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Lawbringer: 27</li><li>Silence: 9</li><li>Todesfaelle Flamme: 3</li><li>Plague: 2</li><li>Crainte Vomir: 2</li><li>Bing Sz Wang: 2</li><li>Unbending Will: 2</li><li>The Vile Husk: 1</li><li>Glyph Needle: 1</li><li>Ginther's Rift: 1</li><li>Breath of the Dying: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Holocaust Thirst: 1</li><li>Flamebellow: 1</li><li>Oath: 1</li></ul></div></div><div class='row'><p><strong>Act 1 Rogue Scout</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Hearth: 8</li><li>Tal Rasha's Horadric Crest: 7</li><li>Vampire Gaze: 2</li><li>Shako: 1</li><li>Howltusk: 1</li><li>Crown of Thieves: 1</li><li>Guillaume's Face: 1</li><li>Stealskull: 1</li><li>Great Helm: 1</li><li>The Face of Horror: 1</li><li>Sturdy Skull Cap of the Mind: 1</li><li>Darksight Helm: 1</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 5</li><li>Hustle: 4</li><li>Fortitude: 2</li><li>Duriel's Shell: 2</li><li>Hawkmail: 2</li><li>Rattlecage: 1</li><li>Venom Ward: 1</li><li>Shaftstop: 1</li><li>Chains of Honor: 1</li><li>Bitter Coat: 1</li><li>Dusk Shroud: 1</li><li>Skin of the Vipermagi: 1</li><li>Rockfleece: 1</li><li>Glowing Ring Mail of Balance: 1</li><li>Smoke: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Harmony: 12</li><li>Insight: 3</li><li>Pus Spitter: 3</li><li>Faith: 2</li><li>Edge: 2</li><li>Imp Nock: 1</li><li>Witchwild String: 1</li><li>Windforce: 1</li><li>Short Bow: 1</li></ul></div></div><div class='row'><p><strong>Act 3 Eastern Sorceror</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Stealth: 3</li><li>Guardian Angel: 3</li><li>Que-Hegan's Wisdom: 2</li><li>Rockfleece: 2</li><li>Skin of the Vipermagi: 2</li><li>Ormus' Robes: 2</li><li>Darkglow: 2</li><li>Isenhart's Case: 1</li><li>Heavenly Garb: 1</li><li>Duriel's Shell: 1</li><li>Haemosu's Adamant: 1</li><li>Carrion Hide: 1</li><li>Shaftstop: 1</li><li>Hawkmail: 1</li><li>Griswold's Heart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Rockstopper: 4</li><li>Sazabi's Mental Sheath: 2</li><li>Nightwing's Veil: 2</li><li>Crown of Thieves: 2</li><li>Vampire Gaze: 2</li><li>Milabrega's Diadem: 1</li><li>Coif of Glory: 1</li><li>Rune Veil: 1</li><li>Hwanin's Splendor: 1</li><li>Wraithra Hood: 1</li><li>Glyph Casque: 1</li><li>Blood Visor: 1</li><li>Tal Rasha's Horadric Crest: 1</li><li>Blackhorn's Face: 1</li><li>Harlequin Crest: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Spirit: 6</li><li>Lawbringer: 2</li><li>Plague: 2</li><li>Ginther's Rift: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Sabre: 1</li><li>Last Wish: 1</li><li>Blood Crescent: 1</li><li>Brimstone Skewer: 1</li><li>Doom Scythe: 1</li><li>Azurewrath: 1</li><li>Fortitude: 1</li><li>The Atlantean: 1</li><li>Knight's War Sword of Evisceration: 1</li><li>Pain Skewer: 1</li></ul></div><div class='merccolumn'><strong>Most Common Offhands:</strong><ul><li>Gerke's Sanctuary: 5</li><li>Moser's Blessed Circle: 4</li><li>Spirit: 4</li><li>Ancients' Pledge: 2</li><li>The Ward: 2</li><li>Havoc Ward: 1</li><li>Splendor: 1</li><li>Wraithra Badge: 1</li><li>Kite Shield: 1</li><li>Isenhart's Parry: 1</li><li>Cruel Mark: 1</li><li>Steelclash: 1</li><li>Rainbow Bone Shield of Maiming: 1</li><li>Tiamat's Rebuke: 1</li><li>Brimstone Mark: 1</li></ul></div></div>
+        </div>
+        </div>
+        <br>
+        <hr>        
+<h1>Item And Equipment Stats And Data</h1>
+<h2>Overall Weapon Usage Stats, Characters Equipped with:</h2><ul><li><strong>Weapon + Shield:</strong> 489 (60.1%)</li><li><strong>A Single Two-Handed Weapon:</strong> 107 (13.2%)</li><li><strong>Dual Wield:</strong> 67 (8.2%)</li><li><strong>Bow + Arrows:</strong> 32 (3.9%)</li><li><strong>Crossbow + Bolts:</strong> 7 (0.9%)</li></ul><br>
+    <button type="button" class="collapsible small-collapsible">
+        <img src="icons/open.png" alt="Incomplete Loadouts Open" class="icon-small open-icon hidden">
+        <img src="icons/closed.png" alt="Incomplete Loadouts Close" class="icon-small close-icon">
+        <strong>Incomplete Loadouts</strong>
+    </button>
+    <div class="content">
+        <div id="incompletes">
+            <p>These character builds are incomplete and missing items:</p>
+            <ul>
+    <li><strong>Single One-Handed Weapon (Missing Shield or Second Weapon):</strong> 67 (8.2%)</li><li><strong>Shield Only (Missing Weapon):</strong> 27 (3.3%)</li><li><strong>Bow Only (Missing Arrows):</strong> 17 (2.1%)</li></ul></div></div><br>
+            <p><strong>Characters with no weapons in either weapon slot:</strong> 216</p>
+            <p><strong>Characters with no weapons on swap:</strong> 89</p><br>
+         
+<hr>
+<h2 id="runeword-usage">
     Most and Least Used Runewords, Uniques, and Set items currently equipped by characters
     <a href="#runeword-usage" class="anchor-link">
         <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
     </a>
-</h3>
+</h2>
 
 <button type="button" class="collapsible runewords-button">
     <img src="icons/Runewords_click.png" alt="Runewords Open" class="icon open-icon hidden">
@@ -47674,29 +47709,6 @@
 
         <br>
 
-        <h1>Mercenary reporting</h1>
-<h3 id="merc-equipment">
-    Mercenary counts and Most Used Runewords, Uniques, and Set items equipped
-    <a href="#merc-equipment" class="anchor-link">
-        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
-    </a>
-</h3>
-
-        <button type="button" class="collapsible">
-            <img src="icons/Merc_click.png" alt="Merc Details Open" class="icon open-icon hidden">
-            <img src="icons/Merc.png" alt="Merc Details Close" class="icon close-icon">
-<!--            <strong>Mercenary Details</strong> -->
-        </button>
-        <div class="content">
-        <div id="mercequips">
-            <p><h2>Mercenary Analysis and Popular Equipment</h2></p><p><h3>Mercenary Type Counts</h3></p><ul><li>Act 2 Desert Mercenary: 397</li><li>Act 5 Barbarian: 72</li><li>Act 1 Rogue Scout: 48</li><li>Act 3 Eastern Sorceror: 42</li></ul><h3>Most Common Mercenary Names</h3><ul><li>Waheed: 30</li><li>Emilio: 29</li><li>Razan: 25</li><li>Leharas: 24</li><li>Azrael: 23</li><li>Haseen: 19</li><li>Ahsab: 19</li><li>Pratham: 19</li><li>Alhizeer: 18</li><li>Mizan: 17</li><li>Durga: 17</li><li>Fazel: 17</li><li>Chalan: 17</li><li>Aliza: 17</li><li>Hazade: 16</li></ul><p><h3>Popular Equipment by Mercenary Type</h3></p><div class='row'><p><strong>Act 2 Desert Mercenary</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 97</li><li>Steel Shade: 32</li><li>Vampire Gaze: 23</li><li>Crown of Thieves: 22</li><li>Andariel's Visage: 18</li><li>Guillaume's Face: 12</li><li>Stealskull: 11</li><li>Wormskull: 11</li><li>Undead Crown: 9</li><li>Duskdeep: 8</li><li>Bulwark: 8</li><li>Rockstopper: 5</li><li>Crown of Ages: 5</li><li>The Face of Horror: 4</li><li>Mask: 4</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 81</li><li>Fortitude: 27</li><li>Duriel's Shell: 27</li><li>Shaftstop: 16</li><li>Smoke: 15</li><li>Leviathan: 14</li><li>Guardian Angel: 10</li><li>Skin of the Flayed One: 10</li><li>Griswold's Heart: 8</li><li>Toothrow: 7</li><li>Haemosu's Adamant: 7</li><li>Hustle: 6</li><li>Naj's Light Plate: 5</li><li>Goldskin: 5</li><li>Black Hades: 5</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Insight: 241</li><li>Infinity: 36</li><li>The Reaper's Toll: 19</li><li>Obedience: 11</li><li>Bonehew: 4</li><li>Viperfork: 4</li><li>Pride: 3</li><li>Hwanin's Justice: 3</li><li>Spire of Honor: 3</li><li>Tomb Reaver: 3</li><li>Plague: 2</li><li>Kelpie Snare: 2</li><li>The Meat Scraper: 2</li><li>Doom: 2</li><li>Hone Sundan: 2</li></ul></div></div><div class='row'><p><strong>Act 5 Barbarian</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 18</li><li>Shaftstop: 9</li><li>Duriel's Shell: 6</li><li>The Gladiator's Bane: 5</li><li>Leviathan: 3</li><li>Darkglow: 2</li><li>Smoke: 2</li><li>Fortitude: 2</li><li>Hustle: 2</li><li>Haemosu's Adamant: 2</li><li>Rockfleece: 1</li><li>Boneflesh: 1</li><li>Sazabi's Ghost Liberator: 1</li><li>Bramble Coat: 1</li><li>Griswold's Heart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Tal Rasha's Horadric Crest: 17</li><li>Steel Shade: 12</li><li>Arreat's Face: 4</li><li>Vampire Gaze: 3</li><li>Andariel's Visage: 3</li><li>Crown of Thieves: 2</li><li>Guillaume's Face: 2</li><li>Sazabi's Mental Sheath: 2</li><li>Blackhorn's Face: 1</li><li>Harlequin Crest: 1</li><li>Cap: 1</li><li>Immortal King's Will: 1</li><li>Crown of Ages: 1</li><li>Hearth: 1</li><li>Demonhorn's Edge: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Lawbringer: 27</li><li>Silence: 9</li><li>Todesfaelle Flamme: 3</li><li>Plague: 2</li><li>Crainte Vomir: 2</li><li>Bing Sz Wang: 2</li><li>Unbending Will: 2</li><li>The Vile Husk: 1</li><li>Glyph Needle: 1</li><li>Ginther's Rift: 1</li><li>Breath of the Dying: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Holocaust Thirst: 1</li><li>Flamebellow: 1</li><li>Oath: 1</li></ul></div></div><div class='row'><p><strong>Act 1 Rogue Scout</strong></p><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Hearth: 8</li><li>Tal Rasha's Horadric Crest: 7</li><li>Vampire Gaze: 2</li><li>Shako: 1</li><li>Howltusk: 1</li><li>Crown of Thieves: 1</li><li>Guillaume's Face: 1</li><li>Stealskull: 1</li><li>Great Helm: 1</li><li>The Face of Horror: 1</li><li>Sturdy Skull Cap of the Mind: 1</li><li>Darksight Helm: 1</li></ul></div><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Treachery: 5</li><li>Hustle: 4</li><li>Fortitude: 2</li><li>Duriel's Shell: 2</li><li>Hawkmail: 2</li><li>Rattlecage: 1</li><li>Venom Ward: 1</li><li>Shaftstop: 1</li><li>Chains of Honor: 1</li><li>Bitter Coat: 1</li><li>Dusk Shroud: 1</li><li>Skin of the Vipermagi: 1</li><li>Rockfleece: 1</li><li>Glowing Ring Mail of Balance: 1</li><li>Smoke: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Harmony: 12</li><li>Insight: 3</li><li>Pus Spitter: 3</li><li>Faith: 2</li><li>Edge: 2</li><li>Imp Nock: 1</li><li>Witchwild String: 1</li><li>Windforce: 1</li><li>Short Bow: 1</li></ul></div></div><div class='row'><p><strong>Act 3 Eastern Sorceror</strong></p><div class='merccolumn'><strong>Most Common Armors:</strong><ul><li>Stealth: 3</li><li>Guardian Angel: 3</li><li>Que-Hegan's Wisdom: 2</li><li>Rockfleece: 2</li><li>Skin of the Vipermagi: 2</li><li>Ormus' Robes: 2</li><li>Darkglow: 2</li><li>Isenhart's Case: 1</li><li>Heavenly Garb: 1</li><li>Duriel's Shell: 1</li><li>Haemosu's Adamant: 1</li><li>Carrion Hide: 1</li><li>Shaftstop: 1</li><li>Hawkmail: 1</li><li>Griswold's Heart: 1</li></ul></div><div class='merccolumn'><strong>Most Common Helmets:</strong><ul><li>Rockstopper: 4</li><li>Sazabi's Mental Sheath: 2</li><li>Nightwing's Veil: 2</li><li>Crown of Thieves: 2</li><li>Vampire Gaze: 2</li><li>Milabrega's Diadem: 1</li><li>Coif of Glory: 1</li><li>Rune Veil: 1</li><li>Hwanin's Splendor: 1</li><li>Wraithra Hood: 1</li><li>Glyph Casque: 1</li><li>Blood Visor: 1</li><li>Tal Rasha's Horadric Crest: 1</li><li>Blackhorn's Face: 1</li><li>Harlequin Crest: 1</li></ul></div><div class='merccolumn'><strong>Most Common Weapons:</strong><ul><li>Spirit: 6</li><li>Lawbringer: 2</li><li>Plague: 2</li><li>Ginther's Rift: 1</li><li>Sazabi's Cobalt Redeemer: 1</li><li>Sabre: 1</li><li>Last Wish: 1</li><li>Blood Crescent: 1</li><li>Brimstone Skewer: 1</li><li>Doom Scythe: 1</li><li>Azurewrath: 1</li><li>Fortitude: 1</li><li>The Atlantean: 1</li><li>Knight's War Sword of Evisceration: 1</li><li>Pain Skewer: 1</li></ul></div><div class='merccolumn'><strong>Most Common Offhands:</strong><ul><li>Gerke's Sanctuary: 5</li><li>Moser's Blessed Circle: 4</li><li>Spirit: 4</li><li>Ancients' Pledge: 2</li><li>The Ward: 2</li><li>Havoc Ward: 1</li><li>Splendor: 1</li><li>Wraithra Badge: 1</li><li>Kite Shield: 1</li><li>Isenhart's Parry: 1</li><li>Cruel Mark: 1</li><li>Steelclash: 1</li><li>Rainbow Bone Shield of Maiming: 1</li><li>Tiamat's Rebuke: 1</li><li>Brimstone Mark: 1</li></ul></div></div>
-        </div>
-        </div>
-        <br>
-    
-        <br>
-        <hr>
-        <h1>Specialty Searches, Items</h1>
         <h2>Synth reporting</h2>
 <h2 id="synth-items">
     10 Characters with Synthesized items equipped
@@ -70102,6 +70114,122 @@
 <em>*Reference list used for <a href="https://github.com/GreenDude120/builds_data/blob/main/items_list.py">all runewords, uniques, and set items</a> can be found here</em>
 <br>
 <br>
+<h2 id="one-two-handed">Characters Weilding 2-Handed Swords
+    <a href="#one-two-handed" class="anchor-link">
+        <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
+    </a>
+</h2>
+<button type="button" class="collapsible sets-button">
+    <img src="icons/Special_click.png" alt="Synth Open" class="icon open-icon hidden">
+    <img src="icons/Special.png" alt="Synth Close" class="icon close-icon">
+</button>  
+<div class="content">
+<h2>One or Two-Handed Items (Used Two-Handed)</h2>
+<div style='column-count: 2; column-gap: 2em;'>
+<ul style='margin: 0; padding: 0;'>
+<li><strong>Todesfaelle Flamme: 1</strong>
+
+                    <ul style="margin: 0;">
+                        <li style="padding-left: 1.5em">
+                            <button class="collapsible">
+                                <img src="icons/open-grey.png" alt="Expand" class="icon-small open-icon hidden">
+                                <img src="icons/closed-grey.png" alt="Collapse" class="icon-small close-icon">
+                                <strong>
+                                    <a href="#item-todesfaelle-flamme-zweihander" class="anchor-link">
+                                        Zweihander: 1
+                                    </a>
+                                </strong>
+                            </button>
+                            <div class="content" id="item-todesfaelle-flamme-zweihander">
+                                
+                                    <div class="character-info">
+                                        <div class="character-link">
+                                            <a href="https://beta.pathofdiablo.com/armory?name=HupakkoH" target="_blank">
+                                                HupakkoH
+                                            </a>
+                                        </div>
+                                        <div>Assassin</div>
+                                        <div class="hover-trigger" data-character-name="HupakkoH"></div>
+                                    </div>
+                                    <div class="character">
+                                        <div class="popup hidden"></div>
+                                    </div>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                
+</li>
+<li><strong>The Grandfather: 1</strong>
+
+                    <ul style="margin: 0;">
+                        <li style="padding-left: 1.5em">
+                            <button class="collapsible">
+                                <img src="icons/open-grey.png" alt="Expand" class="icon-small open-icon hidden">
+                                <img src="icons/closed-grey.png" alt="Collapse" class="icon-small close-icon">
+                                <strong>
+                                    <a href="#item-the-grandfather-colossus-blade" class="anchor-link">
+                                        Colossus Blade: 1
+                                    </a>
+                                </strong>
+                            </button>
+                            <div class="content" id="item-the-grandfather-colossus-blade">
+                                
+                                    <div class="character-info">
+                                        <div class="character-link">
+                                            <a href="https://beta.pathofdiablo.com/armory?name=Karalarim" target="_blank">
+                                                Karalarim
+                                            </a>
+                                        </div>
+                                        <div>Barbarian</div>
+                                        <div class="hover-trigger" data-character-name="Karalarim"></div>
+                                    </div>
+                                    <div class="character">
+                                        <div class="popup hidden"></div>
+                                    </div>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                
+</li>
+<li><strong>Priest's Great Sword: 1</strong>
+
+                    <ul style="margin: 0;">
+                        <li style="padding-left: 1.5em">
+                            <button class="collapsible">
+                                <img src="icons/open-grey.png" alt="Expand" class="icon-small open-icon hidden">
+                                <img src="icons/closed-grey.png" alt="Collapse" class="icon-small close-icon">
+                                <strong>
+                                    <a href="#item-priests-great-sword-great-sword" class="anchor-link">
+                                        Great Sword: 1
+                                    </a>
+                                </strong>
+                            </button>
+                            <div class="content" id="item-priests-great-sword-great-sword">
+                                
+                                    <div class="character-info">
+                                        <div class="character-link">
+                                            <a href="https://beta.pathofdiablo.com/armory?name=When_The" target="_blank">
+                                                When_The
+                                            </a>
+                                        </div>
+                                        <div>Paladin</div>
+                                        <div class="hover-trigger" data-character-name="When_The"></div>
+                                    </div>
+                                    <div class="character">
+                                        <div class="popup hidden"></div>
+                                    </div>
+                                
+                            </div>
+                        </li>
+                    </ul>
+                
+</li>
+</ul></div>
+</div>
+
+<br>
 <h2 id="two-handed">Melee Weapons That Require Two Hands
     <a href="#two-handed" class="anchor-link">
         <img src="icons/anchor.png" alt="🔗" class="anchor-icon">
@@ -70173,7 +70301,6 @@
 <li>Ember Gnarled Staff of the Locust: 1</li>
 </ul></div>
 </div>
-
 <br>
 <hr>
         <h1>Specialty Searches, Character Builds</h1>
@@ -76383,7 +76510,7 @@
 
         </div>
         <div class="footer">
-        <p>PoD data current as of 2025-06-05 18:49</p>
+        <p>PoD data current as of 2025-06-05 21:50</p>
         </div>
 
 
