@@ -479,7 +479,10 @@ function createItemHTML(itemObject) {
                 // ✅ Label Rare Jewels properly
                 let displayName = socketedItem.Title;
                 if (socketedItem.Quality === "Rare" && /jewel/i.test(socketedItem.Tag || "")) {
-                    displayName = `${displayName} Rare Jewel`;
+                    displayName = `Misc. Rare Jewel`;
+                }
+                if (socketedItem.Quality === "Magic" && /jewel/i.test(socketedItem.Tag || "")) {
+                    displayName = `Misc. Magic Jewel`;
                 }
 
                 socketNameCounts[displayName] = (socketNameCounts[displayName] || 0) + 1;
