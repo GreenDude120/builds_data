@@ -7762,34 +7762,64 @@
         <!--    <hr width="90%"> -->
             <br>
             
-                <h3>Top 5 Most Popular Assassin Skills:</h3>
+            <h3>Top 5 Most Popular Assassin Skills:</h3>
             <ul>
-                
-                <li>Fire Blast: 2568.0</li>
-                
-                <li>Wake of Fire: 2554.0</li>
-                
-                <li>Wake of Inferno: 2544.0</li>
-                
-                <li>Blade Shield: 2215.0</li>
-                
-                <li>Blades of Ice: 945.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2568", "June 14": "2568"}'>
+                    Fire Blast: 2568.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2554", "June 14": "2554"}'>
+                    Wake of Fire: 2554.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2544", "June 14": "2544"}'>
+                    Wake of Inferno: 2544.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2215", "June 14": "2215"}'>
+                    Blade Shield: 2215.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "945", "June 14": "945"}'>
+                    Blades of Ice: 945.0
+                </li>
+            
             </ul>
 
-            <h3>Bottom 5 Least Popular Assassin Skills:</h3>
+            <h3>Top 5 Least Popular Assassin Skills:</h3>
             <ul>
-                
-                <li>Dragon Claw: 111.0</li>
-                
-                <li>Dragon Talon: 128.0</li>
-                
-                <li>Mind Blast: 137.0</li>
-                
-                <li>Shadow Warrior: 145.0</li>
-                
-                <li>Dragon Flight: 147.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "111", "June 14": "111"}'>
+                    Dragon Claw: 111.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "128", "June 14": "128"}'>
+                    Dragon Talon: 128.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "137", "June 14": "137"}'>
+                    Mind Blast: 137.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "145", "June 14": "145"}'>
+                    Shadow Warrior: 145.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "147", "June 14": "147"}'>
+                    Dragon Flight: 147.0
+                </li>
+            
             </ul>
             <br>
             <!-- Maxed skill list below -->
@@ -43469,7 +43499,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-06-14 18:36</p>
+            <p>PoD class data current as of 2025-06-15 10:13</p>
             </div>            
 
 
@@ -43742,9 +43772,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
 });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="tooltipChart" width="350" height="160" 
+        style="position:absolute;display:none;z-index:9999;
+               background-color:white;color:black;">
+</canvas>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('tooltipChart');
+  const ctx = canvas.getContext('2d');
+  let chart;
 
+  document.querySelectorAll('.usage-label').forEach(label => {
+    label.addEventListener('mouseenter', e => {
+      const data = JSON.parse(label.dataset.usage || '{}');
+      const labels = Object.keys(data);
+      const values = Object.values(data).map(Number);
 
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+            datasets: [{
+            label: '                                                                                                                   ',  // suppress legend label
+            data: values,
+            borderColor: '#f97316',         // line color (orange)
+            backgroundColor: 'transparent', // make sure no fill color
+            fill: false,
+            pointRadius: 3,
+            tension: 0.3
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    right: 12,  // prevent cut-off on the right
+                    top: 6
+                }
+                },
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false  // ← This removes the colored box and any label space
+                },
+                title: {
+                    display: true,
+                    text: label.textContent + ' Usage Over Time',
+                    color: '#000',
+                    font: { size: 14, weight: 'bold' }
+                }
+                
+            },
+            scales: {
+                x: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' }
+                },
+                y: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' },
+                beginAtZero: true
+                }
+            }
+        }
+      });
 
+      canvas.style.left = (e.pageX + 10) + 'px';
+      canvas.style.top = (e.pageY - 80) + 'px';
+      canvas.style.display = 'block';
+    });
+
+    label.addEventListener('mouseleave', () => {
+      canvas.style.display = 'none';
+    });
+  });
+});
 </script>
 
 

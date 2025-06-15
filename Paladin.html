@@ -7678,34 +7678,64 @@
         <!--    <hr width="90%"> -->
             <br>
             
-                <h3>Top 5 Most Popular Paladin Skills:</h3>
+            <h3>Top 5 Most Popular Paladin Skills:</h3>
             <ul>
-                
-                <li>Holy Shield: 2059.0</li>
-                
-                <li>Holy Bolt: 1655.0</li>
-                
-                <li>Fist of the Heavens: 1544.0</li>
-                
-                <li>Holy Shock: 1427.0</li>
-                
-                <li>Sanctuary: 1100.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2049", "June 14": "2059"}'>
+                    Holy Shield: 2059.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1674", "June 14": "1655"}'>
+                    Holy Bolt: 1655.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1564", "June 14": "1544"}'>
+                    Fist of the Heavens: 1544.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1427", "June 14": "1427"}'>
+                    Holy Shock: 1427.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1101", "June 14": "1100"}'>
+                    Sanctuary: 1100.0
+                </li>
+            
             </ul>
 
-            <h3>Bottom 5 Least Popular Paladin Skills:</h3>
+            <h3>Top 5 Least Popular Paladin Skills:</h3>
             <ul>
-                
-                <li>Meditation: 31.0</li>
-                
-                <li>Absolution: 93.0</li>
-                
-                <li>Precision: 103.0</li>
-                
-                <li>Holy Fire: 132.0</li>
-                
-                <li>Resist Cold: 159.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "31", "June 14": "31"}'>
+                    Meditation: 31.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "94", "June 14": "93"}'>
+                    Absolution: 93.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "104", "June 14": "103"}'>
+                    Precision: 103.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "132", "June 14": "132"}'>
+                    Holy Fire: 132.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "159", "June 14": "159"}'>
+                    Resist Cold: 159.0
+                </li>
+            
             </ul>
             <br>
             <!-- Maxed skill list below -->
@@ -43303,7 +43333,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-06-14 18:36</p>
+            <p>PoD class data current as of 2025-06-15 10:13</p>
             </div>            
 
 
@@ -43576,9 +43606,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
 });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="tooltipChart" width="350" height="160" 
+        style="position:absolute;display:none;z-index:9999;
+               background-color:white;color:black;">
+</canvas>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('tooltipChart');
+  const ctx = canvas.getContext('2d');
+  let chart;
 
+  document.querySelectorAll('.usage-label').forEach(label => {
+    label.addEventListener('mouseenter', e => {
+      const data = JSON.parse(label.dataset.usage || '{}');
+      const labels = Object.keys(data);
+      const values = Object.values(data).map(Number);
 
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+            datasets: [{
+            label: '                                                                                                                   ',  // suppress legend label
+            data: values,
+            borderColor: '#f97316',         // line color (orange)
+            backgroundColor: 'transparent', // make sure no fill color
+            fill: false,
+            pointRadius: 3,
+            tension: 0.3
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    right: 12,  // prevent cut-off on the right
+                    top: 6
+                }
+                },
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false  // ← This removes the colored box and any label space
+                },
+                title: {
+                    display: true,
+                    text: label.textContent + ' Usage Over Time',
+                    color: '#000',
+                    font: { size: 14, weight: 'bold' }
+                }
+                
+            },
+            scales: {
+                x: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' }
+                },
+                y: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' },
+                beginAtZero: true
+                }
+            }
+        }
+      });
 
+      canvas.style.left = (e.pageX + 10) + 'px';
+      canvas.style.top = (e.pageY - 80) + 'px';
+      canvas.style.display = 'block';
+    });
+
+    label.addEventListener('mouseleave', () => {
+      canvas.style.display = 'none';
+    });
+  });
+});
 </script>
 
 

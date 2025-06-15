@@ -7362,34 +7362,64 @@
         <!--    <hr width="90%"> -->
             <br>
             
-                <h3>Top 5 Most Popular Druid Skills:</h3>
+            <h3>Top 5 Most Popular Druid Skills:</h3>
             <ul>
-                
-                <li>Summon Dire Wolf: 1845.0</li>
-                
-                <li>Lycanthropy: 1745.0</li>
-                
-                <li>Oak Sage: 1589.0</li>
-                
-                <li>Poison Creeper: 1191.0</li>
-                
-                <li>Heart of Wolverine: 1127.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1839", "June 14": "1845"}'>
+                    Summon Dire Wolf: 1845.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1744", "June 14": "1745"}'>
+                    Lycanthropy: 1745.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1589", "June 14": "1589"}'>
+                    Oak Sage: 1589.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1189", "June 14": "1191"}'>
+                    Poison Creeper: 1191.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1127", "June 14": "1127"}'>
+                    Heart of Wolverine: 1127.0
+                </li>
+            
             </ul>
 
-            <h3>Bottom 5 Least Popular Druid Skills:</h3>
+            <h3>Top 5 Least Popular Druid Skills:</h3>
             <ul>
-                
-                <li>Solar Creeper: 43.0</li>
-                
-                <li>Carrion Vine: 58.0</li>
-                
-                <li>Spirit of Barbs: 59.0</li>
-                
-                <li>Fire Claws: 102.0</li>
-                
-                <li>Raven: 189.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "34", "June 14": "43"}'>
+                    Solar Creeper: 43.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "51", "June 14": "58"}'>
+                    Carrion Vine: 58.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "59", "June 14": "59"}'>
+                    Spirit of Barbs: 59.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "102", "June 14": "102"}'>
+                    Fire Claws: 102.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "189", "June 14": "189"}'>
+                    Raven: 189.0
+                </li>
+            
             </ul>
             <br>
             <!-- Maxed skill list below -->
@@ -44456,7 +44486,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-06-14 18:36</p>
+            <p>PoD class data current as of 2025-06-15 10:13</p>
             </div>            
 
 
@@ -44729,9 +44759,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
 });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="tooltipChart" width="350" height="160" 
+        style="position:absolute;display:none;z-index:9999;
+               background-color:white;color:black;">
+</canvas>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('tooltipChart');
+  const ctx = canvas.getContext('2d');
+  let chart;
 
+  document.querySelectorAll('.usage-label').forEach(label => {
+    label.addEventListener('mouseenter', e => {
+      const data = JSON.parse(label.dataset.usage || '{}');
+      const labels = Object.keys(data);
+      const values = Object.values(data).map(Number);
 
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+            datasets: [{
+            label: '                                                                                                                   ',  // suppress legend label
+            data: values,
+            borderColor: '#f97316',         // line color (orange)
+            backgroundColor: 'transparent', // make sure no fill color
+            fill: false,
+            pointRadius: 3,
+            tension: 0.3
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    right: 12,  // prevent cut-off on the right
+                    top: 6
+                }
+                },
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false  // ← This removes the colored box and any label space
+                },
+                title: {
+                    display: true,
+                    text: label.textContent + ' Usage Over Time',
+                    color: '#000',
+                    font: { size: 14, weight: 'bold' }
+                }
+                
+            },
+            scales: {
+                x: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' }
+                },
+                y: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' },
+                beginAtZero: true
+                }
+            }
+        }
+      });
 
+      canvas.style.left = (e.pageX + 10) + 'px';
+      canvas.style.top = (e.pageY - 80) + 'px';
+      canvas.style.display = 'block';
+    });
+
+    label.addEventListener('mouseleave', () => {
+      canvas.style.display = 'none';
+    });
+  });
+});
 </script>
 
 

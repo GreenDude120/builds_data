@@ -8371,34 +8371,64 @@
         <!--    <hr width="90%"> -->
             <br>
             
-                <h3>Top 5 Most Popular Necromancer Skills:</h3>
+            <h3>Top 5 Most Popular Necromancer Skills:</h3>
             <ul>
-                
-                <li>Summon Mastery: 2404.0</li>
-                
-                <li>Convocation: 2283.0</li>
-                
-                <li>Life Tap: 2123.0</li>
-                
-                <li>Iron Maiden: 2120.0</li>
-                
-                <li>Hemorrhage: 2120.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2404", "June 14": "2404"}'>
+                    Summon Mastery: 2404.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2283", "June 14": "2283"}'>
+                    Convocation: 2283.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2123", "June 14": "2123"}'>
+                    Life Tap: 2123.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2120", "June 14": "2120"}'>
+                    Iron Maiden: 2120.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2120", "June 14": "2120"}'>
+                    Hemorrhage: 2120.0
+                </li>
+            
             </ul>
 
-            <h3>Bottom 5 Least Popular Necromancer Skills:</h3>
+            <h3>Top 5 Least Popular Necromancer Skills:</h3>
             <ul>
-                
-                <li>Terror: 1.0</li>
-                
-                <li>Confuse: 4.0</li>
-                
-                <li>Attract: 4.0</li>
-                
-                <li>Bone Offering: 35.0</li>
-                
-                <li>Bone Spirit: 39.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1", "June 14": "1"}'>
+                    Terror: 1.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "4", "June 14": "4"}'>
+                    Confuse: 4.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "4", "June 14": "4"}'>
+                    Attract: 4.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "35", "June 14": "35"}'>
+                    Bone Offering: 35.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "39", "June 14": "39"}'>
+                    Bone Spirit: 39.0
+                </li>
+            
             </ul>
             <br>
             <!-- Maxed skill list below -->
@@ -50796,7 +50826,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-06-14 18:36</p>
+            <p>PoD class data current as of 2025-06-15 10:13</p>
             </div>            
 
 
@@ -51069,9 +51099,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
 });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="tooltipChart" width="350" height="160" 
+        style="position:absolute;display:none;z-index:9999;
+               background-color:white;color:black;">
+</canvas>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('tooltipChart');
+  const ctx = canvas.getContext('2d');
+  let chart;
 
+  document.querySelectorAll('.usage-label').forEach(label => {
+    label.addEventListener('mouseenter', e => {
+      const data = JSON.parse(label.dataset.usage || '{}');
+      const labels = Object.keys(data);
+      const values = Object.values(data).map(Number);
 
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+            datasets: [{
+            label: '                                                                                                                   ',  // suppress legend label
+            data: values,
+            borderColor: '#f97316',         // line color (orange)
+            backgroundColor: 'transparent', // make sure no fill color
+            fill: false,
+            pointRadius: 3,
+            tension: 0.3
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    right: 12,  // prevent cut-off on the right
+                    top: 6
+                }
+                },
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false  // ← This removes the colored box and any label space
+                },
+                title: {
+                    display: true,
+                    text: label.textContent + ' Usage Over Time',
+                    color: '#000',
+                    font: { size: 14, weight: 'bold' }
+                }
+                
+            },
+            scales: {
+                x: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' }
+                },
+                y: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' },
+                beginAtZero: true
+                }
+            }
+        }
+      });
 
+      canvas.style.left = (e.pageX + 10) + 'px';
+      canvas.style.top = (e.pageY - 80) + 'px';
+      canvas.style.display = 'block';
+    });
+
+    label.addEventListener('mouseleave', () => {
+      canvas.style.display = 'none';
+    });
+  });
+});
 </script>
 
 

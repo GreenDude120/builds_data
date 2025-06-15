@@ -8718,34 +8718,64 @@
         <!--    <hr width="90%"> -->
             <br>
             
-                <h3>Top 5 Most Popular Barbarian Skills:</h3>
+            <h3>Top 5 Most Popular Barbarian Skills:</h3>
             <ul>
-                
-                <li>Battle Cry: 2074.0</li>
-                
-                <li>Whirling Axes: 2042.0</li>
-                
-                <li>Double Swing: 1950.0</li>
-                
-                <li>Battle Orders: 1750.0</li>
-                
-                <li>Grim Ward: 1618.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2094", "June 14": "2074"}'>
+                    Battle Cry: 2074.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "2062", "June 14": "2042"}'>
+                    Whirling Axes: 2042.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1969", "June 14": "1950"}'>
+                    Double Swing: 1950.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1749", "June 14": "1750"}'>
+                    Battle Orders: 1750.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "1618", "June 14": "1618"}'>
+                    Grim Ward: 1618.0
+                </li>
+            
             </ul>
 
-            <h3>Bottom 5 Least Popular Barbarian Skills:</h3>
+            <h3>Top 5 Least Popular Barbarian Skills:</h3>
             <ul>
-                
-                <li>Counter Attack: 109.0</li>
-                
-                <li>Puncture: 142.0</li>
-                
-                <li>Find Potion: 152.0</li>
-                
-                <li>Ethereal Throw: 164.0</li>
-                
-                <li>Thrown Weapon Mastery: 168.0</li>
-                
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "109", "June 14": "109"}'>
+                    Counter Attack: 109.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "142", "June 14": "142"}'>
+                    Puncture: 142.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "152", "June 14": "152"}'>
+                    Find Potion: 152.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "144", "June 14": "164"}'>
+                    Ethereal Throw: 164.0
+                </li>
+            
+                <li class="usage-label"
+                    data-usage='{"June 13": "161", "June 14": "168"}'>
+                    Thrown Weapon Mastery: 168.0
+                </li>
+            
             </ul>
             <br>
             <!-- Maxed skill list below -->
@@ -45029,7 +45059,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-06-14 18:36</p>
+            <p>PoD class data current as of 2025-06-15 10:13</p>
             </div>            
 
 
@@ -45302,9 +45332,83 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
 });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="tooltipChart" width="350" height="160" 
+        style="position:absolute;display:none;z-index:9999;
+               background-color:white;color:black;">
+</canvas>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('tooltipChart');
+  const ctx = canvas.getContext('2d');
+  let chart;
 
+  document.querySelectorAll('.usage-label').forEach(label => {
+    label.addEventListener('mouseenter', e => {
+      const data = JSON.parse(label.dataset.usage || '{}');
+      const labels = Object.keys(data);
+      const values = Object.values(data).map(Number);
 
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+            datasets: [{
+            label: '                                                                                                                   ',  // suppress legend label
+            data: values,
+            borderColor: '#f97316',         // line color (orange)
+            backgroundColor: 'transparent', // make sure no fill color
+            fill: false,
+            pointRadius: 3,
+            tension: 0.3
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    right: 12,  // prevent cut-off on the right
+                    top: 6
+                }
+                },
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false  // ← This removes the colored box and any label space
+                },
+                title: {
+                    display: true,
+                    text: label.textContent + ' Usage Over Time',
+                    color: '#000',
+                    font: { size: 14, weight: 'bold' }
+                }
+                
+            },
+            scales: {
+                x: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' }
+                },
+                y: {
+                ticks: { color: '#000' },
+                grid: { color: '#ccc' },
+                beginAtZero: true
+                }
+            }
+        }
+      });
 
+      canvas.style.left = (e.pageX + 10) + 'px';
+      canvas.style.top = (e.pageY - 80) + 'px';
+      canvas.style.display = 'block';
+    });
+
+    label.addEventListener('mouseleave', () => {
+      canvas.style.display = 'none';
+    });
+  });
+});
 </script>
 
 
