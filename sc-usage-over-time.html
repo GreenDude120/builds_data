@@ -18,10 +18,11 @@
             <body>
             <canvas id="tooltipChart" width="300" height="150"></canvas>
             <h1>Skill and item usage over time</h1>
+            <p><i>Click columns to sort</i></p>
             <h2>Skills</h2>
 <h3>Amazon</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "188", "April": "165", "May": "142", "June": "174", "July": "174"}'>Jab</td><td>188</td><td>165</td><td>142</td><td>174</td><td>174</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "1336", "April": "1358", "May": "1335", "June": "1365", "July": "1365"}'>Power Strike</td><td>1336</td><td>1358</td><td>1335</td><td>1365</td><td>1365</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "348", "April": "392", "May": "368", "June": "369", "July": "369"}'>Poison Javelin</td><td>348</td><td>392</td><td>368</td><td>369</td><td>369</td></tr>
@@ -54,8 +55,8 @@
 <tr><td class='usage-label' data-usage='{"March": "580", "April": "627", "May": "668", "June": "685", "July": "685"}'>Freezing Arrow</td><td>580</td><td>627</td><td>668</td><td>685</td><td>685</td></tr>
 </table>
 <h3>Assassin</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "103", "April": "105", "May": "112", "June": "111", "July": "111"}'>Dragon Claw</td><td>103</td><td>105</td><td>112</td><td>111</td><td>111</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "191", "April": "172", "May": "171", "June": "172", "July": "171"}'>Tiger Strike</td><td>191</td><td>172</td><td>171</td><td>172</td><td>171</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "120", "April": "122", "May": "129", "June": "128", "July": "128"}'>Dragon Talon</td><td>120</td><td>122</td><td>129</td><td>128</td><td>128</td></tr>
@@ -86,8 +87,8 @@
 <tr><td class='usage-label' data-usage='{"March": "2256", "April": "2290", "May": "2213", "June": "2208", "July": "2230"}'>Blade Shield</td><td>2256</td><td>2290</td><td>2213</td><td>2208</td><td>2230</td></tr>
 </table>
 <h3>Barbarian</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "194", "April": "193", "May": "211", "June": "211", "July": "211"}'>Howl</td><td>194</td><td>193</td><td>211</td><td>211</td><td>211</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "150", "April": "151", "May": "154", "June": "153", "July": "152"}'>Find Potion</td><td>150</td><td>151</td><td>154</td><td>153</td><td>152</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "411", "April": "450", "May": "451", "June": "488", "July": "488"}'>Taunt</td><td>411</td><td>450</td><td>451</td><td>488</td><td>488</td></tr>
@@ -121,8 +122,8 @@
 <tr><td class='usage-label' data-usage='{"March": "1550", "April": "1541", "May": "1509", "June": "1483", "July": "1484"}'>Whirlwind</td><td>1550</td><td>1541</td><td>1509</td><td>1483</td><td>1484</td></tr>
 </table>
 <h3>Druid</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "448", "April": "501", "May": "527", "June": "545", "July": "545"}'>Firestorm</td><td>448</td><td>501</td><td>527</td><td>545</td><td>545</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "1081", "April": "1079", "May": "1080", "June": "1079", "July": "1079"}'>Molten Boulder</td><td>1081</td><td>1079</td><td>1080</td><td>1079</td><td>1079</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "1058", "April": "1045", "May": "1012", "June": "1026", "July": "1026"}'>Flame Dash</td><td>1058</td><td>1045</td><td>1012</td><td>1026</td><td>1026</td></tr>
@@ -156,8 +157,8 @@
 <tr><td class='usage-label' data-usage='{"March": "1170", "April": "1046", "May": "1065", "June": "1026", "July": "1026"}'>Summon Grizzly</td><td>1170</td><td>1046</td><td>1065</td><td>1026</td><td>1026</td></tr>
 </table>
 <h3>Necromancer</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "2308", "April": "2360", "May": "2397", "June": "2430", "July": "2437"}'>Summon Mastery</td><td>2308</td><td>2360</td><td>2397</td><td>2430</td><td>2437</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "560", "April": "615", "May": "583", "June": "603", "July": "604"}'>Raise Skeleton Warrior</td><td>560</td><td>615</td><td>583</td><td>603</td><td>604</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "32", "April": "35", "May": "35", "June": "36", "July": "36"}'>Bone Offering</td><td>32</td><td>35</td><td>35</td><td>36</td><td>36</td></tr>
@@ -191,8 +192,8 @@
 <tr><td class='usage-label' data-usage='{"March": "356", "April": "342", "May": "398", "June": "402", "July": "403"}'>Lower Resist</td><td>356</td><td>342</td><td>398</td><td>402</td><td>403</td></tr>
 </table>
 <h3>Paladin</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "234", "April": "234", "May": "231", "June": "229", "July": "229"}'>Prayer</td><td>234</td><td>234</td><td>231</td><td>229</td><td>229</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "305", "April": "342", "May": "387", "June": "405", "July": "405"}'>Resist Fire</td><td>305</td><td>342</td><td>387</td><td>405</td><td>405</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "680", "April": "730", "May": "703", "June": "707", "July": "708"}'>Defiance</td><td>680</td><td>730</td><td>703</td><td>707</td><td>708</td></tr>
@@ -226,8 +227,8 @@
 <tr><td class='usage-label' data-usage='{"March": "277", "April": "257", "May": "244", "June": "248", "July": "249"}'>Dashing Strike</td><td>277</td><td>257</td><td>244</td><td>248</td><td>249</td></tr>
 </table>
 <h3>Sorceress</h3>
-<table border='1'>
-<tr><th>Skill</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "763", "April": "736", "May": "794", "June": "763", "July": "763"}'>Ice Bolt</td><td>763</td><td>736</td><td>794</td><td>763</td><td>763</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "482", "April": "494", "May": "523", "June": "539", "July": "559"}'>Frigerate</td><td>482</td><td>494</td><td>523</td><td>539</td><td>559</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "411", "April": "388", "May": "391", "June": "452", "July": "452"}'>Frost Nova</td><td>411</td><td>388</td><td>391</td><td>452</td><td>452</td></tr>
@@ -262,8 +263,8 @@
 <tr><td class='usage-label' data-usage='{"March": "1271", "April": "1303", "May": "1342", "June": "1445", "July": "1446"}'>Fire Mastery</td><td>1271</td><td>1303</td><td>1342</td><td>1445</td><td>1446</td></tr>
 </table>
 <h2>Uniques</h2>
-<table border='1'>
-<tr><th>Name</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Name</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "7", "April": "7", "May": "6", "June": "6", "July": "6"}'>Alma Negra</td><td>7</td><td>7</td><td>6</td><td>6</td><td>6</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "52", "April": "53", "May": "56", "June": "55", "July": "54"}'>Andariel's Visage</td><td>52</td><td>53</td><td>56</td><td>55</td><td>54</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "425", "April": "437", "May": "448", "June": "455", "July": "454"}'>Arachnid Mesh</td><td>425</td><td>437</td><td>448</td><td>455</td><td>454</td></tr>
@@ -642,8 +643,8 @@
 <tr><td class='usage-label' data-usage='{"March": "1", "April": "1", "May": "2", "June": "3", "July": "3"}'>FrostbiteB</td><td>1</td><td>1</td><td>2</td><td>3</td><td>3</td></tr>
 </table>
 <h2>Sets</h2>
-<table border='1'>
-<tr><th>Name</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Name</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "0", "April": "0", "May": "0", "June": "0", "July": ""}'>Angelic Sickle</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
 <tr><td class='usage-label' data-usage='{"March": "1", "April": "1", "May": "0", "June": "0", "July": ""}'>Angelic Mantle</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
 <tr><td class='usage-label' data-usage='{"March": "104", "April": "99", "May": "98", "June": "99", "July": "97"}'>Angelic Halo</td><td>104</td><td>99</td><td>98</td><td>99</td><td>97</td></tr>
@@ -773,8 +774,8 @@
 <tr><td class='usage-label' data-usage='{"March": "57", "April": "56", "May": "60", "June": "59", "July": "60"}'>Trang-Oul's Girth</td><td>57</td><td>56</td><td>60</td><td>59</td><td>60</td></tr>
 </table>
 <h2>Runewords</h2>
-<table border='1'>
-<tr><th>Name</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th></tr>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Name</th><th onclick='sortTable(this, "num")'>March</th><th onclick='sortTable(this, "num")'>April</th><th onclick='sortTable(this, "num")'>May</th><th onclick='sortTable(this, "num")'>June</th><th onclick='sortTable(this, "num")'>July</th></tr>
 <tr><td class='usage-label' data-usage='{"March": "12", "April": "11", "May": "12", "June": "10", "July": "10"}'>Ancients' Pledge</td><td>12</td><td>11</td><td>12</td><td>10</td><td>10</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "6", "April": "6", "May": "6", "June": "8", "July": "8"}'>Beast</td><td>6</td><td>6</td><td>6</td><td>8</td><td>8</td></tr>
 <tr><td class='usage-label' data-usage='{"March": "3", "April": "4", "May": "4", "June": "4", "July": "4"}'>Black</td><td>3</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
@@ -927,4 +928,31 @@
             });
             });
             </script>
+            <script>
+            function sortTable(header, type) {
+            const th = header;
+            const table = th.closest('table');
+            const tbody = table.querySelector('tbody') || table;
+            const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
+            const colIndex = Array.from(th.parentNode.children).indexOf(th);
+
+            let asc = th.dataset.sortAsc !== "true"; // Toggle direction
+            th.dataset.sortAsc = asc;
+
+            rows.sort((a, b) => {
+                let valA = a.cells[colIndex].textContent.trim();
+                let valB = b.cells[colIndex].textContent.trim();
+                if (type === 'num') {
+                valA = parseFloat(valA) || 0;
+                valB = parseFloat(valB) || 0;
+                }
+                return asc
+                ? valA > valB ? 1 : valA < valB ? -1 : 0
+                : valA < valB ? 1 : valA > valB ? -1 : 0;
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+            }
+            </script>
+                    
             
