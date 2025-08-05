@@ -130,7 +130,7 @@ def fetch_all_char_data(mode):
     all_characters = fetch_1kladder_characters(f"{base_url}0/", 5)
     top_1000_characters = {char["charName"]: char for char in all_characters}.values()
     class_counts = count_classes(top_1000_characters)
-    generate_pie_chart(class_counts)
+#    generate_pie_chart(class_counts)
     # Top 200 per class
     classes = {
         "Amazon": "1/",
