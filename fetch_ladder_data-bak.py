@@ -118,21 +118,32 @@ def generate_class_distribution_chart(characters, output_path):
     plt.close()
 
 
-def GetAllCharData():
-    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/"  # Softcore
+def fetch_all_char_data(mode):
+    print(f"=== Fetching {mode.upper()} Ladder ===")
+    is_hc = mode == "hc"
+
+    base_url = f"https://beta.pathofdiablo.com/api/ladder/13/{'1' if is_hc else '0'}/"
     char_url = "https://beta.pathofdiablo.com/api/characters/{char_name}/summary"
 
-    # Step 1: Fetch top 1,000 characters (pages 0 to 5)
-    all_characters = fetch_ladder_characters(f"{base_ladder_url}0/", start_page=0, end_page=5)
-#    all_characters = fetch_ladder_characters(base_ladder_url, start_page=0, end_page=5)
-#    all_characters = fetch_ladder_characters(base_ladder_url, start_page=1, end_page=5)
-    top_1000_characters = {char["charName"]: char for char in all_characters}.values()
+    # Step 1: Fetch only the top 1,000 characters (pages 0–5)
+    top_1k_characters = fetch_ladder_characters(f"{base_url}0/", 5)
+    top_1k_dict = {char["charName"]: char for char in top_1k_characters}
+    top_1k_unique = list(top_1k_dict.values())
 
-    # Step 2: Create pie chart from the top 1,000 characters
-    class_counts = count_classes(top_1000_characters)
+    # Step 2: Generate pie chart based ONLY on top 1,000
+    class_counts = count_classes(top_1k_unique)
     generate_pie_chart(class_counts)
 
-    # Step 3: Continue with class-specific characters
+    # Step 3: Add class-specific characters to build the full data set
+    all_characters = top_1k_unique.copy()
+
+    for _, suffix in classes.items():
+        class_url = base_url + suffix
+        all_characters.extend(fetch_ladder_characters(class_url, start_page=1, end_page=1))
+
+    # Deduplicate everything (for json saving and summary fetching)
+    unique_characters = {char["charName"]: char for char in all_characters}.values()
+    # Top 200 per class
     classes = {
         "Amazon": "1/",
         "Assassin": "7/",
@@ -143,91 +154,40 @@ def GetAllCharData():
         "Sorceress": "2/"
     }
 
-    for class_name, api_suffix in classes.items():
-        class_ladder_url = f"{base_ladder_url}{api_suffix}"
-        class_characters = fetch_ladder_characters(class_ladder_url, 1)
-        all_characters.extend(class_characters)  # Combine lists
+    for _, suffix in classes.items():
+        class_url = base_url + suffix
+        all_characters.extend(fetch_ladder_characters(class_url, start_page=1, end_page=1))
 
-    # Step 4: Remove duplicates by character name
+    # Deduplicate
     unique_characters = {char["charName"]: char for char in all_characters}.values()
 
-#    class_counts = count_classes(unique_characters) # if we wanted a pie chart generated here, i think it's fine to keep in makehome
-#    generate_pie_chart_all(class_counts)
+    # Save raw ladder
+#    raw_filename = f"raw_ladder_{mode}.json"
+    raw_filename = f"{mode}_raw_ladder.json"
+    with open(raw_filename, "w") as f:
+        json.dump(list(unique_characters), f, indent=2)
 
-    # Step 5: Fetch complete character data
-    character_data = []
-    for character in unique_characters:
-        char_name = character.get("charName", "unknown")
-        char_id = character.get("id", None)
+    # Fetch full summaries
+    full_summaries = fetch_char_summaries(unique_characters)
 
-        if char_name == "unknown":
-            char_name = f"unknown_{char_id or int(time.time() * 1000)}"
+    # Save full summaries
+#    full_filename = f"ladder_{mode}.json"
+    full_filename = f"{mode}_ladder.json"
+    with open(full_filename, "w") as f:
+        json.dump(full_summaries, f, indent=2)
 
-        response = requests.get(char_url.format(char_name=char_name))
-        if response.status_code == 200:
-            character_data.append(response.json())
-        else:
-            print(f"⚠️ Failed to fetch character: {char_name}")
+    # Save class chart
+    chart_path = f"charts/class_distribution_{mode}.png"
+    generate_class_distribution_chart(full_summaries, chart_path)
 
-    # Step 6: Save the extended character list
-    with open("sc_ladder.json", "w") as file:
-        json.dump(character_data, file, indent=2)
-
-    print(f"✅ Saved {len(character_data)} characters to sc_ladder.json (top 1,000 + class-specific)")
-
-
-def GetAllHCCharData():
-    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/1/"  # Softcore
-    char_url = "https://beta.pathofdiablo.com/api/characters/{char_name}/summary"
-
-    # Fetch top 1,000 characters
-#    all_characters = fetch_ladder_characters(f"{base_ladder_url}0/", 5)
-    all_characters = fetch_ladder_characters(base_ladder_url, start_page=0, end_page=5)
-
-    # Fetch top 200 per class
-    classes = {
-        "Amazon": "1/",
-        "Assassin": "7/",
-        "Barbarian": "5/",
-        "Druid": "6/",
-        "Necromancer": "3/",
-        "Paladin": "4/",
-        "Sorceress": "2/"
-    }
-
-    for class_name, api_suffix in classes.items():
-#        class_ladder_url = f"{base_ladder_url[:-2]}{api_suffix}"  # Adjusting URL for class-specific calls
-        class_ladder_url = f"{base_ladder_url}{api_suffix}"  # Adjusting URL for class-specific calls
-        class_characters = fetch_ladder_characters(class_ladder_url, 1)  # Only one page needed
-        all_characters.extend(class_characters)
-
-    # Remove duplicates (some characters appear in both top 1,000 and top 200 class rankings)
-    unique_characters = {char["charName"]: char for char in all_characters}.values()
-
-    character_data = []
-    for character in unique_characters:
-        char_name = character.get("charName", "unknown")
-        char_id = character.get("id", None)
-
-        if char_name == "unknown":
-            char_name = f"unknown_{char_id or int(time.time() * 1000)}"
-
-        response = requests.get(char_url.format(char_name=char_name))
-        if response.status_code == 200:
-            character_data.append(response.json())
-        else:
-            print(f"⚠️ Failed to fetch character: https://beta.pathofdiablo.com/api/characters/{char_name}/summary")
-
-    # Save as one big JSON
-    with open("hc_ladder.json", "w") as file:
-        json.dump(character_data, file, indent=2)
-
-    print(f"✅ Saved {len(character_data)} unique characters to hc_ladder.json")
+    print(f"✅ {mode.upper()} complete: {len(full_summaries)} characters")
+    print(f"📄 JSON saved to {full_filename}")
+    print(f"📈 Chart saved to {chart_path}")
 
 
 def main():
-    GetAllCharData()
-    GetAllHCCharData()
+    fetch_all_char_data("sc")
+    fetch_all_char_data("hc")
 
 
 if __name__ == "__main__":
