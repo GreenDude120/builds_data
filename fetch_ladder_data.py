@@ -123,7 +123,7 @@ def GetAllCharData():
     char_url = "https://beta.pathofdiablo.com/api/characters/{char_name}/summary"
 
     # Step 1: Fetch top 1,000 characters (pages 0 to 5)
-    all_characters = fetch_ladder_characters(f"{base_ladder_url}0/", start_page=0, end_page=5)
+    all_characters = fetch_ladder_characters(f"{base_ladder_url}0/", start_page=1, end_page=5)
 #    all_characters = fetch_ladder_characters(base_ladder_url, start_page=0, end_page=5)
 #    all_characters = fetch_ladder_characters(base_ladder_url, start_page=1, end_page=5)
     top_1000_characters = {char["charName"]: char for char in all_characters}.values()
