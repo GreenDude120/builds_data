@@ -2461,6 +2461,55 @@ def MakeHome():
     unused_uniques_html = format_unused_items(unused_uniques, merc_used_items, merc_users)
     unused_set_items_html = format_unused_items(unused_set_items, merc_used_items, merc_users)
 
+    def get_ladder_firsts_html(game_mode=0):
+        url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+        except requests.RequestException as e:
+            return (
+                "<section id='ladder-firsts'><h2>Ladder Firsts</h2>"
+                f"<p>Error fetching data: {escape(str(e))}</p></section>"
+            )
+
+        season = next((entry["season"] for entry in data if entry.get("gameMode") == game_mode), "Unknown")
+        mode_label = "Hardcore" if game_mode == 1 else "Softcore"
+
+        # Group boss kills by character
+        grouped = defaultdict(list)
+        for entry in data:
+            if entry.get("gameMode") != game_mode:
+                continue
+            key = (
+                escape(entry.get("charName", "Unknown")),
+                entry.get("charLevel", "??"),
+                escape(entry.get("charClass", "Unknown"))
+            )
+            difficulty = entry.get("difficulty", "Unknown")
+            boss_name = escape(entry.get("bossName", "Unknown"))
+            if difficulty != "Hell":
+                kill_desc = f"First {difficulty} {boss_name} Kill"
+            else:
+                kill_desc = f"First {boss_name} Kill"
+            grouped[key].append(kill_desc)
+
+        # Build HTML
+        html = [
+            f"<section id='ladder-firsts'>",
+            f"<h2>Season {season} {mode_label} Ladder Firsts</h2>",
+            "<ul style='list-style-type: none; padding-left: 0;'>"
+        ]
+
+        for (raw_name, char_level, char_class), kills in grouped.items():
+            link = f'<a href="https://beta.pathofdiablo.com/armory?name={escape(raw_name)}" target="_blank">{escape(raw_name)}</a>'
+            line1 = f"{link} (Level {char_level} {char_class})"
+            line2 = "&nbsp;&nbsp;&nbsp;&nbsp;" + " and ".join(kills)
+            html.append(f"<li>{line1}<br>{line2}</li>")
+
+        html.append("</ul></section>")
+        return "\n".join(html)
+
     # Generating the HTML for the results
     html_content = """
     <!DOCTYPE html>
@@ -2560,6 +2609,9 @@ def MakeHome():
         <div>
             <img src="charts/1kclass_distribution.png">
         </div>
+        <br>
+        {ladder_firsts}
+        <br>
         <h2>
             Ladder top 1K Fun Facts
         </h2>
@@ -3392,6 +3444,8 @@ document.addEventListener('DOMContentLoaded', () => {
          "{loadouthtml}", generate_loadout_summary_html(loadout_counts, total_loadouts, empty_loadout_count, partially_empty_set_count)
     ).replace(
          "{item_summary_by_category}", generate_item_summary(item_summary_by_category)
+    ).replace(
+         "{ladder_firsts}", get_ladder_firsts_html(game_mode=0)
     ).replace(
         "{html_output}", html_output
     )
@@ -5596,6 +5650,55 @@ def MakehcHome():
     unused_uniques_html = format_unused_items(unused_uniques, merc_used_items, merc_users)
     unused_set_items_html = format_unused_items(unused_set_items, merc_used_items, merc_users)
 
+    def get_ladder_firsts_html(game_mode=1):
+        url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+        except requests.RequestException as e:
+            return (
+                "<section id='ladder-firsts'><h2>Ladder Firsts</h2>"
+                f"<p>Error fetching data: {escape(str(e))}</p></section>"
+            )
+
+        season = next((entry["season"] for entry in data if entry.get("gameMode") == game_mode), "Unknown")
+        mode_label = "Hardcore" if game_mode == 1 else "Softcore"
+
+        # Group boss kills by character
+        grouped = defaultdict(list)
+        for entry in data:
+            if entry.get("gameMode") != game_mode:
+                continue
+            key = (
+                escape(entry.get("charName", "Unknown")),
+                entry.get("charLevel", "??"),
+                escape(entry.get("charClass", "Unknown"))
+            )
+            difficulty = entry.get("difficulty", "Unknown")
+            boss_name = escape(entry.get("bossName", "Unknown"))
+            if difficulty != "Hell":
+                kill_desc = f"First {difficulty} {boss_name} Kill"
+            else:
+                kill_desc = f"First {boss_name} Kill"
+            grouped[key].append(kill_desc)
+
+        # Build HTML
+        html = [
+            f"<section id='ladder-firsts'>",
+            f"<h2>Season {season} {mode_label} Ladder Firsts</h2>",
+            "<ul style='list-style-type: none; padding-left: 0;'>"
+        ]
+
+        for (raw_name, char_level, char_class), kills in grouped.items():
+            link = f'<a href="https://beta.pathofdiablo.com/armory?name={escape(raw_name)}" target="_blank">{escape(raw_name)}</a>'
+            line1 = f"{link} (Level {char_level} {char_class})"
+            line2 = "&nbsp;&nbsp;&nbsp;&nbsp;" + " and ".join(kills)
+            html.append(f"<li>{line1}<br>{line2}</li>")
+
+        html.append("</ul></section>")
+        return "\n".join(html)
+
     # Generating the HTML for the results
     html_content = """
     <!DOCTYPE html>
@@ -5702,6 +5805,9 @@ def MakehcHome():
         <div>
             <img src="charts/hcclass_distribution.png">
         </div>
+        <br>
+        {ladder_firsts}
+        <br>
         <h2>
             HC Ladder top 1K Fun Facts
         </h2>
@@ -6522,6 +6628,8 @@ document.addEventListener('DOMContentLoaded', () => {
          "{loadouthtml}", generate_loadout_summary_html(loadout_counts, total_loadouts, empty_loadout_count, partially_empty_set_count)
     ).replace(
          "{item_summary_by_category}", generate_item_summary(item_summary_by_category)
+    ).replace(
+         "{ladder_firsts}", get_ladder_firsts_html(game_mode=0)
     ).replace(
         "{html_output}", html_output
     )
