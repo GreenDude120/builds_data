@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import statistics
 import html
+from html import escape
 
 def analyze_top_accounts():
     base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
