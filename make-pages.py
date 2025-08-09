@@ -24,8 +24,26 @@ import statistics
 import html
 from html import escape
 
+def get_current_season():
+    url = "https://beta.pathofdiablo.com/api/ladder-summaries"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        seasons = response.json()
+        current = next((s["season"] for s in seasons if s.get("current")), None)
+        return current
+    except requests.RequestException as e:
+        print(f"Error fetching season: {e}")
+        return None
+
 def analyze_top_accounts():
-    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
+    season = get_current_season()
+    if season:
+        base_ladder_url = f"https://beta.pathofdiablo.com/api/ladder/{season}/0/0/"
+    else:
+        base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
+    
+#    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
     all_characters = fetch_1kladder_characters(base_ladder_url, start_page=1, end_page=5)
     all_characters = [char for char in all_characters if char.get('account')]
 
@@ -324,7 +342,12 @@ def MakeHome():
                 if counts.get(class_code, 0) >= min_count
             ][:top_n]
 
-        base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
+        season = get_current_season()
+        if season:
+            base_ladder_url = f"https://beta.pathofdiablo.com/api/ladder/{season}/0/0/"
+        else:
+            base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
+#        base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
         all_characters = fetch_1kladder_characters(base_ladder_url, start_page=1, end_page=5)
         all_characters = [char for char in all_characters if char.get('account')]
 
@@ -2462,24 +2485,48 @@ def MakeHome():
     unused_uniques_html = format_unused_items(unused_uniques, merc_used_items, merc_users)
     unused_set_items_html = format_unused_items(unused_set_items, merc_used_items, merc_users)
 
-    def get_ladder_firsts_html(game_mode=0):
-        url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+    def get_ladder_summary_html(game_mode=0):
+        # Fetch Top 10 Characters
+        season = get_current_season()
+        if season:
+            base_ladder_url = f"https://beta.pathofdiablo.com/api/ladder/{season}/{game_mode}/0/"
+        else:
+            base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
         try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+            ladder_response = requests.get(base_ladder_url, timeout=10)
+            ladder_response.raise_for_status()
+            ladder_data = ladder_response.json().get("ladder", [])
+            top_10 = ladder_data[:10]
         except requests.RequestException as e:
-            return (
-                "<section id='ladder-firsts'><h2>Ladder Firsts</h2>"
-                f"<p>Error fetching data: {escape(str(e))}</p></section>"
-            )
+            top_10 = []
+            top_10_html = f"<p>Error fetching top characters: {escape(str(e))}</p>"
 
-        season = next((entry["season"] for entry in data if entry.get("gameMode") == game_mode), "Unknown")
+        top_10_html = ['<div class="fun-facts-column">', '<h4>Top 10 Characters</h4>', '<ul>']
+        for entry in top_10:
+            name = escape(entry.get("charName", "Unknown"))
+            level = entry.get("level", 0)
+            char_class_name = escape(entry.get("charClass", "").capitalize())
+            max_date = entry.get("maxLevelDate")
+            date_str = f' <br>&nbsp;&nbsp;&nbsp;&nbsp;<em>(Level 99 on {datetime.strptime(max_date, "%Y-%m-%d %H:%M:%S").date()})</em>' if max_date else ""
+            link = f'<a href="https://beta.pathofdiablo.com/armory?name={name}" target="_blank">{name}</a>'
+            top_10_html.append(f'<li>{link} – Level {level} {char_class_name}{date_str}</li>')
+        top_10_html.append('</ul></div>')
+
+        # Fetch Ladder Firsts
+        firsts_url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+        try:
+            firsts_response = requests.get(firsts_url, timeout=10)
+            firsts_response.raise_for_status()
+            firsts_data = firsts_response.json()
+        except requests.RequestException as e:
+            firsts_data = []
+            ladder_firsts_html = f"<p>Error fetching ladder firsts: {escape(str(e))}</p>"
+
+        season_label = next((entry["season"] for entry in firsts_data if entry.get("gameMode") == game_mode), season)
         mode_label = "Hardcore" if game_mode == 1 else "Softcore"
 
-        # Group boss kills by character
         grouped = defaultdict(list)
-        for entry in data:
+        for entry in firsts_data:
             if entry.get("gameMode") != game_mode:
                 continue
             key = (
@@ -2489,26 +2536,27 @@ def MakeHome():
             )
             difficulty = entry.get("difficulty", "Unknown")
             boss_name = escape(entry.get("bossName", "Unknown"))
-            if difficulty != "Hell":
-                kill_desc = f"First {difficulty} {boss_name} Kill"
-            else:
-                kill_desc = f"First {boss_name} Kill"
+            kill_desc = f"First {difficulty} {boss_name} Kill" if difficulty != "Hell" else f"First {boss_name} Kill"
             grouped[key].append(kill_desc)
 
-        # Build HTML
-        html = [
-            f"<section id='ladder-firsts'>",
-            f"<h2>Season {season} {mode_label} Ladder Firsts</h2>",
-            "<ul style='list-style-type: none; padding-left: 0;'>"
-        ]
-
+        ladder_firsts_html = ['<div class="fun-facts-column">', '<h4>Ladder Firsts</h4>', '<ul style="list-style-type: none; padding-left: 0;">']
         for (raw_name, char_level, char_class), kills in grouped.items():
             link = f'<a href="https://beta.pathofdiablo.com/armory?name={escape(raw_name)}" target="_blank">{escape(raw_name)}</a>'
             line1 = f"{link} (Level {char_level} {char_class})"
             line2 = "&nbsp;&nbsp;&nbsp;&nbsp;" + " and ".join(kills)
-            html.append(f"<li>{line1}<br>{line2}</li>")
+            ladder_firsts_html.append(f"<li>{line1}<br>{line2}</li>")
+        ladder_firsts_html.append('</ul></div>')
 
-        html.append("</ul></section>")
+        # Wrap both in fun-facts-row
+        html = [
+            f"<section id='ladder-summary'>",
+            f"<h2>Season {season_label} {mode_label} Ladder Summary</h2>",
+            '<div class="fun-facts-row">',
+            "\n".join(top_10_html),
+            "\n".join(ladder_firsts_html),
+            '</div>',
+            '</section>'
+        ]
         return "\n".join(html)
 
     # Generating the HTML for the results
@@ -2573,7 +2621,7 @@ def MakeHome():
             <img src="charts/1kclass_distribution.png">
         </div>
         <br>
-        {ladder_firsts}
+        {top_10_and_firsts}
         <br>
         <h2>
             Ladder top 1K Fun Facts
@@ -3408,7 +3456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ).replace(
          "{item_summary_by_category}", generate_item_summary(item_summary_by_category)
     ).replace(
-         "{ladder_firsts}", get_ladder_firsts_html(game_mode=0)
+         "{top_10_and_firsts}", get_ladder_summary_html(game_mode=0)
     ).replace(
         "{html_output}", html_output
     )
@@ -3564,7 +3612,12 @@ def MakehcHome():
                 for acct, counts in sorted(account_class_counts.items(), key=lambda x: x[1].get(class_code, 0), reverse=True)
                 if counts.get(class_code, 0) >= min_count
             ][:top_n]
-        base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/1/0/"
+        season = get_current_season()
+        if season:
+            base_ladder_url = f"https://beta.pathofdiablo.com/api/ladder/{season}/1/0/"
+        else:
+            base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/1/0/"
+#        base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/1/0/"
         all_characters = fetch_ladder_characters(base_ladder_url, start_page=1, end_page=5)
         all_characters = [char for char in all_characters if char.get('account')]
 
@@ -5613,24 +5666,48 @@ def MakehcHome():
     unused_uniques_html = format_unused_items(unused_uniques, merc_used_items, merc_users)
     unused_set_items_html = format_unused_items(unused_set_items, merc_used_items, merc_users)
 
-    def get_ladder_firsts_html(game_mode=1):
-        url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+    def get_ladder_summary_html(game_mode=1):
+        # Fetch Top 10 Characters
+        season = get_current_season()
+        if season:
+            base_ladder_url = f"https://beta.pathofdiablo.com/api/ladder/{season}/{game_mode}/0/"
+        else:
+            base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/1/0/"
         try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+            ladder_response = requests.get(base_ladder_url, timeout=10)
+            ladder_response.raise_for_status()
+            ladder_data = ladder_response.json().get("ladder", [])
+            top_10 = ladder_data[:10]
         except requests.RequestException as e:
-            return (
-                "<section id='ladder-firsts'><h2>Ladder Firsts</h2>"
-                f"<p>Error fetching data: {escape(str(e))}</p></section>"
-            )
+            top_10 = []
+            top_10_html = f"<p>Error fetching top characters: {escape(str(e))}</p>"
 
-        season = next((entry["season"] for entry in data if entry.get("gameMode") == game_mode), "Unknown")
+        top_10_html = ['<div class="fun-facts-column">', '<h4>Top 10 Characters</h4>', '<ul>']
+        for entry in top_10:
+            name = escape(entry.get("charName", "Unknown"))
+            level = entry.get("level", 0)
+            char_class_name = escape(entry.get("charClass", "").capitalize())
+            max_date = entry.get("maxLevelDate")
+            date_str = f' <br>&nbsp;&nbsp;&nbsp;&nbsp;<em>(Level 99 on {datetime.strptime(max_date, "%Y-%m-%d %H:%M:%S").date()})</em>' if max_date else ""
+            link = f'<a href="https://beta.pathofdiablo.com/armory?name={name}" target="_blank">{name}</a>'
+            top_10_html.append(f'<li>{link} – Level {level} {char_class_name}{date_str}</li>')
+        top_10_html.append('</ul></div>')
+
+        # Fetch Ladder Firsts
+        firsts_url = "https://beta.pathofdiablo.com/api/ladder-firsts"
+        try:
+            firsts_response = requests.get(firsts_url, timeout=10)
+            firsts_response.raise_for_status()
+            firsts_data = firsts_response.json()
+        except requests.RequestException as e:
+            firsts_data = []
+            ladder_firsts_html = f"<p>Error fetching ladder firsts: {escape(str(e))}</p>"
+
+        season_label = next((entry["season"] for entry in firsts_data if entry.get("gameMode") == game_mode), season)
         mode_label = "Hardcore" if game_mode == 1 else "Softcore"
 
-        # Group boss kills by character
         grouped = defaultdict(list)
-        for entry in data:
+        for entry in firsts_data:
             if entry.get("gameMode") != game_mode:
                 continue
             key = (
@@ -5640,26 +5717,27 @@ def MakehcHome():
             )
             difficulty = entry.get("difficulty", "Unknown")
             boss_name = escape(entry.get("bossName", "Unknown"))
-            if difficulty != "Hell":
-                kill_desc = f"First {difficulty} {boss_name} Kill"
-            else:
-                kill_desc = f"First {boss_name} Kill"
+            kill_desc = f"First {difficulty} {boss_name} Kill" if difficulty != "Hell" else f"First {boss_name} Kill"
             grouped[key].append(kill_desc)
 
-        # Build HTML
-        html = [
-            f"<section id='ladder-firsts'>",
-            f"<h2>Season {season} {mode_label} Ladder Firsts</h2>",
-            "<ul style='list-style-type: none; padding-left: 0;'>"
-        ]
-
+        ladder_firsts_html = ['<div class="fun-facts-column">', '<h4>Ladder Firsts</h4>', '<ul style="list-style-type: none; padding-left: 0;">']
         for (raw_name, char_level, char_class), kills in grouped.items():
             link = f'<a href="https://beta.pathofdiablo.com/armory?name={escape(raw_name)}" target="_blank">{escape(raw_name)}</a>'
             line1 = f"{link} (Level {char_level} {char_class})"
             line2 = "&nbsp;&nbsp;&nbsp;&nbsp;" + " and ".join(kills)
-            html.append(f"<li>{line1}<br>{line2}</li>")
+            ladder_firsts_html.append(f"<li>{line1}<br>{line2}</li>")
+        ladder_firsts_html.append('</ul></div>')
 
-        html.append("</ul></section>")
+        # Wrap both in fun-facts-row
+        html = [
+            f"<section id='ladder-summary'>",
+            f"<h2>Season {season_label} {mode_label} Ladder Summary</h2>",
+            '<div class="fun-facts-row">',
+            "\n".join(top_10_html),
+            "\n".join(ladder_firsts_html),
+            '</div>',
+            '</section>'
+        ]
         return "\n".join(html)
 
     # Generating the HTML for the results
@@ -5716,7 +5794,7 @@ def MakehcHome():
             <img src="charts/hcclass_distribution.png">
         </div>
         <br>
-        {ladder_firsts}
+        {top_10_and_firsts}
         <br>
         <h2>
             HC Ladder top 1K Fun Facts
@@ -6539,7 +6617,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ).replace(
          "{item_summary_by_category}", generate_item_summary(item_summary_by_category)
     ).replace(
-         "{ladder_firsts}", get_ladder_firsts_html(game_mode=0)
+         "{top_10_and_firsts}", get_ladder_summary_html(game_mode=1)
     ).replace(
         "{html_output}", html_output
     )
