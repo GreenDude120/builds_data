@@ -9,21 +9,24 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import plotly.express as px
 import json
-import os
 from jinja2 import Template
 from collections import Counter, defaultdict
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
-from datetime import datetime
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 import items_list
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import statistics
 import html
 from html import escape
+import csv
 
+###############################################
+#
+#   Supporting functions
+#
 def get_current_season():
     url = "https://beta.pathofdiablo.com/api/ladder-summaries"
     try:
@@ -43,7 +46,7 @@ def analyze_top_accounts():
     else:
         base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
     
-#    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/"
+#    base_ladder_url = "https://beta.pathofdiablo.com/api/ladder/13/0/0/" <- ladder/13/0/0/ is season 13 / 0 is softcore, 1 would be hardcore
     all_characters = fetch_1kladder_characters(base_ladder_url, start_page=1, end_page=5)
     all_characters = [char for char in all_characters if char.get('account')]
 
@@ -229,6 +232,10 @@ def generate_pie_chart(class_counts):
     plt.close()  # Avoid memory issues
     print("✅ Pie chart saved as 1kclass_distribution.png")
 
+###############################################
+#
+#   Make home pages
+#
 def MakeHome():
     # Define the consolidated JSON file path
     consolidated_file = "sc_ladder.json"  # Replace with your actual file path
@@ -6640,12 +6647,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     print("HTML file generated successfully.")
 
-
 ###############################################
 #
-#   Start making class pages
+#   Make class pages
 #
-
 def MakeClassPages():
     # ✅ Class configurations (previously used for folder paths)
     classes = [
@@ -9817,7 +9822,6 @@ document.addEventListener('DOMContentLoaded', () => {
     for class_info in classes:
         generate_report(**class_info, all_characters=all_characters)
 
-
 def MakehcClassPages():
     classes = [
         {"what_class": "Barbarian", "howmany_clusters": 11, "howmany_skills": 5},
@@ -12903,14 +12907,379 @@ document.addEventListener('DOMContentLoaded', () => {
     for class_info in classes:
         generate_report(**class_info, all_characters=all_characters)
 
+###############################################
+#
+#   Update csv and over time pages
+#   These functions grab where we are in the current season
+#   compares that to "today"
+#   and updates the over time csv's and web pages
+def get_current_season_info():
+    url = "https://beta.pathofdiablo.com/api/ladder-summaries"
+    response = requests.get(url)
+    response.raise_for_status()
+    seasons = response.json()
 
+    for season in seasons:
+        if season.get("current"):
+            start_time_str = season["start"]
+            start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+            season_number = season["season"]
+            return season_number, start_time
+
+    raise ValueError("No current season found.")
+
+def generate_snapshot_label():
+    season_number, start_time = get_current_season_info()
+    now = datetime.now(timezone.utc)
+    delta_days = (now - start_time).days
+
+    if delta_days < 14:
+        return f"S{season_number} Day {delta_days + 1}"
+    elif delta_days < 49:
+        week_number = ((delta_days - 14) // 7) + 2
+        return f"S{season_number} Week {week_number}"
+    else:
+        month_name = now.strftime("%B")
+        return f"S{season_number} {month_name}"
+
+def update_csv_and_web(mode, snapshot_label):
+    # Sample character data would be passed into this function
+#    snapshot_label = "August"  # or e.g., f"Day {days_since_ladder_start}"
+# Archival data
+#    sample_characters = "/home/derek/Desktop/prod-pod-data/builds_data/Season/13/May/sc_ladder.json"
+
+#    sample_characters = "sc_ladder.json"  
+#    csv_path = "sc-usage-over-time.csv"
+
+    # Configurable paths and labels
+    config = {
+        "sc": {
+            "json_path": "sc_ladder.json",
+            "csv_path": "sc-usage-over-time2.csv",
+            "html_title": "Softcore Ladder",
+            "html_file": "sc-usage-over-time2.html"
+        },
+        "hc": {
+            "json_path": "hc_ladder.json",
+            "csv_path": "hc-usage-over-time2.csv",
+            "html_title": "Hardcore Ladder",
+            "html_file": "hc-usage-over-time2.html"
+        }
+    }
+
+    if mode not in config:
+        raise ValueError(f"Unsupported mode: {mode}")
+
+    paths = config[mode]
+
+    # Load character data
+    with open(paths["json_path"], "r") as f:
+        characters = json.load(f)
+
+    def update_csv_from_api_response(characters, csv_path, snapshot_label):
+        # Load existing CSV into memory
+        with open(csv_path, newline='') as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+            fieldnames = reader.fieldnames
+
+        # Create a quick lookup from name/class/type to row
+        row_lookup = {(row['Name'], row.get('Class', ''), row['Type']): row for row in rows}
+
+        # Tally usage counters
+        usage_counter = defaultdict(lambda: [0, 0])  # [normal, synth]
+
+        for char in characters:
+            cls = char.get("Class")
+            for tab in char.get("SkillTabs", []):
+                for skill in tab.get("Skills", []):
+                    key = (skill["Name"], cls, "Skill")
+                    usage_counter[key][0] += skill["Level"]
+            
+            for item in char.get("Equipped", []):
+                quality_code = item.get("QualityCode")
+                name = item.get("Title")
+                if not name:
+                    continue
+
+                if quality_code == "q_runeword":
+                    key = (name, "", "Runeword")
+                elif quality_code == "q_set":
+                    key = (name, "", "Set")
+                elif quality_code == "q_unique":
+                    key = (name, "", "Unique")
+                else:
+                    continue
+
+                is_synth = "Synthesized" in item.get("Tag", "")
+                usage_counter[key][1 if is_synth else 0] += 1
+
+            # Count Mercenary items
+            for item in char.get("MercenaryEquipped", []):
+                quality_code = item.get("QualityCode")
+                name = item.get("Title")
+                if not name:
+                    continue
+
+                if quality_code == "q_runeword":
+                    key = (name, "", "Mercenary Runeword")
+                elif quality_code == "q_set":
+                    key = (name, "", "Mercenary Set")
+                elif quality_code == "q_unique":
+                    key = (name, "", "Mercenary Unique")
+                else:
+                    continue
+
+                is_synth = "Synthesized" in item.get("Tag", "")
+                usage_counter[key][1 if is_synth else 0] += 1
+
+
+        # Ensure the snapshot label is in the header
+        if snapshot_label not in fieldnames:
+            fieldnames.append(snapshot_label)
+            for row in rows:
+                row[snapshot_label] = "0"
+
+        # Update rows
+        for (name, cls, typ), (normal, synth) in usage_counter.items():
+            row_key = (name, cls, typ)
+            if row_key in row_lookup:
+                if synth:
+                    value = f"{normal}(+{synth})"
+                else:
+                    value = str(normal)
+                row_lookup[row_key][snapshot_label] = value
+            else:
+                new_row = {k: "0" for k in fieldnames}
+                new_row["Name"] = name
+                new_row["Class"] = cls
+                new_row["Type"] = typ
+                if synth:
+                    value = f"{normal}(+{synth})"
+                else:
+                    value = str(normal)
+                new_row[snapshot_label] = value
+                rows.append(new_row)
+                row_lookup[row_key] = new_row  # ✅ This is what you're missing
+
+        # Save the updated CSV
+        with open(csv_path, "w", newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+
+
+    # Load JSON data before passing it to the function
+    with open("sc_ladder.json") as f:
+        sample_characters = json.load(f)
+
+#    update_csv_from_api_response(sample_characters, csv_path, snapshot_label, {html_title})
+    update_csv_from_api_response(characters, paths["csv_path"], snapshot_label)
+
+
+
+    # Load CSV data into structured sections
+    def read_csv(csv_path):
+        sections = {
+            "Skills": {},
+            "Uniques": [],
+            "Sets": [],
+            "Runewords": [],
+            "Mercenary Uniques": [],  # ✅ new
+            "Mercenary Sets": [],     # ✅ new
+            "Mercenary Runewords": [] # ✅ new
+        }
+
+        with open(csv_path, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            headers = reader.fieldnames  # Capture all snapshot headers
+
+            for row in reader:
+                typ = row["Type"]
+                cls = row.get("Class", "").strip()
+                name = row["Name"]
+                snapshots = {header: row[header] for header in headers if header not in ["Type", "Class", "Name"]}
+
+                if typ == "Skill":
+                    if cls not in sections["Skills"]:
+                        sections["Skills"][cls] = []
+                    sections["Skills"][cls].append((name, snapshots))
+                elif typ == "Unique":
+                    sections["Uniques"].append((name, snapshots))
+                elif typ == "Set":
+                    sections["Sets"].append((name, snapshots))
+                elif typ == "Runeword":
+                    sections["Runewords"].append((name, snapshots))
+                elif typ in ["Mercenary Unique", "Mercenary Set", "Mercenary Runeword"]:
+                    sections[typ + "s"].append((name, snapshots))  
+        return headers, sections
+
+    # Generate formatted HTML output
+    def create_html(headers, sections, output_path, html_title=paths["html_title"]):
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(f"""
+            <html>
+            <head>
+            <title>{ html_title }</title>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <style>
+                #tooltipChart {{
+                position: absolute;
+                display: none;
+                border: 1px solid #aaa;
+                background-color: #fff;
+                z-index: 9999;
+                padding: 6px;
+                box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+                }}
+            </style>
+            </head>
+            <body>
+            <canvas id="tooltipChart" width="300" height="150"></canvas>
+            <h1>{html_title} Skill and item usage over time</h1>
+            <p><i>Click columns to sort</i></p>
+            <p><i>Elipses indicate additional synthesized items</i></p>
+            """)
+
+            # Skills grouped by class
+            f.write("<h2>Skills</h2>\n")
+            for cls, skills in sections["Skills"].items():
+                f.write(f"""<h3>{cls}</h3>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Skill</th>""" +
+                        "".join(f"<th onclick='sortTable(this, \"num\")'>{header}</th>" for header in headers if header not in ['Type', 'Class', 'Name']) +
+                        "</tr>\n")
+
+                for name, snapshots in skills:
+                    usage_data = json.dumps(snapshots)
+                    f.write(f"<tr><td class='usage-label' data-usage='{usage_data}'>{name}</td>" +
+                            "".join(f"<td>{snapshots[header]}</td>" for header in snapshots) + "</tr>\n")
+                f.write("</table>\n")
+
+            # Items (Uniques, Sets, Runewords)
+            for category in [
+                "Uniques", "Sets", "Runewords",
+                "Mercenary Uniques", "Mercenary Sets", "Mercenary Runewords"  # ✅ added
+            ]:
+                f.write(f"""<h2>{category}</h2>
+                <table border='1'>
+                <tr><th onclick='sortTable(this, "str")'>Name</th>""" +
+                        "".join(f"<th onclick='sortTable(this, \"num\")'>{header}</th>" for header in headers if header not in ["Type", "Class", "Name"]) +
+                        "</tr>\n")
+                for name, snapshots in sections[category]:
+                    usage_data = json.dumps({k: v for k, v in snapshots.items()})
+                    f.write(f"<tr><td class='usage-label' data-usage='{usage_data}'>{name}</td>" +
+                            "".join(f"<td>{snapshots[header]}</td>" for header in snapshots) + "</tr>\n")
+                f.write("</table>\n")
+
+            f.write("""
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('tooltipChart');
+            const ctx = canvas.getContext('2d');
+            let chart;
+
+            document.querySelectorAll('.usage-label').forEach(label => {
+                label.addEventListener('mouseenter', e => {
+                const data = JSON.parse(label.dataset.usage);
+                const labels = Object.keys(data);
+                const values = Object.values(data).map(v => parseInt(v));
+
+                if (chart) chart.destroy();
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label.textContent + ' usage',
+                        data: values,
+                        borderColor: '#3b82f6',
+                        fill: false
+                    }]
+                    },
+                    options: {
+                    responsive: false,
+                    animation: false,
+                    plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: label.textContent + ' Usage Over Time',
+                        font: { size: 14, weight: 'bold' },
+                        padding: { bottom: 10 }
+                    }
+                    },
+                    scales: {
+                        y: { beginAtZero: true },
+                        x: { ticks: { maxRotation: 90, minRotation: 45 } }
+                    }
+                    }
+                });
+
+                canvas.style.left = (e.pageX + 10) + 'px';
+                canvas.style.top = (e.pageY - 80) + 'px';
+                canvas.style.display = 'block';
+                });
+
+                label.addEventListener('mouseleave', () => {
+                canvas.style.display = 'none';
+                });
+            });
+            });
+            </script>
+            <script>
+            function sortTable(header, type) {
+            const th = header;
+            const table = th.closest('table');
+            const tbody = table.querySelector('tbody') || table;
+            const rows = Array.from(tbody.querySelectorAll('tr')).slice(1);
+            const colIndex = Array.from(th.parentNode.children).indexOf(th);
+
+            let asc = th.dataset.sortAsc !== "true"; // Toggle direction
+            th.dataset.sortAsc = asc;
+
+            rows.sort((a, b) => {
+                let valA = a.cells[colIndex].textContent.trim();
+                let valB = b.cells[colIndex].textContent.trim();
+                if (type === 'num') {
+                    valA = parseFloat(valA.replace(/\(\+\d+\)/, "")) || 0;
+                    valB = parseFloat(valB.replace(/\(\+\d+\)/, "")) || 0;
+                }
+                return asc
+                ? valA > valB ? 1 : valA < valB ? -1 : 0
+                : valA < valB ? 1 : valA > valB ? -1 : 0;
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+            }
+            </script>
+                    
+            """)
+
+    # File paths
+#    csv_file = "sc-usage-over-time.csv"  # Update this with the actual CSV path
+#    html_file = "sc-usage-over-time.html"
+
+    # Process data and create HTML
+    headers, sections = read_csv(paths["csv_path"])
+#    create_html(headers, sections, output_path, html_title)
+#    create_html(headers=[], sections=[], output_path=paths["html_file"], html_title=paths["html_title"])
+    create_html(headers=headers, sections=sections, output_path=paths["html_file"], html_title=paths["html_title"])
+    print("HTML file generated successfully!")
+
+###############################################
+#
+#   Run the above functions to make all pages
+#
 def main():
     analyze_top_accounts()
     MakeHome()
     MakehcHome()
     MakeClassPages()
     MakehcClassPages()
-
+    label = generate_snapshot_label()
+    update_csv_and_web(mode="sc", snapshot_label=label)
+    update_csv_and_web(mode="hc", snapshot_label=label)
 
 if __name__ == "__main__":
     main()
