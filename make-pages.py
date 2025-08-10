@@ -12955,15 +12955,15 @@ def update_csv_and_web(mode, snapshot_label):
     config = {
         "sc": {
             "json_path": "sc_ladder.json",
-            "csv_path": "sc-usage-over-time2.csv",
+            "csv_path": "sc-usage-over-time.csv",
             "html_title": "Softcore Ladder",
-            "html_file": "sc-usage-over-time2.html"
+            "html_file": "sc-usage-over-time.html"
         },
         "hc": {
             "json_path": "hc_ladder.json",
-            "csv_path": "hc-usage-over-time2.csv",
+            "csv_path": "hc-usage-over-time.csv",
             "html_title": "Hardcore Ladder",
-            "html_file": "hc-usage-over-time2.html"
+            "html_file": "hc-usage-over-time.html"
         }
     }
 
