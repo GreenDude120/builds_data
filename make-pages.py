@@ -8206,7 +8206,7 @@ def MakeClassPages():
         <!--    <hr width="90%"> -->
             <br>
             {% endfor %}
-            <h3>Top 5 Most Popular {{ what_class }} Skills:</h3>
+            <h3>Top 5 Most Popular {{ what_class }} Skills and total points invested:</h3>
             <ul>
             {% for skill, usage in top_5_most_used_skills.items() %}
                 <li class="usage-label"
@@ -8216,7 +8216,7 @@ def MakeClassPages():
             {% endfor %}
             </ul>
 
-            <h3>Top 5 Least Popular {{ what_class }} Skills:</h3>
+            <h3>Top 5 Least Popular {{ what_class }} Skills and total points invested:</h3>
             <ul>
             {% for skill, usage in bottom_5_least_used_skills.items() %}
                 <li class="usage-label"
@@ -11292,7 +11292,7 @@ def MakehcClassPages():
         <!--    <hr width="90%"> -->
             <br>
             {% endfor %}
-            <h3>Top 5 Most Popular {{ what_class }} Skills:</h3>
+            <h3>Top 5 Most Popular {{ what_class }} Skills and total points invested:</h3>
             <ul>
             {% for skill, usage in top_5_most_used_skills.items() %}
                 <li class="usage-label"
@@ -11302,7 +11302,7 @@ def MakehcClassPages():
             {% endfor %}
             </ul>
 
-            <h3>Top 5 Least Popular {{ what_class }} Skills:</h3>
+            <h3>Top 5 Least Popular {{ what_class }} Skills and total points invested:</h3>
             <ul>
             {% for skill, usage in bottom_5_least_used_skills.items() %}
                 <li class="usage-label"
