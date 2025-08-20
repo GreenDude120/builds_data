@@ -448,6 +448,7 @@
     @media (max-width: 768px) {
         .hamburger {
             display: flex;
+            padding-top: 50px;
         }
         .hamburger2 {
             display: flex;
