@@ -235,6 +235,7 @@ def generate_pie_chart(class_counts):
 ###############################################
 #
 #   Make home pages
+#   No level or point investment requirement to be included like the old site
 #
 def MakeHome():
     # Define the consolidated JSON file path
@@ -3503,6 +3504,9 @@ def fetch_ladder_characters(base_ladder_url, start_page=1, end_page=5):
             print(f"⚠️ Failed to fetch page {page}: {response.status_code}")
     return all_characters
 
+####
+# Because HC has had such a low participation, we're limiting it to level 60 minimum
+# for all HC pages
 def MakehcHome():
     # Define the consolidated JSON file path
     consolidated_file = "hc_ladder.json"  # Replace with your actual file path
@@ -12928,6 +12932,10 @@ def get_current_season_info():
 
     raise ValueError("No current season found.")
 
+##
+# This function says if the ladder is less than 14 days old, keep daily snaphsots in the usage csv
+# else if ladder is less than 50 days old, keep weekly snapshot in usage csv
+# else keep monthly snapshots monthly
 def generate_snapshot_label():
     season_number, start_time = get_current_season_info()
     now = datetime.now(timezone.utc)
