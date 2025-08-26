@@ -1,17 +1,17 @@
 Type,Class,Name,March,April,May,June,July,August,S13 August
-Skill,Amazon,Jab,131,157,166,167,168,168,167
-Skill,Amazon,Power Strike,403,518,515,549,569,569,568
-Skill,Amazon,Poison Javelin,250,275,265,280,289,289,288
+Skill,Amazon,Jab,131,157,166,167,168,168,168
+Skill,Amazon,Power Strike,403,518,515,549,569,569,569
+Skill,Amazon,Poison Javelin,250,275,265,280,289,289,301
 Skill,Amazon,Fend,33,34,34,34,34,34,34
-Skill,Amazon,Lightning Bolt,355,436,448,491,491,491,491
+Skill,Amazon,Lightning Bolt,355,436,448,491,491,491,492
 Skill,Amazon,Charged Strike,102,176,177,177,197,197,197
-Skill,Amazon,Plague Javelin,243,252,250,259,259,259,259
+Skill,Amazon,Plague Javelin,243,252,250,259,259,259,262
 Skill,Amazon,Molten Strike,48,68,68,68,68,68,68
 Skill,Amazon,Lightning Strike,61,103,84,84,104,104,104
 Skill,Amazon,Lightning Fury,404,484,487,527,527,527,527
-Skill,Amazon,Inner Sight,134,156,148,153,162,162,163
+Skill,Amazon,Inner Sight,134,156,148,153,162,162,164
 Skill,Amazon,Lethal Strike,415,462,496,526,533,533,532
-Skill,Amazon,Phase Run,157,166,172,179,181,181,181
+Skill,Amazon,Phase Run,157,166,172,179,181,181,182
 Skill,Amazon,Dodge,136,158,170,176,182,182,181
 Skill,Amazon,Avoid,121,145,152,159,171,171,171
 Skill,Amazon,Penetrate,304,325,349,355,357,357,357
@@ -56,7 +56,7 @@ Skill,Assassin,Blade Fury,203,238,234,255,252,252,252
 Skill,Assassin,Lightning Sentry,228,230,250,251,251,271,271
 Skill,Assassin,Wake of Inferno,513,561,654,646,631,631,631
 Skill,Assassin,Death Sentry,216,237,259,279,279,290,299
-Skill,Assassin,Blade Shield,430,472,493,507,491,491,491
+Skill,Assassin,Blade Shield,430,472,493,507,491,491,492
 Skill,Barbarian,Howl,108,115,122,125,129,129,130
 Skill,Barbarian,Find Potion,58,64,68,68,69,69,70
 Skill,Barbarian,Taunt,299,333,341,341,342,342,343
@@ -71,21 +71,21 @@ Skill,Barbarian,Edged Weapon Mastery,361,372,366,405,412,412,411
 Skill,Barbarian,Pole Weapon Mastery,224,284,324,324,324,324,324
 Skill,Barbarian,Blunt Weapon Mastery,195,173,235,224,224,224,224
 Skill,Barbarian,Thrown Weapon Mastery,142,162,159,159,160,160,159
-Skill,Barbarian,Increased Stamina,110,118,123,103,107,107,109
+Skill,Barbarian,Increased Stamina,110,118,123,103,107,107,110
 Skill,Barbarian,Counter Attack,35,35,42,36,37,38,40
-Skill,Barbarian,Iron Skin,102,108,115,112,119,119,120
+Skill,Barbarian,Iron Skin,102,108,115,112,119,119,121
 Skill,Barbarian,Increased Speed,102,115,120,119,124,124,124
 Skill,Barbarian,Puncture,40,40,42,42,42,43,43
 Skill,Barbarian,Natural Resistance,191,214,212,194,196,196,196
 Skill,Barbarian,Whirling Axes,345,332,335,337,357,358,377
-Skill,Barbarian,Double Swing,431,418,427,422,454,455,479
+Skill,Barbarian,Double Swing,431,418,427,422,454,455,499
 Skill,Barbarian,Concentrate,73,77,82,82,84,84,83
 Skill,Barbarian,Cleave,131,152,164,172,171,171,171
 Skill,Barbarian,Frenzy,177,159,176,170,172,172,195
 Skill,Barbarian,Stun,52,56,61,62,64,64,64
 Skill,Barbarian,Leap Slam,150,195,200,200,202,202,202
 Skill,Barbarian,Double Throw,0,0,0,0,,0,0
-Skill,Barbarian,Bash,189,234,221,216,238,238,218
+Skill,Barbarian,Bash,189,234,221,216,238,238,219
 Skill,Barbarian,Ethereal Throw,140,160,141,141,161,161,141
 Skill,Barbarian,Whirlwind,557,584,654,673,690,690,690
 Skill,Druid,Firestorm,104,105,151,152,146,152,147
@@ -154,7 +154,7 @@ Skill,Paladin,Prayer,124,133,139,139,140,137,138
 Skill,Paladin,Resist Fire,97,109,105,99,100,104,100
 Skill,Paladin,Defiance,103,189,196,196,210,195,192
 Skill,Paladin,Resist Cold,4,6,25,46,47,46,45
-Skill,Paladin,Cleansing,208,233,240,242,243,222,244
+Skill,Paladin,Cleansing,208,233,240,242,243,222,246
 Skill,Paladin,Resist Lightning,132,112,89,94,94,88,108
 Skill,Paladin,Vigor,407,435,477,499,500,499,479
 Skill,Paladin,Meditation,2,3,3,3,3,3,3
@@ -181,17 +181,17 @@ Skill,Paladin,Absolution,54,55,58,58,59,59,59
 Skill,Paladin,Holy Shield,583,601,638,637,650,641,651
 Skill,Paladin,Fist of the Heavens,766,770,845,846,866,856,866
 Skill,Paladin,Dashing Strike,160,178,180,180,180,163,203
-Skill,Sorceress,Ice Bolt,183,194,188,249,252,253,257
+Skill,Sorceress,Ice Bolt,183,194,188,249,252,253,258
 Skill,Sorceress,Frigerate,69,68,66,69,70,70,72
-Skill,Sorceress,Frost Nova,171,167,137,139,160,142,125
-Skill,Sorceress,Ice Blast,405,382,369,377,380,379,383
+Skill,Sorceress,Frost Nova,171,167,137,139,160,142,126
+Skill,Sorceress,Ice Blast,405,382,369,377,380,379,384
 Skill,Sorceress,Shiver Armor,167,147,146,155,166,163,165
-Skill,Sorceress,Glacial Spike,296,302,303,325,327,329,325
-Skill,Sorceress,Blizzard,238,232,231,234,236,245,267
+Skill,Sorceress,Glacial Spike,296,302,303,325,327,329,326
+Skill,Sorceress,Blizzard,238,232,231,234,236,245,268
 Skill,Sorceress,Freezing Pulse,226,229,249,269,269,269,261
 Skill,Sorceress,Chilling Armor,4,4,4,4,4,4,5
-Skill,Sorceress,Frozen Orb,569,592,576,656,663,694,739
-Skill,Sorceress,Cold Mastery,704,725,738,836,844,869,897
+Skill,Sorceress,Frozen Orb,569,592,576,656,663,694,742
+Skill,Sorceress,Cold Mastery,704,725,738,836,844,869,900
 Skill,Sorceress,Charged Bolt,452,418,413,411,401,401,402
 Skill,Sorceress,Static Field,184,178,191,191,189,188,189
 Skill,Sorceress,Telekinesis,838,816,866,909,882,902,902
@@ -203,16 +203,16 @@ Skill,Sorceress,Discharge,103,131,161,150,130,130,130
 Skill,Sorceress,Thunder Storm,154,161,241,285,246,246,246
 Skill,Sorceress,Energy Shield,266,256,266,274,272,272,275
 Skill,Sorceress,Lightning Mastery,609,651,724,737,710,711,710
-Skill,Sorceress,Fire Bolt,268,261,264,278,296,298,288
-Skill,Sorceress,Warmth,619,606,667,640,619,620,621
+Skill,Sorceress,Fire Bolt,268,261,264,278,296,298,277
+Skill,Sorceress,Warmth,619,606,667,640,619,620,622
 Skill,Sorceress,Inferno,35,35,76,36,37,37,37
 Skill,Sorceress,Immolate,36,36,37,37,38,38,38
-Skill,Sorceress,Fire Ball,589,604,593,607,601,603,598
+Skill,Sorceress,Fire Ball,589,604,593,607,601,603,578
 Skill,Sorceress,Fire Wall,39,39,59,40,41,41,41
 Skill,Sorceress,Enflame,106,108,107,111,110,112,112
 Skill,Sorceress,Meteor,198,198,217,219,239,239,239
 Skill,Sorceress,Hydra,1025,1075,1061,1123,1098,1137,1179
-Skill,Sorceress,Fire Mastery,981,1010,1002,1074,1088,1096,1116
+Skill,Sorceress,Fire Mastery,981,1010,1002,1074,1088,1096,1115
 Unique,,Alma Negra,0,0,0,0,,0,0
 Unique,,Andariel's Visage,6,7,7,6,7,7,7
 Unique,,Arachnid Mesh,42,49,52,54,53,53,54
@@ -246,7 +246,7 @@ Unique,,Blastbark,0,0,1,1,1,1,1
 Unique,,Blinkbat's Form,1,1,1,1,1,1,1
 Unique,,Blood Crescent,1,3,4,3,2,2,2
 Unique,,Blood Raven's Charge,0,0,0,0,,0,0
-Unique,,Bloodfist,28,27,32,28,29,30,31
+Unique,,Bloodfist,28,27,32,28,29,30,32
 Unique,,Bloodletter,2,2,0,0,2,0,0
 Unique,,Bloodmoon,0,0,0,0,,0,0
 Unique,,Bloodrise,1,1,1,1,1,1,1
@@ -342,7 +342,7 @@ Unique,,Grim's Burning Dead,0,0,0,0,,0,0
 Unique,,Griswold's Edge,0,1,1,1,2,2,2
 Unique,,Guardian Angel,5,6,6,6,6,6,7
 Unique,,Guardian Naga,0,0,0,0,,0,0
-Unique,,Gull,8,7,9,8,9,9,9
+Unique,,Gull,8,7,9,8,9,9,10
 Unique,,Gut Siphon,0,0,0,0,,0,0
 Unique,,Halaberd's Reign,0,1,1,1,1,1,1
 Unique,,Hand of Blessed Light,2,2,2,2,2,2,2
@@ -406,7 +406,7 @@ Unique,,Messerschmidt's Reaver,0,0,0,0,,0,0
 Unique,,Metalgrid,4,4,4,4,4,4,4
 Unique,,Moonfall,0,1,1,1,0(+1),0(+1),0(+1)
 Unique,,Moser's Blessed Circle,17,20,19,21,22,23,23
-Unique,,Nagelring,53,53,59,62,64,65,66
+Unique,,Nagelring,53,53,59,62,64,65,67
 Unique,,Nature's Peace,10,9,12,12,13,13,13
 Unique,,Nightsmoke,13,15,17,18,19,20,20
 Unique,,Nightwing's Veil,4,3,2,2,2,2,2
@@ -548,7 +548,7 @@ Unique,,Todesfaelle Flamme,1,1,1,1,1,1,1
 Unique,,Tomb Reaver,1,1,1,2,2,2,2
 Unique,,Toothrow,0,0,0,0,,0,0
 Unique,,Torch of Iro,0,0,0,0,1,0,0
-Unique,,Treads of Cthon,5,6,7,6,7,7,6
+Unique,,Treads of Cthon,5,6,7,6,7,7,7
 Unique,,Twitchthroe,5,6,6,6,6,6,6
 Unique,,Tyrael's Might,1,1,1,1,1,1,1
 Unique,,Umbral Disk,2,2,2,2,2,2,2
@@ -581,17 +581,17 @@ Unique,,Wolfhowl,3,3,3,3,3,3,3
 Unique,,Wormskull,2,2,1,1,1,1,1
 Unique,,Wraith Flight,1,1,1,1,1,1,1
 Unique,,Zakarum's Hand,1,0,0,0,,0,0
-Set,,Angelic Sickle,5,5,5,7,7,8,6
-Set,,Angelic Mantle,7,7,9,10,11,12,13
-Set,,Angelic Halo,62,66,74,76,77,79,78
-Set,,Angelic Wings,36,39,43,46,46,46,47
+Set,,Angelic Sickle,5,5,5,7,7,8,7
+Set,,Angelic Mantle,7,7,9,10,11,12,14
+Set,,Angelic Halo,62,66,74,76,77,79,80
+Set,,Angelic Wings,36,39,43,46,46,46,49
 Set,,Arcanna's Sign,1,2,2,2,2,2,1
 Set,,Arcanna's Deathwand,0,0,0,0,,1,1
 Set,,Arcanna's Head,4,4,3,3,2,2,1
 Set,,Arcanna's Flesh,0,0,0,0,,0,0
 Set,,Arctic Furs,15,17,19,22,21,20,22
-Set,,Arctic Binding,35,29,34,35,32,33,33
-Set,,Arctic Mitts,2,2,3,3,3,3,3
+Set,,Arctic Binding,35,29,34,35,32,33,34
+Set,,Arctic Mitts,2,2,3,3,3,3,4
 Set,,Arctic Horn,2,1,1,1,1,1,1
 Set,,Berserker's Headgear,14,14,13,14,15,15,15
 Set,,Berserker's Hauberk,7,7,6,6,7,7,7
@@ -610,9 +610,9 @@ Set,,Cleglaw's Pincers,10,11,8,8,8,9,8
 Set,,Death's Hand,10,10,10,11,11,11,12
 Set,,Death's Touch,0,0,0,0,,0,1
 Set,,Death's Guard,10,12,12,14,14,14,14
-Set,,Hsarus' Iron Heel,38,37,43,41,43,42,41
+Set,,Hsarus' Iron Heel,38,37,43,41,43,42,40
 Set,,Hsarus' Iron Fist,8,8,8,8,9,9,8
-Set,,Hsarus' Iron Stay,23,21,24,23,22,23,21
+Set,,Hsarus' Iron Stay,23,21,24,23,22,23,20
 Set,,Infernal Cranium,6,7,7,8,7,7,6
 Set,,Infernal Torch,2,2,1,1,1,1,1
 Set,,Infernal Sign,2,2,2,1,1,1,2
@@ -624,23 +624,23 @@ Set,,Isenhart's Lightbrand,2,2,2,3,2,2,2
 Set,,Isenhart's Parry,2,2,2,1,1,1,1
 Set,,Isenhart's Case,9,5,4,4,3,3,2
 Set,,Isenhart's Horns,3,2,2,1,1,1,1
-Set,,Milabrega's Orb,7,7,8,6,7,8,8
+Set,,Milabrega's Orb,7,7,8,6,7,8,9
 Set,,Milabrega's Rod,0,0,0,0,,0,0
 Set,,Milabrega's Diadem,0,0,0,0,,0,0
 Set,,Milabrega's Robe,0,0,0,0,,0,0
 Set,,Sigon's Visor,14,17,22,23,22,22,23
 Set,,Sigon's Shelter,11,12,15,18,17,17,18
-Set,,Sigon's Gage,30,31,35,36,34,33,35
-Set,,Sigon's Sabot,32,35,37,41,39,38,40
+Set,,Sigon's Gage,30,31,35,36,34,33,36
+Set,,Sigon's Sabot,32,35,37,41,39,38,41
 Set,,Sigon's Wrap,38,42,49,47,44,43,46
-Set,,Sigon's Guard,17,19,22,27,25,24,25
+Set,,Sigon's Guard,17,19,22,27,25,24,26
 Set,,Tancred's Spine,0,0,0,0,,0,0
 Set,,Tancred's Crowbill,0,0,0,0,,0,0
 Set,,Tancred's Hobnails,3,3,3,5,5,4,5
 Set,,Tancred's Weird,1,1,0,1,1,1,1
 Set,,Tancred's Skull,3,3,2,3,3,2,2
 Set,,Vidala's Barb,3,2,4,2,3,2,2
-Set,,Vidala's Fetlock,16,17,16,17,16,16,16
+Set,,Vidala's Fetlock,16,17,16,17,16,16,17
 Set,,Vidala's Ambush,4,3,3,3,3,3,3
 Set,,Vidala's Snare,9,9,10,9,9,9,9
 Set,,Bul-Kathos' Sacred Charge,0,0,0,0,,0,0
@@ -728,7 +728,7 @@ Runeword,,Doom,1,0,0,0,,0,0
 Runeword,,Dragon,3,4,3,2,2,2,3
 Runeword,,Dream,1,1,1,1,3,3,3
 Runeword,,Duress,0,0,0,0,,0,0
-Runeword,,Edge,12,12,14,16,17,15,16
+Runeword,,Edge,12,12,14,16,17,15,15
 Runeword,,Enigma,33,34,34,34,35,35,35
 Runeword,,Enlightenment,0,0,0,1,1,0,0
 Runeword,,Eternity,0,0,0,0,,0,0
@@ -784,9 +784,9 @@ Runeword,,Rift,0,0,0,0,,0,0
 Runeword,,Sanctuary,0,0,0,0,,0,0
 Runeword,,Silence,8,8,8,8,8,8,8
 Runeword,,Smoke,31,30,33,35,36,36,34
-Runeword,,Spirit,318,337,349,361,361,361,363
+Runeword,,Spirit,318,337,349,361,361,361,365
 Runeword,,Splendor,1,2,2,2,2,2,2
-Runeword,,Stealth,97,98,114,108,107,107,103
+Runeword,,Stealth,97,98,114,108,107,107,106
 Runeword,,Steel,5,6,7,7,8,8,8
 Runeword,,Stone,0,0,0,0,,0,0
 Runeword,,Strength,3,3,4,4,4,4,4
@@ -839,7 +839,7 @@ Mercenary Set,,Sigon's Shelter,0,0,0,0,5,5,5
 Mercenary Unique,,Vampire Gaze,0,0,0,0,31,31,32
 Mercenary Runeword,,Stealth,0,0,0,0,18,19,19
 Mercenary Unique,,The Impaler,0,0,0,0,2,2,2
-Mercenary Unique,,Steelgoad,0,0,0,0,6,6,6
+Mercenary Unique,,Steelgoad,0,0,0,0,6,6,7
 Mercenary Set,,Berserker's Headgear,0,0,0,0,8,8,8
 Mercenary Set,,Isenhart's Horns,0,0,0,0,6,5,5
 Mercenary Unique,,Woestave,0,0,0,0,2,2,1
@@ -853,8 +853,8 @@ Mercenary Set,,Sigon's Visor,0,0,0,0,3,3,3
 Mercenary Unique,,Rockfleece,0,0,0,0,12,12,11
 Mercenary Unique,,Soulflay,0,0,0,0,1,0,0
 Mercenary Unique,,Undead Crown,0,0,0,0,11,11,12
-Mercenary Unique,,Coif of Glory,0,0,0,0,4,4,4
-Mercenary Unique,,The Centurion,0,0,0,0,5,5,5
+Mercenary Unique,,Coif of Glory,0,0,0,0,4,4,5
+Mercenary Unique,,The Centurion,0,0,0,0,5,5,6
 Mercenary Unique,,The Spirit Shroud,0,0,0,0,2,2,2
 Mercenary Unique,,The Face of Horror,0,0,0,0,14,14,14
 Mercenary Unique,,Razortine,0,0,0,0,4,4,5
@@ -953,7 +953,7 @@ Mercenary Unique,,Flamebellow,0,0,0,0,1,1,1
 Mercenary Unique,,Arreat's Face,0,0,0,0,3,3,3
 Mercenary Unique,,Todesfaelle Flamme,0,0,0,0,3,3,3
 Mercenary Unique,,Heavenly Garb,0,0,0,0,3,3,3
-Mercenary Unique,,Steelclash,0,0,0,0,1,1,1
+Mercenary Unique,,Steelclash,0,0,0,0,1,1,2
 Mercenary Unique,,Blood Crescent,0,0,0,0,1,1,1
 Mercenary Unique,,Tomb Reaver,0,0,0,0,4,4,4
 Mercenary Unique,,Moser's Blessed Circle,0,0,0,0,4,4,4
@@ -992,7 +992,7 @@ Mercenary Set,,Griswold's Valor,0,0,0,0,1,1,1
 Mercenary Unique,,Griswold's Edge,0,0,0,0,1,1,1
 Mercenary Runeword,,Dragon,0,0,0,0,1,1,1
 Mercenary Unique,,Djinn Slayer,0,0,0,0,1,1,1
-Mercenary Unique,,Hellplague,0,0,0,0,1,1,1
+Mercenary Unique,,Hellplague,0,0,0,0,1,1,2
 Mercenary Runeword,,Sanctuary,0,0,0,0,1,1,1
 Mercenary Unique,,Hexfire,0,0,0,0,1,1,1
 Mercenary Unique,,Bverrit Keep,0,0,0,0,1,1,1
