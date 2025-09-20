@@ -5,7 +5,7 @@ Skill,Amazon,Poison Javelin,348,392,368,369,365,366,346,331
 Skill,Amazon,Fend,74,54,53,53,54,54,54,53
 Skill,Amazon,Lightning Bolt,1282,1300,1279,1275,1212,1232,1222,1240
 Skill,Amazon,Charged Strike,977,997,999,999,932,952,958,959
-Skill,Amazon,Plague Javelin,408,464,424,422,417,418,397,390
+Skill,Amazon,Plague Javelin,408,464,424,422,417,418,397,391
 Skill,Amazon,Molten Strike,109,51,32,51,51,51,51,51
 Skill,Amazon,Lightning Strike,635,647,642,625,599,610,626,616
 Skill,Amazon,Lightning Fury,1381,1381,1360,1380,1290,1310,1290,1290
@@ -22,7 +22,7 @@ Skill,Amazon,Pierce,927,917,902,919,915,916,913,904
 Skill,Amazon,Cold Arrow,817,829,896,897,938,937,957,962
 Skill,Amazon,Magic Arrow,266,288,311,310,340,339,340,324
 Skill,Amazon,Multiple Shot,1340,1349,1382,1361,1394,1383,1364,1336
-Skill,Amazon,Fire Arrow,1074,1060,1105,1098,1153,1164,1146,1142
+Skill,Amazon,Fire Arrow,1074,1060,1105,1098,1153,1164,1146,1143
 Skill,Amazon,Ice Arrow,697,737,815,797,837,837,858,858
 Skill,Amazon,Guided Arrow,270,298,305,306,291,289,289,287
 Skill,Amazon,Exploding Arrow,578,561,557,536,567,583,578,575
@@ -60,13 +60,13 @@ Skill,Assassin,Blade Shield,2256,2290,2213,2208,2246,2293,2308,2348
 Skill,Barbarian,Howl,194,193,211,211,192,192,192,191
 Skill,Barbarian,Find Potion,150,151,154,153,153,153,153,152
 Skill,Barbarian,Taunt,411,450,451,488,545,525,526,543
-Skill,Barbarian,Shout,500,501,518,484,483,483,482,489
+Skill,Barbarian,Shout,500,501,518,484,483,483,482,494
 Skill,Barbarian,Find Item,223,227,249,228,247,247,247,248
 Skill,Barbarian,Battle Cry,2184,2188,2095,2058,2102,2117,2127,2087
-Skill,Barbarian,Battle Orders,1652,1654,1749,1746,1813,1810,1810,1826
+Skill,Barbarian,Battle Orders,1652,1654,1749,1746,1813,1810,1810,1832
 Skill,Barbarian,Grim Ward,1589,1591,1630,1592,1600,1633,1655,1629
 Skill,Barbarian,War Cry,338,377,354,393,453,433,433,453
-Skill,Barbarian,Battle Command,993,995,963,949,966,950,917,908
+Skill,Barbarian,Battle Command,993,995,963,949,966,950,917,907
 Skill,Barbarian,Edged Weapon Mastery,632,653,652,705,678,681,681,697
 Skill,Barbarian,Pole Weapon Mastery,803,781,775,734,734,735,730,728
 Skill,Barbarian,Blunt Weapon Mastery,601,638,677,677,637,598,599,598
@@ -76,30 +76,30 @@ Skill,Barbarian,Counter Attack,129,129,110,111,110,108,101,100
 Skill,Barbarian,Iron Skin,364,365,377,377,378,378,391,395
 Skill,Barbarian,Increased Speed,250,249,235,216,215,234,225,224
 Skill,Barbarian,Puncture,165,165,143,144,144,143,144,139
-Skill,Barbarian,Natural Resistance,320,328,329,317,331,324,308,316
+Skill,Barbarian,Natural Resistance,320,328,329,317,331,324,308,313
 Skill,Barbarian,Whirling Axes,2221,2201,2103,2023,1984,2003,2005,1945
 Skill,Barbarian,Double Swing,2133,2082,1989,1951,1928,1947,1908,1874
 Skill,Barbarian,Concentrate,152,151,191,191,169,169,168,165
-Skill,Barbarian,Cleave,241,220,222,241,238,239,239,237
+Skill,Barbarian,Cleave,241,220,222,241,238,239,239,236
 Skill,Barbarian,Frenzy,335,334,296,308,306,305,265,286
 Skill,Barbarian,Stun,151,150,171,188,166,166,168,165
-Skill,Barbarian,Leap Slam,387,385,405,424,421,441,460,458
+Skill,Barbarian,Leap Slam,387,385,405,424,421,441,460,457
 Skill,Barbarian,Double Throw,0,0,0,0,,0,0,0
-Skill,Barbarian,Bash,330,313,353,411,379,380,415,423
+Skill,Barbarian,Bash,330,313,353,411,379,380,415,418
 Skill,Barbarian,Ethereal Throw,143,123,124,164,164,164,184,185
 Skill,Barbarian,Whirlwind,1550,1541,1509,1483,1463,1425,1426,1400
 Skill,Druid,Firestorm,448,501,527,545,577,577,585,565
 Skill,Druid,Molten Boulder,1081,1079,1080,1079,1133,1152,1146,1164
-Skill,Druid,Flame Dash,1058,1045,1012,1026,1031,1050,990,1007
+Skill,Druid,Flame Dash,1058,1045,1012,1026,1031,1050,990,1027
 Skill,Druid,Arctic Blast,203,231,178,213,233,194,193,203
-Skill,Druid,Fissure,351,354,355,355,359,360,359,342
+Skill,Druid,Fissure,351,354,355,355,359,360,359,323
 Skill,Druid,Cyclone Armor,258,203,185,226,239,208,210,226
-Skill,Druid,Twister,444,445,364,420,424,423,425,419
-Skill,Druid,Volcano,213,246,258,258,281,282,300,317
-Skill,Druid,Tornado,531,566,454,477,510,497,497,483
+Skill,Druid,Twister,444,445,364,420,424,423,425,420
+Skill,Druid,Volcano,213,246,258,258,281,282,300,298
+Skill,Druid,Tornado,531,566,454,477,510,497,497,485
 Skill,Druid,Armageddon,558,619,639,620,689,691,688,692
-Skill,Druid,Hurricane,668,726,587,630,618,618,630,650
-Skill,Druid,Werewolf,294,334,358,365,362,382,389,409
+Skill,Druid,Hurricane,668,726,587,630,618,618,630,670
+Skill,Druid,Werewolf,294,334,358,365,362,382,389,410
 Skill,Druid,Lycanthropy,1678,1733,1764,1754,1712,1732,1772,1796
 Skill,Druid,Werebear,671,632,654,607,588,588,608,608
 Skill,Druid,Feral Rage,147,152,185,194,191,192,209,229
@@ -114,7 +114,7 @@ Skill,Druid,Poison Creeper,1133,1146,1152,1170,1130,1131,1133,1088
 Skill,Druid,Heart of Wolverine,1051,1059,1130,1122,1064,1064,1050,1066
 Skill,Druid,Summon Spirit Wolf,731,647,655,638,593,599,580,561
 Skill,Druid,Carrion Vine,52,44,45,57,57,58,58,60
-Skill,Druid,Oak Sage,1607,1618,1603,1586,1532,1513,1549,1564
+Skill,Druid,Oak Sage,1607,1618,1603,1586,1532,1513,1549,1553
 Skill,Druid,Summon Dire Wolf,1857,1798,1848,1792,1729,1739,1740,1685
 Skill,Druid,Solar Creeper,29,36,28,44,44,45,46,47
 Skill,Druid,Spirit of Barbs,60,59,59,57,34,35,36,39
@@ -197,7 +197,7 @@ Skill,Sorceress,Static Field,268,274,272,267,271,268,268,267
 Skill,Sorceress,Telekinesis,1889,1967,2048,2130,2172,2170,2219,2203
 Skill,Sorceress,Nova,545,548,547,527,527,547,549,549
 Skill,Sorceress,Lightning Surge,1493,1505,1591,1613,1619,1608,1601,1650
-Skill,Sorceress,Chain Lightning,743,706,711,694,715,716,661,719
+Skill,Sorceress,Chain Lightning,743,706,711,694,715,716,661,720
 Skill,Sorceress,Teleport,1548,1566,1663,1734,1755,1749,1767,1741
 Skill,Sorceress,Discharge,453,456,453,434,414,435,453,474
 Skill,Sorceress,Thunder Storm,1176,1225,1307,1367,1386,1386,1418,1411
@@ -212,7 +212,7 @@ Skill,Sorceress,Fire Wall,27,27,28,28,40,40,40,40
 Skill,Sorceress,Enflame,524,497,499,544,563,540,537,537
 Skill,Sorceress,Meteor,102,102,103,84,62,62,68,68
 Skill,Sorceress,Hydra,1301,1236,1256,1353,1360,1333,1293,1293
-Skill,Sorceress,Fire Mastery,1271,1303,1342,1445,1447,1399,1360,1388
+Skill,Sorceress,Fire Mastery,1271,1303,1342,1445,1447,1399,1360,1389
 Unique,,Alma Negra,7,7,6,6,7,7,7,7
 Unique,,Andariel's Visage,52,53,56,55,54,55,52,52
 Unique,,Arachnid Mesh,425,437,448,455,463,466,465,476
@@ -259,7 +259,7 @@ Unique,,Boneshade,3,3,4,4,3,2(+1),2(+1),4(+1)
 Unique,,Boneslayer Blade,0,0,0,0,,0,0,0
 Unique,,Bonesnap,2,3,2,2,1(+1),1(+1),1(+1),1(+1)
 Unique,,Brainhew,0,0,1,1,0(+1),0(+1),0(+1),0(+1)
-Unique,,Bul-Kathos' Wedding Band,222,239,242,250,262,259,264,269
+Unique,,Bul-Kathos' Wedding Band,222,239,242,250,262,259,264,270
 Unique,,Buriza-Do Kyanon,8,7,7,7,6(+1),6(+1),6(+1),7(+1)
 Unique,,Butcher's Pupil,1,1,1,1,1,1,1,1
 Unique,,Bverrit Keep,0,0,0,0,,0,0,0
@@ -296,14 +296,14 @@ Unique,,Demon Machine,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Demonhorn's Edge,0,0,1,1,1,1,1,1
 Unique,,Demon's Arch,1,1,1,1,1,1,1,1
 Unique,,Dimoak's Hew,0,0,0,0,,0,0,0
-Unique,,Djinn Slayer,1,2,1,1,1,1,1,2
+Unique,,Djinn Slayer,1,2,1,1,1,1,1,1
 Unique,,Doombringer,0,0,1,1,1,1,1,1
 Unique,,Doomslinger,13,16,18,18,19,18,18,16
 Unique,,Dracul's Grasp,90,101,110,104,105,105,108,108
 Unique,,Dragonscale,1,0,0,0,,0,1,1
 Unique,,Duriel's Shell,11,7,8,7,6,6,6,6
 Unique,,Duskdeep,0,0,0,0,,0,0,0
-Unique,,Dwarf Star,86,82,81,77,79,81,76,82
+Unique,,Dwarf Star,86,82,81,77,79,81,76,83
 Unique,,Eaglehorn,3,3,3,3,2(+1),2(+1),2(+1),2(+1)
 Unique,,Earth Shifter,7,7,8,8,7(+1),7(+1),7(+1),6(+1)
 Unique,,Earthshaker,1,1,1,1,1,1,1,1
@@ -331,7 +331,7 @@ Unique,,Goblin Toe,9,10,10,9,8,8,8,8
 Unique,,Goldskin,4,1,1,1,1,1,1,1
 Unique,,Goldstrike Arch,0,0,0,1,1,1,1,0
 Unique,,Goldwrap,74,65,64,57,59,60,56,53
-Unique,,Gore Rider,150,144,145,147,144,147,156,153
+Unique,,Gore Rider,150,144,145,147,144,147,156,154
 Unique,,Gorefoot,0,0,0,1,1,1,1,0
 Unique,,Goreshovel,0,1,1,1,1,1,1,1
 Unique,,Gravenspine,2,1,1,1,0(+1),0(+1),0(+1),0(+1)
@@ -346,7 +346,7 @@ Unique,,Gull,11,12,9,8,10,9,9,8
 Unique,,Gut Siphon,0,0,0,0,,0,0,0
 Unique,,Halaberd's Reign,1,1,1,1,1,1,1,1
 Unique,,Hand of Blessed Light,3,2,2,2,1(+1),1(+1),1(+1),1(+2)
-Unique,,Harlequin Crest,401,387,384,389,388,391,392,391
+Unique,,Harlequin Crest,401,387,384,389,388,391,392,392
 Unique,,Hawkmail,0,0,0,1,1,1,1,0
 Unique,,Head Hunter's Glory,0,0,0,0,,0,1,0
 Unique,,Headstriker,27,26,25,24,23,23,24,24
@@ -361,8 +361,8 @@ Unique,,Hellrack,2,2,2,2,2,2,2,3
 Unique,,Hellslayer,0,0,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Herald Of Zakarum,0,0,0,0,,0,0,0
 Unique,,Hexfire,5,3,4,5,4(+1),4(+1),5(+1),6(+1)
-Unique,,Highlord's Wrath,154,148,150,153,152,156,156,157
-Unique,,Homunculus,146,139,137,137,138,138,133,134
+Unique,,Highlord's Wrath,154,148,150,153,152,156,156,158
+Unique,,Homunculus,146,139,137,137,138,138,133,133
 Unique,,Hone Sundan,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Horizon's Tornado,0,1,2,2,1(+1),1(+1),1(+1),0(+1)
 Unique,,Hotspur,0,0,0,0,,0,0,0
@@ -376,13 +376,13 @@ Unique,,Iron Pelt,0,0,0,0,,0,0,0
 Unique,,Ironstone,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Islestrike,2,2,2,2,1(+1),1(+1),1(+2),2(+1)
 Unique,,Jade Talon,5,5,7,4,2(+1),2(+1),2(+1),3(+1)
-Unique,,Jalal's Mane,86,84,86,85,78,79,81,80
+Unique,,Jalal's Mane,86,84,86,85,78,79,81,81
 Unique,,Kelpie Snare,0,0,0,0,,0,0,0
 Unique,,Kinemil's Awl,0,0,0,0,,0,0,0
 Unique,,Kira's Guardian,11,10,10,10,9,9,10,8
 Unique,,Knell Striker,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Kuko Shakaku,2,2,2,3,2(+1),2(+1),2(+1),2(+1)
-Unique,,Lacerator,4,4,4,3,3,3,3,3
+Unique,,Lacerator,4,4,4,3,3,3,3,2
 Unique,,Lance Guard,2,1,1,1,1,1,1,1
 Unique,,Lance of Yaggai,0,0,0,0,,0,0,0
 Unique,,Langer Briser,0,0,0,0,,0,0,0
@@ -395,7 +395,7 @@ Unique,,Lightsabre,24,21,19,22,22(+1),23(+1),22(+1),23(+1)
 Unique,,Lycander's Aim,0,0,0,0,,0,0(+1),0(+1)
 Unique,,Lycander's Flank,0,0,0,0,,0,0,0
 Unique,,Maelstrom,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
-Unique,,Magefist,307,301,309,320,323,325,320,324
+Unique,,Magefist,307,301,309,320,323,325,320,323
 Unique,,Magewrath,1,1,0,0,1,0(+1),0(+1),0
 Unique,,Manald Heal,47,38,35,36,38,39,37,38
 Unique,,Mang Song's Lesson,19,18,19,20,17(+3),16(+2),15(+1),16(+1)
@@ -406,14 +406,14 @@ Unique,,Messerschmidt's Reaver,0,0,0,1,,0,0,0
 Unique,,Metalgrid,15,18,20,19,23,22,19,18
 Unique,,Moonfall,0,0,0,0,,0,0,0
 Unique,,Moser's Blessed Circle,4,3,2,3,4,4,4,4
-Unique,,Nagelring,142,135,126,123,120,118,116,120
-Unique,,Nature's Peace,25,22,24,23,25,25,28,26
+Unique,,Nagelring,142,135,126,123,120,118,116,119
+Unique,,Nature's Peace,25,22,24,23,25,25,28,27
 Unique,,Nightsmoke,12,11,11,12,10,10,10,9
 Unique,,Nightwing's Veil,23,28,31,30,30,28,32,33
 Unique,,Nokozan Relic,3,2,2,2,1,1,1,1
 Unique,,Nord's Tenderizer,0,0,0,0,,0,0,1
 Unique,,Nosferatu's Coil,9,10,12,11,10,10,11,10
-Unique,,Ondal's Wisdom,44,41,42,42,41(+1),41(+1),40,39
+Unique,,Ondal's Wisdom,44,41,42,42,41(+1),41(+1),40,38
 Unique,,Ormus' Robes,10,12,12,11,10,9,9,10
 Unique,,Peasant Crown,6,5,5,4,4,4,4,4
 Unique,,Pelta Lunata,1,1,1,1,1,1,1,1
@@ -422,8 +422,8 @@ Unique,,Plague Bearer,7,5,5,5,4,4,4(+1),4
 Unique,,Pluckeye,0,0,0,0,,0,0,0
 Unique,,Pompeii's Wrath,2,1,1,1,1,1,1,1
 Unique,,Pus Spitter,0,0,0,1,1,0,0,0
-Unique,,Que-Hegan's Wisdom,22,21,22,21,20,19,18,18
-Unique,,Radament's Sphere,29,27,33,34,39,41,40,39
+Unique,,Que-Hegan's Wisdom,22,21,22,21,20,19,18,17
+Unique,,Radament's Sphere,29,27,33,34,39,41,40,40
 Unique,,Rakescar,2,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,Rattlecage,1,1,1,0,,0,1,0
 Unique,,Raven Claw,1,1,2,2,1(+1),1(+1),1(+1),1(+1)
@@ -452,7 +452,7 @@ Unique,,Shadow Killer,4,3,3,3,2(+1),2(+1),2(+1),2(+1)
 Unique,,Shadowfang,0,0,0,0,,0,0,0
 Unique,,Shaftstop,4,5,6,5,5,5,5,7
 Unique,,Silks of the Victor,0,0,0,0,,0,0,0
-Unique,,Silkweave,189,187,192,200,207,208,212,212
+Unique,,Silkweave,189,187,192,200,207,208,212,211
 Unique,,Skewer of Krintiz,0,0,0,0,,0,0,0
 Unique,,Skin of the Flayed One,0,0,0,0,,0,0,0
 Unique,,Skin of the Vipermagi,173,159,160,160,162,161,163,161
@@ -485,7 +485,7 @@ Unique,,Steeldriver,0,0,0,0,,0,0,0
 Unique,,Steelgoad,0,0,0,0,,0,0,0
 Unique,,Steelrend,31,36,38,41,39,40,41,42
 Unique,,Stone Crusher,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
-Unique,,The Stone of Jordan,241,248,251,266,270,271,265,272
+Unique,,The Stone of Jordan,241,248,251,266,270,271,265,271
 Unique,,Stoneraven,0,0,0,0,,0,0,0
 Unique,,Stormchaser,1,1,1,1,1,1,1,1
 Unique,,Stormeye,1,1,1,1,0(+1),0(+1),0(+1),0(+1)
@@ -531,7 +531,7 @@ Unique,,The Meat Scraper,0,0,0,0,,0,0,0
 Unique,,The Minotaur,0,1,1,1,0(+1),0(+1),0(+1),0(+1)
 Unique,,The Oculus,29,24,22,21,21,20,22,24
 Unique,,The Patriarch,0,0,0,0,,0,0,0
-Unique,,The Reaper's Toll,11,9,10,8,8,9,10,10
+Unique,,The Reaper's Toll,11,9,10,8,8,9,10,11
 Unique,,The Redeemer,2,2,2,2,1(+1),1(+1),1(+1),1(+1)
 Unique,,The Rising Sun,2,1,1,1,2,2,2,2
 Unique,,The Salamander,0,0,0,0,,0,0,0
@@ -565,7 +565,7 @@ Unique,,Visceratuant,1,1,1,1,1,1,1,1
 Unique,,Wall of the Eyeless,2,2,1,1,1,1,1,1
 Unique,,War Traveler,260,265,275,279,279,278,278,276
 Unique,,Warlord's Trust,0,0,0,0,,0,0,0
-Unique,,Warpspear,35,40,45,48,48,47,50,48
+Unique,,Warpspear,35,40,45,48,48,47,50,49
 Unique,,Warshrike,6,5,6,8,7,7,8,9
 Unique,,Waterwalk,21,21,21,21,21,21,19,19
 Unique,,Widowmaker,2,2,2,2,2,2,2,2
@@ -659,8 +659,8 @@ Set,,Hwanin's Justice,0,0,0,0,,0,0,0
 Set,,Naj's Puzzler,45,42,40,39,42,41,39,37
 Set,,Naj's Light Plate,17,15,14,14,13,14,14,13
 Set,,Naj's Circlet,1,1,0,0,,0,0,0
-Set,,Guillaume's Face,34,38,41,39,39,39,38,42
-Set,,Wilhelm's Pride,1,1,3,2,3,3,3,3
+Set,,Guillaume's Face,34,38,41,39,39,39,38,41
+Set,,Wilhelm's Pride,1,1,3,2,3,3,3,4
 Set,,Magnus' Skin,2,2,4,3,3,3,3,3
 Set,,Whitstan's Guard,1,1,1,1,1,1,1,1
 Set,,Sander's Paragon,0,0,0,0,,0,0,0
@@ -678,17 +678,17 @@ Set,,Credendum,20,16,16,16,15,15,15,16
 Set,,Aldur's Stony Gaze,2,2,2,2,2,2,2,3
 Set,,Aldur's Deception,3,3,3,2,2,2,2,3
 Set,,Aldur's Rhythm,4,3,3,3,3,3,3,4
-Set,,Aldur's Advance,198,194,185,185,180,176,179,176
+Set,,Aldur's Advance,198,194,185,185,180,176,179,174
 Set,,Griswold's Valor,3,3,2,2,2,2,2,3
 Set,,Griswold's Heart,2,2,2,2,2,2,2,3
 Set,,Griswold's Redemption,1,1,1,1,1,1,1,1
 Set,,Griswold's Honor,2,2,2,2,2,2,2,3
 Set,,Immortal King's Will,39,38,36,34,31,31,31,31
 Set,,Immortal King's Soul Cage,34,32,30,29,26,26,26,26
-Set,,Immortal King's Detail,64,61,63,60,57,56,55,51
+Set,,Immortal King's Detail,64,61,63,60,57,56,55,50
 Set,,Immortal King's Forge,53,49,46,44,41,40,39,39
 Set,,Immortal King's Pillar,49,46,45,44,40,40,39,39
-Set,,Immortal King's Stone Crusher,35,34,34,33,30,29,29,29
+Set,,Immortal King's Stone Crusher,35,34,34,33,30,29,29,28
 Set,,M'avina's True Sight,17,10,13,11,11,11,11,11
 Set,,M'avina's Embrace,15,10,12,10,11,11,12,12
 Set,,M'avina's Icy Clutch,14,9,11,9,9,9,9,9
@@ -739,11 +739,11 @@ Runeword,,Flickering Flame,0,0,1,1,1,0,0,0
 Runeword,,Fortitude,162,164,165,165,165,167,168,162
 Runeword,,Fury,0,0,0,0,1,1,1,1
 Runeword,,Gloom,0,0,0,0,,0,0,0
-Runeword,,Grief,50,57,58,58,60,61,63,63
+Runeword,,Grief,50,57,58,58,60,61,63,64
 Runeword,,Ground,0,0,0,0,,0,0,0
-Runeword,,Hand of Justice,8,8,12,13,13,15,14,12
-Runeword,,Harmony,37,35,37,41,41,40,40,40
-Runeword,,Heart of the Oak,302,309,313,321,334,330,329,337
+Runeword,,Hand of Justice,8,8,12,13,13,15,14,13
+Runeword,,Harmony,37,35,37,41,41,40,40,41
+Runeword,,Heart of the Oak,302,309,313,321,334,330,329,336
 Runeword,,Hearth,0,0,0,0,,0,0,0
 Runeword,,Holy Thunder,49,49,48,45,46,46,44,43
 Runeword,,Honor,0,0,0,0,,0,0,0
@@ -770,7 +770,7 @@ Runeword,,Oath,7,7,6,6,6,6,6,5
 Runeword,,Obedience,4,3,4,4,4,4,4,4
 Runeword,,Obsession,0,0,0,0,,0,0,0
 Runeword,,Passion,0,0,0,0,,0,0,0
-Runeword,,Pattern,3,2,2,2,2,2,3,3
+Runeword,,Pattern,3,2,2,2,2,2,3,2
 Runeword,,Peace,8,8,8,8,7,7,6,6
 Runeword,,Phoenix,152,159,164,170,176,174,180,185
 Runeword,,Plague,82,85,85,85,87,86,89,91
@@ -784,7 +784,7 @@ Runeword,,Rift,0,0,0,0,,0,0,0
 Runeword,,Sanctuary,0,0,0,0,,0,1,1
 Runeword,,Silence,56,57,53,55,55,58,60,56
 Runeword,,Smoke,14,14,11,9,10,10,9,9
-Runeword,,Spirit,775,749,735,725,706,700,688,686
+Runeword,,Spirit,775,749,735,725,706,700,688,687
 Runeword,,Splendor,10,9,8,6,6,6,6,7
 Runeword,,Stealth,9,6,6,5,4,3,3,3
 Runeword,,Steel,0,0,0,0,,0,0,0
@@ -801,13 +801,13 @@ Runeword,,Wind,0,0,0,0,,0,0,0
 Runeword,,Wisdom,3,2,2,2,2,2,3,2
 Runeword,,Wrath,1,1,1,1,1,1,1,1
 Runeword,,Zephyr,0,0,0,0,,0,0,0
-Runeword,,Call to Arms,248,265,268,276,282,280,285,285
+Runeword,,Call to Arms,248,265,268,276,282,280,285,286
 Unique,,Frostbite,2,2,2,2,2,2,3,3
 Unique,,Herald of Zakarum,45,49,48,50,51,53,50,49
 Unique,,Swiftheart,5,6,6,6,6,6,5,5
 Unique,,Blade of Ali Baba,31,28,26,26,26(+2),25(+2),22(+2),20(+2)
 Unique,,Hailstorm,16,17,15,15,16,16,17,15
-Unique,,Moonfire,12,12,11,11,12,13,13,14
+Unique,,Moonfire,12,12,11,11,12,13,13,13
 Unique,,Dragonbreath,7,6,6,6,6,6,6,7
 Runeword,,2693,4,4,5,6,7,7,8,8
 Unique,,FrostbiteB,1,1,2,3,2,2,2,2
@@ -1057,19 +1057,19 @@ Mercenary,,Strong Bone Helm of Radiance,0,0,0,0,1,0,0,0
 Mercenary,,PlagueRI Shell,0,0,0,0,1,0,0,0
 Mercenary,,Blood Barb,0,0,0,0,1,0,0,0
 Mercenary Runeword,,Treachery,0,0,0,0,250,251,254,252
-Mercenary Unique,,Vampire Gaze,0,0,0,0,159,163,162,165
-Mercenary Runeword,,Insight,0,0,0,0,230,228,223,223
-Mercenary Unique,,Steel Shade,0,0,0,0,282,282,286,289
+Mercenary Unique,,Vampire Gaze,0,0,0,0,159,163,162,166
+Mercenary Runeword,,Insight,0,0,0,0,230,228,223,222
+Mercenary Unique,,Steel Shade,0,0,0,0,282,282,286,288
 Mercenary Runeword,,Doom,0,0,0,0,21,23,24,24
 Mercenary Set,,Tal Rasha's Horadric Crest,0,0,0,0,253,251,244,239
 Mercenary Runeword,,Harmony,0,0,0,0,42,42,45,44
-Mercenary Unique,,Shaftstop,0,0,0,0,147,148,149,150
-Mercenary Runeword,,Infinity,0,0,0,0,348,348,349,349
+Mercenary Unique,,Shaftstop,0,0,0,0,147,148,149,152
+Mercenary Runeword,,Infinity,0,0,0,0,348,348,349,351
 Mercenary Unique,,The Gladiator's Bane,0,0,0,0,87,87,88,89
-Mercenary Unique,,The Reaper's Toll,0,0,0,0,96,96,96,97
+Mercenary Unique,,The Reaper's Toll,0,0,0,0,96,96,96,96
 Mercenary Unique,,Andariel's Visage,0,0,0,0,164,165,167,166
 Mercenary Runeword,,Fortitude,0,0,0,0,233,238,240,243
-Mercenary Unique,,Blackhorn's Face,0,0,0,0,8,8,9,9
+Mercenary Unique,,Blackhorn's Face,0,0,0,0,8,8,9,10
 Mercenary Unique,,Guardian Angel,0,0,0,0,34,34,35,35
 Mercenary Unique,,Kira's Guardian,0,0,0,0,15,15,17,15
 Mercenary Runeword,,Lawbringer,0,0,0,0,86,85,82,82
@@ -1084,7 +1084,7 @@ Mercenary Runeword,,Spirit,0,0,0,0,32,32,30,30
 Mercenary Unique,,Black Hades,0,0,0,0,8,7,7,7
 Mercenary Unique,,Leviathan,0,0,0,0,67,67,69,66
 Mercenary Set,,Sazabi's Mental Sheath,0,0,0,0,3,3,3,3
-Mercenary Unique,,Bonehew,0,0,0,0,12,12,10,10
+Mercenary Unique,,Bonehew,0,0,0,0,12,12,10,11
 Mercenary Runeword,,Breath of the Dying,0,0,0,0,7,8,8,9
 Mercenary Set,,Naj's Light Plate,0,0,0,0,14,14,13,14
 Mercenary Unique,,Stormshield,0,0,0,0,21,20,21,20
@@ -1099,7 +1099,7 @@ Mercenary Unique,,Tyrael's Might,0,0,0,0,2,2,2,2
 Mercenary Unique,,Arkaine's Valor,0,0,0,0,6,6,7,7
 Mercenary Runeword,,Pride,0,0,0,0,7,8,9,6
 Mercenary Unique,,The Ward,0,0,0,0,4,4,3,2
-Mercenary Unique,,Crown of Thieves,0,0,0,0,45,45,47,46
+Mercenary Unique,,Crown of Thieves,0,0,0,0,45,45,47,47
 Mercenary Unique,,The Grandfather,0,0,0,0,14,14,14,13
 Mercenary Runeword,,Hearth,0,0,0,0,4,4,4,4
 Mercenary Unique,,Twitchthroe,0,0,0,0,4,4,4,4
@@ -1177,7 +1177,7 @@ Mercenary Unique,,Goldskin,0,0,0,0,7,6,6,6
 Mercenary Unique,,Iron Pelt,0,0,0,0,1,1,1,1
 Mercenary Unique,,Steel Pillar,0,0,0,0,1,1,1,0
 Mercenary Set,,Immortal King's Soul Cage,0,0,0,0,1,1,1,1
-Mercenary Unique,,Viperfork,0,0,0,0,3,3,3,3
+Mercenary Unique,,Viperfork,0,0,0,0,3,3,3,4
 Mercenary Set,,Griswold's Heart,0,0,0,0,7,7,6,7
 Mercenary Runeword,,Lore,0,0,0,0,1,1,1,1
 Mercenary Unique,,Todesfaelle Flamme,0,0,0,0,4,4,5,5
@@ -1185,7 +1185,7 @@ Mercenary Unique,,Spirit Forge,0,0,0,0,2,2,1,1
 Mercenary Unique,,Lightsabre,0,0,0,0,3,3,3,3
 Mercenary Unique,,Blackleach Blade,0,0,0,0,1,1,2,2
 Mercenary Set,,Dark Adherent,0,0,0,0,1,1,1,1
-Mercenary Unique,,Darksight Helm,0,0,0,0,2,2,2,3
+Mercenary Unique,,Darksight Helm,0,0,0,0,2,2,2,2
 Mercenary Unique,,The Meat Scraper,0,0,0,0,1,1,1,1
 Mercenary Unique,,Boneflesh,0,0,0,0,1,1,1,1
 Mercenary Unique,,Athena's Wrath,0,0,0,0,0(+1),0(+1),0(+1),0(+1)
@@ -1227,7 +1227,7 @@ Mercenary Set,,M'avina's Embrace,0,0,0,0,1,1,1,1
 Mercenary Unique,,Hone Sundan,0,0,0,0,1,1,1,1
 Mercenary Unique,,The Spirit Shroud,0,0,0,0,1,1,1,1
 Mercenary Unique,,Wraith Flight,0,0,0,0,1,1,1,1
-Mercenary Unique,,Skullder's Ire,0,0,0,0,1,1,1,3
+Mercenary Unique,,Skullder's Ire,0,0,0,0,1,1,1,2
 Mercenary Set,,Isenhart's Lightbrand,0,0,0,0,1,1,1,1
 Mercenary Unique,,Iceblink,0,0,0,0,1,1,1,1
 Mercenary Unique,,Doombringer,0,0,0,0,1,1,1(+1),1
