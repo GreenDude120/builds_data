@@ -10,14 +10,14 @@ Skill,Amazon,Molten Strike,109,51,32,51,51,51,51,71,71
 Skill,Amazon,Lightning Strike,635,647,642,625,599,610,626,636,635
 Skill,Amazon,Lightning Fury,1381,1381,1360,1380,1290,1310,1290,1290,1250
 Skill,Amazon,Inner Sight,270,261,263,262,261,261,260,257,256
-Skill,Amazon,Lethal Strike,1335,1315,1326,1327,1331,1331,1316,1254,1265
+Skill,Amazon,Lethal Strike,1335,1315,1326,1327,1331,1331,1316,1254,1266
 Skill,Amazon,Phase Run,374,377,380,387,374,374,371,367,365
 Skill,Amazon,Dodge,394,369,371,366,369,369,367,360,352
 Skill,Amazon,Avoid,374,346,351,346,349,349,346,340,334
 Skill,Amazon,Penetrate,768,729,714,727,739,739,740,686,686
 Skill,Amazon,Evade,267,252,257,255,258,258,257,249,249
 Skill,Amazon,Decoy,127,126,125,124,123,123,123,124,124
-Skill,Amazon,Valkyrie,756,714,713,729,693,693,700,701,702
+Skill,Amazon,Valkyrie,756,714,713,729,693,693,700,701,703
 Skill,Amazon,Pierce,927,917,902,919,915,916,913,902,891
 Skill,Amazon,Cold Arrow,817,829,896,897,938,937,957,962,983
 Skill,Amazon,Magic Arrow,266,288,311,310,340,339,340,323,325
@@ -136,7 +136,7 @@ Skill,Necromancer,Bone Armor,209,200,210,211,212,210,197,195,195
 Skill,Necromancer,Corpse Explosion,1992,1965,2067,2103,2162,2141,2100,2048,2048
 Skill,Necromancer,Desecrate,979,930,1018,1077,1117,1116,1095,1093,1093
 Skill,Necromancer,Bone Spear,35,35,55,55,55,35,34,34,34
-Skill,Necromancer,Bone Wall,341,325,328,331,325,324,314,275,289
+Skill,Necromancer,Bone Wall,341,325,328,331,325,324,314,275,290
 Skill,Necromancer,Bone Spirit,21,19,39,39,39,33,33,33,33
 Skill,Necromancer,Poison Nova,652,613,672,708,748,748,736,737,737
 Skill,Necromancer,Amplify Damage,63,66,84,86,97,96,106,106,106
@@ -215,7 +215,7 @@ Skill,Sorceress,Hydra,1301,1236,1256,1353,1360,1333,1293,1333,1309
 Skill,Sorceress,Fire Mastery,1271,1303,1342,1445,1447,1399,1360,1400,1371
 Unique,,Alma Negra,7,7,6,6,7,7,7,7,7
 Unique,,Andariel's Visage,52,53,56,55,54,55,52,52,50
-Unique,,Arachnid Mesh,425,437,448,455,463,466,465,481,482
+Unique,,Arachnid Mesh,425,437,448,455,463,466,465,481,483
 Unique,,Arioc's Needle,0,0,0,0,,1,1,0,0
 Unique,,Arkaine's Valor,19,20,23,21,22,22,22,22,22
 Unique,,Arm of King Leoric,2,4,4,4,4,5,6,6,6
@@ -299,7 +299,7 @@ Unique,,Dimoak's Hew,0,0,0,0,,0,0,0,0
 Unique,,Djinn Slayer,1,2,1,1,1,1,1,1,1
 Unique,,Doombringer,0,0,1,1,1,1,1,1,1
 Unique,,Doomslinger,13,16,18,18,19,18,18,15,16
-Unique,,Dracul's Grasp,90,101,110,104,105,105,108,110,109
+Unique,,Dracul's Grasp,90,101,110,104,105,105,108,110,110
 Unique,,Dragonscale,1,0,0,0,,0,1,1,1
 Unique,,Duriel's Shell,11,7,8,7,6,6,6,5,5
 Unique,,Duskdeep,0,0,0,0,,0,0,0,0
@@ -330,7 +330,7 @@ Unique,,Gloom's Trap,2,1,1,1,2,2,1,1,1
 Unique,,Goblin Toe,9,10,10,9,8,8,8,8,8
 Unique,,Goldskin,4,1,1,1,1,1,1,1,1
 Unique,,Goldstrike Arch,0,0,0,1,1,1,1,0,0
-Unique,,Goldwrap,74,65,64,57,59,60,56,52,54
+Unique,,Goldwrap,74,65,64,57,59,60,56,52,53
 Unique,,Gore Rider,150,144,145,147,144,147,156,154,153
 Unique,,Gorefoot,0,0,0,1,1,1,1,0,0
 Unique,,Goreshovel,0,1,1,1,1,1,1,1,1
@@ -361,7 +361,7 @@ Unique,,Hellrack,2,2,2,2,2,2,2,3,3
 Unique,,Hellslayer,0,0,1,1,0(+1),0(+1),0(+1),0(+1),0(+1)
 Unique,,Herald Of Zakarum,0,0,0,0,,0,0,0,0
 Unique,,Hexfire,5,3,4,5,4(+1),4(+1),5(+1),5(+1),5(+1)
-Unique,,Highlord's Wrath,154,148,150,153,152,156,156,156,157
+Unique,,Highlord's Wrath,154,148,150,153,152,156,156,156,156
 Unique,,Homunculus,146,139,137,137,138,138,133,136,135
 Unique,,Hone Sundan,1,1,1,1,0(+1),0(+1),0(+1),0(+1),0(+1)
 Unique,,Horizon's Tornado,0,1,2,2,1(+1),1(+1),1(+1),0(+1),0(+1)
@@ -390,7 +390,7 @@ Unique,,Lava Gout,6,5,5,4,4,4,5,4,5
 Unique,,Leadcrow,0,0,0,0,,0,0,0,0
 Unique,,Lenymo,2,3,3,3,2,2,2,2,2
 Unique,,Leviathan,4,4,6,4,4,3,2,3,3
-Unique,,Lidless Wall,65,68,65,69,71,69,72,74,73
+Unique,,Lidless Wall,65,68,65,69,71,69,72,74,72
 Unique,,Lightsabre,24,21,19,22,22(+1),23(+1),22(+1),22(+1),21(+1)
 Unique,,Lycander's Aim,0,0,0,0,,0,0(+1),0(+1),0
 Unique,,Lycander's Flank,0,0,0,0,,0,0,0,0
@@ -445,7 +445,7 @@ Unique,,Rusthandle,1,1,1,1,0(+2),0(+1),0(+1),0(+1),0(+1)
 Unique,,Sandstorm Trek,68,66,73,76,78,77,73,77,76
 Unique,,Saracen's Chance,10,10,10,9,8,8,7,6,6
 Unique,,Schaefer's Hammer,0,0,0,0,,0,0,0,0
-Unique,,Seraph's Hymn,34,31,33,34,33,34,35,34,33
+Unique,,Seraph's Hymn,34,31,33,34,33,34,35,34,34
 Unique,,Serpent Lord,1,1,1,1,1,1,1,1,1
 Unique,,Shadow Dancer,28,28,32,33,35,35,35,33,33
 Unique,,Shadow Killer,4,3,3,3,2(+1),2(+1),2(+1),2(+1),2(+1)
@@ -462,7 +462,7 @@ Unique,,Skullder's Ire,26,26,24,23,21,21,21,21,20
 Unique,,Skystrike,2,2,2,2,1(+1),1(+1),1(+1),1(+1),1(+1)
 Unique,,Snakecord,0,0,0,0,,0,0,0,0
 Unique,,Snowclash,8,8,6,7,7,7,8,8,8
-Unique,,Soul Drainer,34,34,39,39,40,39,39,41,41
+Unique,,Soul Drainer,34,34,39,39,40,39,39,41,40
 Unique,,Soul Harvest,0,0,0,1,0(+1),0(+1),0(+1),0(+1),0(+1)
 Unique,,Soulfeast Tine,0,0,0,0,,0,0,0,0
 Unique,,Soulflay,0,0,0,0,,0,0,0,0
@@ -497,7 +497,7 @@ Unique,,Stormspike,1,1,1,1,0(+1),0(+1),0(+1),0(+1),0(+1)
 Unique,,Stormspire,0,0,0,0,,0,0,0,0
 Unique,,Stormstrike,0,0,0,0,,0,0,0,0
 Unique,,Stoutnail,0,0,0,0,,0,0,0,0
-Unique,,String of Ears,131,130,134,137,134,135,134,137,135
+Unique,,String of Ears,131,130,134,137,134,135,134,137,136
 Unique,,Suicide Branch,3,3,4,5,3(+2),2(+2),2(+2),1(+2),1(+2)
 Unique,,Sureshrill Frost,1,2,0,2,0(+2),0(+2),0(+2),0(+2),0(+2)
 Unique,,Swordback Hold,1,1,1,1,1,1,1,1,1
@@ -540,7 +540,7 @@ Unique,,The Spirit Shroud,2,2,2,1,1,0,1,0,0
 Unique,,The Tannr Gorerod,0,0,0,0,,0,0,0,0
 Unique,,The Vile Husk,0,0,0,0,,0,0,0,0
 Unique,,The Ward,10,10,10,9,9,9,9,9,9
-Unique,,Thundergod's Vigor,92,90,87,88,91,89,87,88,87
+Unique,,Thundergod's Vigor,92,90,87,88,91,89,87,88,86
 Unique,,Thunderstroke,31,32,30,31,27(+3),26(+3),24(+3),25(+3),23(+3)
 Unique,,Tiamat's Rebuke,2,2,2,2,3,3,2,1,1
 Unique,,Titan's Revenge,53,53,52,50,45(+2),46(+2),47(+2),47(+2),46(+2)
@@ -571,7 +571,7 @@ Unique,,Waterwalk,21,21,21,21,21,21,19,18,18
 Unique,,Widowmaker,2,2,2,2,2,2,2,3,2
 Unique,,Windforce,17,14,15,14,13(+2),13(+1),12(+2),11(+2),11(+2)
 Unique,,Windhammer,1,2,2,2,1,1,1,1,0
-Unique,,Wisp Projector,211,212,218,218,223,228,229,229,232
+Unique,,Wisp Projector,211,212,218,218,223,228,229,229,231
 Unique,,Witchwild String,4,5,3,2,0(+1),0(+1),0(+1),0(+1),0(+1)
 Unique,,Witherstring,0,0,0,0,,0,0,0,0
 Unique,,Wizardspike,9,9,11,11,10(+1),10(+1),10(+2),10(+2),10(+2)
@@ -714,7 +714,7 @@ Runeword,,Black,3,4,4,4,3,3,3,4,4
 Runeword,,Bone,23,23,24,24,23,23,22,22,24
 Runeword,,Bramble,17,20,22,23,26,26,23,22,22
 Runeword,,Brand,0,0,0,0,,0,1,1,1
-Runeword,,Breath of the Dying,67,65,63,65,65,64,65,65,65
+Runeword,,Breath of the Dying,67,65,63,65,65,64,65,65,66
 Runeword,,Bulwark,0,0,0,0,,0,0,0,0
 Runeword,,Call To Arms,0,0,0,0,,0,0,0,0
 Runeword,,Chains of Honor,54,60,69,71,71,72,74,73,74
@@ -729,7 +729,7 @@ Runeword,,Dragon,14,16,22,24,24,25,28,26,27
 Runeword,,Dream,5,6,7,12,13,12,12,11,12
 Runeword,,Duress,7,7,7,6,6,6,6,6,6
 Runeword,,Edge,55,56,58,60,60,57,55,56,56
-Runeword,,Enigma,251,252,249,265,269,266,267,271,271
+Runeword,,Enigma,251,252,249,265,269,266,267,271,272
 Runeword,,Enlightenment,1,1,1,1,1,1,1,1,1
 Runeword,,Eternity,2,2,3,3,2,2,2,2,2
 Runeword,,Exile,9,7,8,8,9,9,9,10,10
@@ -784,7 +784,7 @@ Runeword,,Rift,0,0,0,0,,0,0,0,0
 Runeword,,Sanctuary,0,0,0,0,,0,1,1,0
 Runeword,,Silence,56,57,53,55,55,58,60,58,58
 Runeword,,Smoke,14,14,11,9,10,10,9,9,9
-Runeword,,Spirit,775,749,735,725,706,700,688,679,678
+Runeword,,Spirit,775,749,735,725,706,700,688,679,679
 Runeword,,Splendor,10,9,8,6,6,6,6,7,7
 Runeword,,Stealth,9,6,6,5,4,3,3,4,4
 Runeword,,Steel,0,0,0,0,,0,0,0,0
