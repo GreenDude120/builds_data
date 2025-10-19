@@ -13286,6 +13286,7 @@ def main():
     MakeClassPages()
     MakehcClassPages()
     label = generate_snapshot_label()
+#    label = "End of Season"
     update_csv_and_web(mode="sc", snapshot_label=label)
     update_csv_and_web(mode="hc", snapshot_label=label)
 
