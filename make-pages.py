@@ -8807,7 +8807,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 
@@ -11896,7 +11896,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 
