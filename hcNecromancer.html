@@ -6525,12 +6525,12 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1185", "August": "1295", "End of Season": "1293", "July": "1295", "June": "1276", "March": "1118", "May": "1259", "Post Season 13": "1293", "S13 August": "1306", "S13 October": "1293", "S13 September": "1317"}'>
+                    data-usage='{"April": "1185", "August": "1295", "End of Season": "1293", "July": "1295", "June": "1276", "March": "1118", "May": "1259", "Post Season 13": "1294", "S13 August": "1306", "S13 October": "1293", "S13 September": "1317"}'>
                     Iron Maiden: 1146.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1150", "August": "1235", "End of Season": "1239", "July": "1235", "June": "1221", "March": "1072", "May": "1218", "Post Season 13": "1239", "S13 August": "1235", "S13 October": "1239", "S13 September": "1264"}'>
+                    data-usage='{"April": "1150", "August": "1235", "End of Season": "1239", "July": "1235", "June": "1221", "March": "1072", "May": "1218", "Post Season 13": "1242", "S13 August": "1235", "S13 October": "1239", "S13 September": "1264"}'>
                     Weaken: 1113.0
                 </li>
             
@@ -26057,7 +26057,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:51</p>
+            <p>PoD class data current as of 2025-10-19 11:15</p>
             </div>            
 
 
@@ -26344,7 +26344,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

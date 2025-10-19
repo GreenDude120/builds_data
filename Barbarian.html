@@ -9516,17 +9516,17 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "2082", "August": "1947", "End of Season": "1854", "July": "1928", "June": "1951", "March": "2133", "May": "1989", "Post Season 13": "1854", "S13 August": "1908", "S13 October": "1854", "S13 September": "1893"}'>
+                    data-usage='{"April": "2082", "August": "1947", "End of Season": "1854", "July": "1928", "June": "1951", "March": "2133", "May": "1989", "Post Season 13": "1859", "S13 August": "1908", "S13 October": "1854", "S13 September": "1893"}'>
                     Double Swing: 1859.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1654", "August": "1810", "End of Season": "1787", "July": "1813", "June": "1746", "March": "1652", "May": "1749", "Post Season 13": "1787", "S13 August": "1810", "S13 October": "1787", "S13 September": "1797"}'>
+                    data-usage='{"April": "1654", "August": "1810", "End of Season": "1787", "July": "1813", "June": "1746", "March": "1652", "May": "1749", "Post Season 13": "1789", "S13 August": "1810", "S13 October": "1787", "S13 September": "1797"}'>
                     Battle Orders: 1789.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1591", "August": "1633", "End of Season": "1648", "July": "1600", "June": "1592", "March": "1589", "May": "1630", "Post Season 13": "1648", "S13 August": "1655", "S13 October": "1648", "S13 September": "1644"}'>
+                    data-usage='{"April": "1591", "August": "1633", "End of Season": "1648", "July": "1600", "June": "1592", "March": "1589", "May": "1630", "Post Season 13": "1657", "S13 August": "1655", "S13 October": "1648", "S13 September": "1644"}'>
                     Grim Ward: 1657.0
                 </li>
             
@@ -9541,7 +9541,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "165", "August": "143", "End of Season": "136", "July": "144", "June": "144", "March": "165", "May": "143", "Post Season 13": "136", "S13 August": "144", "S13 October": "136", "S13 September": "139"}'>
+                    data-usage='{"April": "165", "August": "143", "End of Season": "136", "July": "144", "June": "144", "March": "165", "May": "143", "Post Season 13": "137", "S13 August": "144", "S13 October": "136", "S13 September": "139"}'>
                     Puncture: 137.0
                 </li>
             
@@ -45829,7 +45829,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -46117,7 +46117,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

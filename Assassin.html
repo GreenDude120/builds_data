@@ -8482,27 +8482,27 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "105", "August": "116", "End of Season": "109", "July": "115", "June": "111", "March": "103", "May": "112", "Post Season 13": "109", "S13 August": "115", "S13 October": "109", "S13 September": "111"}'>
+                    data-usage='{"April": "105", "August": "116", "End of Season": "109", "July": "115", "June": "111", "March": "103", "May": "112", "Post Season 13": "108", "S13 August": "115", "S13 October": "109", "S13 September": "111"}'>
                     Dragon Claw: 108.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "122", "August": "133", "End of Season": "125", "July": "132", "June": "128", "March": "120", "May": "129", "Post Season 13": "125", "S13 August": "150", "S13 October": "125", "S13 September": "127"}'>
+                    data-usage='{"April": "122", "August": "133", "End of Season": "125", "July": "132", "June": "128", "March": "120", "May": "129", "Post Season 13": "124", "S13 August": "150", "S13 October": "125", "S13 September": "127"}'>
                     Dragon Talon: 124.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "172", "August": "174", "End of Season": "139", "July": "175", "June": "172", "March": "191", "May": "171", "Post Season 13": "139", "S13 August": "175", "S13 October": "139", "S13 September": "154"}'>
+                    data-usage='{"April": "172", "August": "174", "End of Season": "139", "July": "175", "June": "172", "March": "191", "May": "171", "Post Season 13": "138", "S13 August": "175", "S13 October": "139", "S13 September": "154"}'>
                     Tiger Strike: 138.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "71", "August": "147", "End of Season": "143", "July": "148", "June": "147", "March": "91", "May": "143", "Post Season 13": "143", "S13 August": "149", "S13 October": "143", "S13 September": "163"}'>
+                    data-usage='{"April": "71", "August": "147", "End of Season": "143", "July": "148", "June": "147", "March": "91", "May": "143", "Post Season 13": "142", "S13 August": "149", "S13 October": "143", "S13 September": "163"}'>
                     Shadow Warrior: 142.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "141", "August": "152", "End of Season": "144", "July": "151", "June": "147", "March": "139", "May": "148", "Post Season 13": "144", "S13 August": "169", "S13 October": "144", "S13 September": "146"}'>
+                    data-usage='{"April": "141", "August": "152", "End of Season": "144", "July": "151", "June": "147", "March": "139", "May": "148", "Post Season 13": "143", "S13 August": "169", "S13 October": "144", "S13 September": "146"}'>
                     Dragon Flight: 143.0
                 </li>
             
@@ -43757,7 +43757,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -44045,7 +44045,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

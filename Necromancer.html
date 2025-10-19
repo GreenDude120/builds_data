@@ -8838,27 +8838,27 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "2360", "August": "2481", "End of Season": "2423", "July": "2487", "June": "2430", "March": "2308", "May": "2397", "Post Season 13": "2423", "S13 August": "2460", "S13 October": "2423", "S13 September": "2444"}'>
+                    data-usage='{"April": "2360", "August": "2481", "End of Season": "2423", "July": "2487", "June": "2430", "March": "2308", "May": "2397", "Post Season 13": "2449", "S13 August": "2460", "S13 October": "2423", "S13 September": "2444"}'>
                     Summon Mastery: 2449.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "2162", "August": "2327", "End of Season": "2263", "July": "2315", "June": "2285", "March": "2256", "May": "2252", "Post Season 13": "2263", "S13 August": "2298", "S13 October": "2263", "S13 September": "2263"}'>
+                    data-usage='{"April": "2162", "August": "2327", "End of Season": "2263", "July": "2315", "June": "2285", "March": "2256", "May": "2252", "Post Season 13": "2282", "S13 August": "2298", "S13 October": "2263", "S13 September": "2263"}'>
                     Convocation: 2282.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1965", "August": "2141", "End of Season": "2027", "July": "2162", "June": "2103", "March": "1992", "May": "2067", "Post Season 13": "2027", "S13 August": "2100", "S13 October": "2027", "S13 September": "2048"}'>
+                    data-usage='{"April": "1965", "August": "2141", "End of Season": "2027", "July": "2162", "June": "2103", "March": "1992", "May": "2067", "Post Season 13": "2046", "S13 August": "2100", "S13 October": "2027", "S13 September": "2048"}'>
                     Corpse Explosion: 2046.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1748", "August": "1896", "End of Season": "1817", "July": "1915", "June": "1869", "March": "1744", "May": "1828", "Post Season 13": "1817", "S13 August": "1875", "S13 October": "1817", "S13 September": "1836"}'>
+                    data-usage='{"April": "1748", "August": "1896", "End of Season": "1817", "July": "1915", "June": "1869", "March": "1744", "May": "1828", "Post Season 13": "1837", "S13 August": "1875", "S13 October": "1817", "S13 September": "1836"}'>
                     Fire Golem: 1837.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "2204", "August": "1923", "End of Season": "1843", "July": "1943", "June": "2003", "March": "2360", "May": "2123", "Post Season 13": "1843", "S13 August": "1863", "S13 October": "1843", "S13 September": "1823"}'>
+                    data-usage='{"April": "2204", "August": "1923", "End of Season": "1843", "July": "1943", "June": "2003", "March": "2360", "May": "2123", "Post Season 13": "1823", "S13 August": "1863", "S13 October": "1843", "S13 September": "1823"}'>
                     Life Tap: 1823.0
                 </li>
             
@@ -49304,7 +49304,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -49592,7 +49592,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

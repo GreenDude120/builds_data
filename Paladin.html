@@ -10711,7 +10711,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1198", "August": "1070", "End of Season": "1074", "July": "1090", "June": "1062", "March": "1258", "May": "1139", "Post Season 13": "1074", "S13 August": "1091", "S13 October": "1074", "S13 September": "1087"}'>
+                    data-usage='{"April": "1198", "August": "1070", "End of Season": "1074", "July": "1090", "June": "1062", "March": "1258", "May": "1139", "Post Season 13": "1075", "S13 August": "1091", "S13 October": "1074", "S13 September": "1087"}'>
                     Sanctuary: 1075.0
                 </li>
             
@@ -46733,7 +46733,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -47021,7 +47021,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

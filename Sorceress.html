@@ -11970,27 +11970,27 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "2414", "August": "2504", "End of Season": "2589", "July": "2503", "June": "2510", "March": "2421", "May": "2492", "Post Season 13": "2589", "S13 August": "2488", "S13 October": "2589", "S13 September": "2551"}'>
+                    data-usage='{"April": "2414", "August": "2504", "End of Season": "2589", "July": "2503", "June": "2510", "March": "2421", "May": "2492", "Post Season 13": "2588", "S13 August": "2488", "S13 October": "2589", "S13 September": "2551"}'>
                     Lightning Mastery: 2588.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1967", "August": "2170", "End of Season": "2261", "July": "2172", "June": "2130", "March": "1889", "May": "2048", "Post Season 13": "2261", "S13 August": "2219", "S13 October": "2261", "S13 September": "2243"}'>
+                    data-usage='{"April": "1967", "August": "2170", "End of Season": "2261", "July": "2172", "June": "2130", "March": "1889", "May": "2048", "Post Season 13": "2280", "S13 August": "2219", "S13 October": "2261", "S13 September": "2243"}'>
                     Telekinesis: 2280.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1998", "August": "2049", "End of Season": "2124", "July": "2069", "June": "2069", "March": "2099", "May": "2065", "Post Season 13": "2124", "S13 August": "2069", "S13 October": "2124", "S13 September": "2101"}'>
+                    data-usage='{"April": "1998", "August": "2049", "End of Season": "2124", "July": "2069", "June": "2069", "March": "2099", "May": "2065", "Post Season 13": "2105", "S13 August": "2069", "S13 October": "2124", "S13 September": "2101"}'>
                     Cold Mastery: 2105.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1566", "August": "1749", "End of Season": "1819", "July": "1755", "June": "1734", "March": "1548", "May": "1663", "Post Season 13": "1819", "S13 August": "1767", "S13 October": "1819", "S13 September": "1793"}'>
+                    data-usage='{"April": "1566", "August": "1749", "End of Season": "1819", "July": "1755", "June": "1734", "March": "1548", "May": "1663", "Post Season 13": "1820", "S13 August": "1767", "S13 October": "1819", "S13 September": "1793"}'>
                     Teleport: 1820.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1505", "August": "1608", "End of Season": "1720", "July": "1619", "June": "1613", "March": "1493", "May": "1591", "Post Season 13": "1720", "S13 August": "1601", "S13 October": "1720", "S13 September": "1656"}'>
+                    data-usage='{"April": "1505", "August": "1608", "End of Season": "1720", "July": "1619", "June": "1613", "March": "1493", "May": "1591", "Post Season 13": "1721", "S13 August": "1601", "S13 October": "1720", "S13 September": "1656"}'>
                     Lightning Surge: 1721.0
                 </li>
             
@@ -12000,7 +12000,7 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "11", "August": "10", "End of Season": "7", "July": "10", "June": "11", "March": "20", "May": "13", "Post Season 13": "7", "S13 August": "10", "S13 October": "7", "S13 September": "7"}'>
+                    data-usage='{"April": "11", "August": "10", "End of Season": "7", "July": "10", "June": "11", "March": "20", "May": "13", "Post Season 13": "6", "S13 August": "10", "S13 October": "7", "S13 September": "7"}'>
                     Chilling Armor: 6.0
                 </li>
             
@@ -12020,7 +12020,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "90", "August": "109", "End of Season": "131", "July": "109", "June": "110", "March": "69", "May": "110", "Post Season 13": "131", "S13 August": "109", "S13 October": "131", "S13 September": "131"}'>
+                    data-usage='{"April": "90", "August": "109", "End of Season": "131", "July": "109", "June": "110", "March": "69", "May": "110", "Post Season 13": "151", "S13 August": "109", "S13 October": "131", "S13 September": "131"}'>
                     Inferno: 151.0
                 </li>
             
@@ -62037,7 +62037,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -62325,7 +62325,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

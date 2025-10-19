@@ -9700,7 +9700,7 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1358", "August": "1306", "End of Season": "1296", "July": "1286", "June": "1365", "March": "1336", "May": "1335", "Post Season 13": "1296", "S13 August": "1295", "S13 October": "1296", "S13 September": "1314"}'>
+                    data-usage='{"April": "1358", "August": "1306", "End of Season": "1296", "July": "1286", "June": "1365", "March": "1336", "May": "1335", "Post Season 13": "1315", "S13 August": "1295", "S13 October": "1296", "S13 September": "1314"}'>
                     Power Strike: 1315.0
                 </li>
             
@@ -9710,7 +9710,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1318", "August": "1321", "End of Season": "1277", "July": "1341", "June": "1304", "March": "1299", "May": "1341", "Post Season 13": "1277", "S13 August": "1326", "S13 October": "1277", "S13 September": "1283"}'>
+                    data-usage='{"April": "1318", "August": "1321", "End of Season": "1277", "July": "1341", "June": "1304", "March": "1299", "May": "1341", "Post Season 13": "1293", "S13 August": "1326", "S13 October": "1277", "S13 September": "1283"}'>
                     Immolation Arrow: 1293.0
                 </li>
             
@@ -9740,7 +9740,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "126", "August": "123", "End of Season": "126", "July": "123", "June": "124", "March": "127", "May": "125", "Post Season 13": "126", "S13 August": "123", "S13 October": "126", "S13 September": "124"}'>
+                    data-usage='{"April": "126", "August": "123", "End of Season": "126", "July": "123", "June": "124", "March": "127", "May": "125", "Post Season 13": "127", "S13 August": "123", "S13 October": "126", "S13 September": "124"}'>
                     Decoy: 127.0
                 </li>
             
@@ -45279,7 +45279,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -45567,7 +45567,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

@@ -8445,7 +8445,7 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1075", "August": "1137", "End of Season": "1247", "July": "1098", "June": "1123", "March": "1025", "May": "1061", "Post Season 13": "1247", "S13 August": "1179", "S13 October": "1247", "S13 September": "1203"}'>
+                    data-usage='{"April": "1075", "August": "1137", "End of Season": "1247", "July": "1098", "June": "1123", "March": "1025", "May": "1061", "Post Season 13": "1256", "S13 August": "1179", "S13 October": "1247", "S13 September": "1203"}'>
                     Hydra: 1161.0
                 </li>
             
@@ -8455,7 +8455,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "725", "August": "869", "End of Season": "956", "July": "844", "June": "836", "March": "704", "May": "738", "Post Season 13": "956", "S13 August": "897", "S13 October": "956", "S13 September": "934"}'>
+                    data-usage='{"April": "725", "August": "869", "End of Season": "956", "July": "844", "June": "836", "March": "704", "May": "738", "Post Season 13": "966", "S13 August": "897", "S13 October": "956", "S13 September": "934"}'>
                     Cold Mastery: 876.0
                 </li>
             
@@ -8465,7 +8465,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "592", "August": "694", "End of Season": "804", "July": "663", "June": "656", "March": "569", "May": "576", "Post Season 13": "804", "S13 August": "739", "S13 October": "804", "S13 September": "800"}'>
+                    data-usage='{"April": "592", "August": "694", "End of Season": "804", "July": "663", "June": "656", "March": "569", "May": "576", "Post Season 13": "810", "S13 August": "739", "S13 October": "804", "S13 September": "800"}'>
                     Frozen Orb: 710.0
                 </li>
             
@@ -29776,7 +29776,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:51</p>
+            <p>PoD class data current as of 2025-10-19 11:15</p>
             </div>            
 
 
@@ -30063,7 +30063,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 

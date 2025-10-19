@@ -8403,17 +8403,17 @@
             <ul>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1733", "August": "1732", "End of Season": "1831", "July": "1712", "June": "1754", "March": "1678", "May": "1764", "Post Season 13": "1831", "S13 August": "1772", "S13 October": "1831", "S13 September": "1814"}'>
+                    data-usage='{"April": "1733", "August": "1732", "End of Season": "1831", "July": "1712", "June": "1754", "March": "1678", "May": "1764", "Post Season 13": "1851", "S13 August": "1772", "S13 October": "1831", "S13 September": "1814"}'>
                     Lycanthropy: 1851.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1798", "August": "1739", "End of Season": "1682", "July": "1729", "June": "1792", "March": "1857", "May": "1848", "Post Season 13": "1682", "S13 August": "1740", "S13 October": "1682", "S13 September": "1685"}'>
+                    data-usage='{"April": "1798", "August": "1739", "End of Season": "1682", "July": "1729", "June": "1792", "March": "1857", "May": "1848", "Post Season 13": "1703", "S13 August": "1740", "S13 October": "1682", "S13 September": "1685"}'>
                     Summon Dire Wolf: 1703.0
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1618", "August": "1513", "End of Season": "1570", "July": "1532", "June": "1586", "March": "1607", "May": "1603", "Post Season 13": "1570", "S13 August": "1549", "S13 October": "1570", "S13 September": "1564"}'>
+                    data-usage='{"April": "1618", "August": "1513", "End of Season": "1570", "July": "1532", "June": "1586", "March": "1607", "May": "1603", "Post Season 13": "1571", "S13 August": "1549", "S13 October": "1570", "S13 September": "1564"}'>
                     Oak Sage: 1571.0
                 </li>
             
@@ -8423,7 +8423,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "1059", "August": "1064", "End of Season": "1097", "July": "1064", "June": "1122", "March": "1051", "May": "1130", "Post Season 13": "1097", "S13 August": "1050", "S13 October": "1097", "S13 September": "1075"}'>
+                    data-usage='{"April": "1059", "August": "1064", "End of Season": "1097", "July": "1064", "June": "1122", "March": "1051", "May": "1130", "Post Season 13": "1098", "S13 August": "1050", "S13 October": "1097", "S13 September": "1075"}'>
                     Heart of Wolverine: 1098.0
                 </li>
             
@@ -8453,7 +8453,7 @@
                 </li>
             
                 <li class="usage-label"
-                    data-usage='{"April": "189", "August": "185", "End of Season": "187", "July": "204", "June": "207", "March": "211", "May": "189", "Post Season 13": "187", "S13 August": "184", "S13 October": "187", "S13 September": "187"}'>
+                    data-usage='{"April": "189", "August": "185", "End of Season": "187", "July": "204", "June": "207", "March": "211", "May": "189", "Post Season 13": "188", "S13 August": "184", "S13 October": "187", "S13 September": "187"}'>
                     Raven: 188.0
                 </li>
             
@@ -45655,7 +45655,7 @@
             <button onclick="topFunction()" id="backToTopBtn" class="back-to-top"></button>
 
             <div class="footer">
-            <p>PoD class data current as of 2025-10-19 10:50</p>
+            <p>PoD class data current as of 2025-10-19 11:14</p>
             </div>            
 
 
@@ -45943,7 +45943,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.usage-label').forEach(label => {
     label.addEventListener('mouseenter', e => {
       const data = JSON.parse(label.dataset.usage || '{}');
-      const preferredOrder = ["March", "April", "May", "June", "July", "August"];
+      const preferredOrder = ["March", "April", "May", "June", "July", "August", "S13 September", "End of Season"];
       const labels = preferredOrder.filter(month => data.hasOwnProperty(month));
       const values = labels.map(label => parseInt(data[label]));
 
