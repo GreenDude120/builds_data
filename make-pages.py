@@ -12923,21 +12923,35 @@ def get_current_season_info():
     response.raise_for_status()
     seasons = response.json()
 
+    # First try to find a current season
     for season in seasons:
         if season.get("current"):
             start_time_str = season["start"]
             start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
             season_number = season["season"]
-            return season_number, start_time
+            return season_number, start_time, True  # True indicates current season
 
-    raise ValueError("No current season found.")
+    # If no current season, find the most recent season (highest season number)
+    if seasons:
+        most_recent_season = max(seasons, key=lambda x: x["season"])
+        start_time_str = most_recent_season["start"]
+        start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+        season_number = most_recent_season["season"]
+        return season_number, start_time, False  # False indicates no current season
+
+    raise ValueError("No seasons found.")
 
 ##
 # This function says if the ladder is less than 14 days old, keep daily snaphsots in the usage csv
 # else if ladder is less than 50 days old, keep weekly snapshot in usage csv
 # else keep monthly snapshots monthly
 def generate_snapshot_label():
-    season_number, start_time = get_current_season_info()
+    season_number, start_time, is_current = get_current_season_info()
+    
+    # If there's no current season, return "Post Season X"
+    if not is_current:
+        return f"Post Season {season_number}"
+    
     now = datetime.now(timezone.utc)
     delta_days = (now - start_time).days
 
@@ -13280,11 +13294,11 @@ def update_csv_and_web(mode, snapshot_label):
 #   Run the above functions to make all pages
 #
 def main():
-    analyze_top_accounts()
-    MakeHome()
-    MakehcHome()
-    MakeClassPages()
-    MakehcClassPages()
+#    analyze_top_accounts()
+#    MakeHome()
+#    MakehcHome()
+#    MakeClassPages()
+#    MakehcClassPages()
     label = generate_snapshot_label()
 #    label = "End of Season"
     update_csv_and_web(mode="sc", snapshot_label=label)
