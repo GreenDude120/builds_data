@@ -13294,11 +13294,11 @@ def update_csv_and_web(mode, snapshot_label):
 #   Run the above functions to make all pages
 #
 def main():
-#    analyze_top_accounts()
-#    MakeHome()
-#    MakehcHome()
-#    MakeClassPages()
-#    MakehcClassPages()
+    analyze_top_accounts()
+    MakeHome()
+    MakehcHome()
+    MakeClassPages()
+    MakehcClassPages()
     label = generate_snapshot_label()
 #    label = "End of Season"
     update_csv_and_web(mode="sc", snapshot_label=label)
