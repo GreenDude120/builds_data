@@ -2,6 +2,7 @@
         <!DOCTYPE html>
         <html>
         <head>
+        <link rel="shortcut icon" type="image/x-icon" href="../../../icons/pod.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Path of Diablo (PoD) Barbarian build trends. This page includes data anaylitics and statistics for Barbarian skills and equipment.">
         <meta name="keywords" content="Barbarian, path of diablo, builds, stats, statistics, data, analysis, analytics, trends, ">
@@ -11,51 +12,16 @@
 
         </head>
         <body class="main special-background-barbarian">
-        <div class="is-clipped">
-        <nav class="navbar is-fixed-top is-dark" style="height: 50px;">
+        <div class="is-clipped">            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
 
-            <div class="navbar-brand">
-                <a class="is-48x48" href="https://pathofdiablo.com/p/"><img src="../../../icons/pod.ico" alt="Path of Diablo: Web Portal" width="48" height="48" class="is-48x48" style="height: 48px; width: 48px; margin-left:0;"></a>
-    <button class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="podNavbar">
-        <br>
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>            </div>
-            <div id="podNavbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/trade-search">Trade</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/?servers">Servers</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/ladder">Ladder</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/public-games">Public Games</a>
-                    <a class="navbar-item" href="https://beta.pathofdiablo.com/runewizard">Runewizard</a>
-                    <a class="navbar-item" href="https://pathofdiablo.com/p/armory">Armory</a>
-                    <a class="navbar-item" href="https://build.pathofdiablo.com">Build Planner</a>
-                    <!--<a class="navbar-item" href="https://pathofdiablo.com/p/?live" style="width: 90px;"><span><img src="https://beta.pathofdiablo.com/images/twitchico.png"></span></a>-->
-                </div>
-                <div class="navbar-end">
-
-                    <div class="navbar-start">	
-                        <a class="navbar-item-right" href="https://beta.pathofdiablo.com/my-toons">Character Storage</a>
-                        <div class="navbar-item dropdown2">
-                            <button class="dropdown2-button">Trends History</button>
-                            <div class="dropdown2-content">
-                                <a href="https://trends.pathofdiablo.com/Home.html">Current</a>
-                                <!--  <a href="https://trends.pathofdiablo.com/Season/14/April/Home">S14</a> -->
-                                <div class="dropdown2-item dropdown-sub">
-                                    <a class="dropdown-sub-button">S13</a>
-                                    <div class="dropdown-sub-content">
-                                        <a href="https://trends.pathofdiablo.com/Season/13/April/Home">April</a>
-                                        <a href="https://trends.pathofdiablo.com/Season/13/March/Home.html">March</a>
-                                        <a href="https://trends.pathofdiablo.com/Season/13/February/Home.html">February</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </nav>  
-        <div class="banner" style="top:50px; left:25%; width:50%;;">
+<div class="banner" style="top:50px; left:25%; width:50%;;">
             Viewing Season 13 historical data from the end of April
         </div>
         <div class="hamburger hamburger2" onclick="toggleMenu()">
