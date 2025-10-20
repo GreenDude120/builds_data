@@ -2579,6 +2579,7 @@ def MakeHome():
         <meta name="keywords" content="path of diablo, builds, stats, statistics, data, analysis, analytics">
         <meta name="robots" content="index, follow">
         <title>PoD Softcore Stats</title>
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
         
         
@@ -5762,6 +5763,7 @@ def MakehcHome():
         <meta name="description" content="Ever wonder how many Shako's are in use? Or what the most popular Sorc skills are? This site provides information about class build trends and item details from characters on the current Path of Diablo (PoD) ladder. An alternative to the old analytics site we all know and love.">
         <meta name="keywords" content="path of diablo, builds, stats, statistics, data, analysis, analytics">
         <title>PoD Hardcore Stats</title>
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
         
         
@@ -8080,6 +8082,7 @@ def MakeClassPages():
         <!DOCTYPE html>
         <html>
         <head>
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Path of Diablo (PoD) {{ what_class }} build trends. This page includes data anaylitics and statistics for {{ what_class }} skills and equipment.">
@@ -11143,6 +11146,7 @@ def MakehcClassPages():
         <!DOCTYPE html>
         <html>
         <head>
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Path of Diablo (PoD) {{ what_class }} build trends. This page includes data anaylitics and statistics for {{ what_class }} skills and equipment.">
         <meta name="keywords" content="{meta_tag}">
