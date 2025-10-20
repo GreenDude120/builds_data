@@ -18,6 +18,7 @@ from datetime import datetime, timezone
 import items_list
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
+import api_integration
 import statistics
 import html
 from html import escape
@@ -12913,6 +12914,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ###############################################
 #
+# DEPRECATED: Old CSV/Web Update Functions 
+# 
+# NOTE: The functions below (get_current_season_info, generate_snapshot_label, 
+# and update_csv_and_web) have been replaced by the new api_integration.py module.
+# 
+# The new approach uses api_integration.full_data_update() which:
+# - Fetches data from Path of Diablo APIs
+# - Updates a unified CSV with both character and server data  
+# - Generates improved HTML pages with better interactivity
+# - Includes server monitoring capabilities
+#
+# These old functions are kept for reference but should not be used.
+#
+###############################################
+#
 #   Update csv and over time pages
 #   These functions grab where we are in the current season
 #   compares that to "today"
@@ -13299,10 +13315,14 @@ def main():
     MakehcHome()
     MakeClassPages()
     MakehcClassPages()
-    label = generate_snapshot_label()
-#    label = "End of Season"
-    update_csv_and_web(mode="sc", snapshot_label=label)
-    update_csv_and_web(mode="hc", snapshot_label=label)
+    
+    # Use the new API integration for updating CSV and generating web pages
+    # This replaces the old update_csv_and_web() calls and provides:
+    # - Unified CSV with both SC/HC character data and server metrics
+    # - Auto-generated snapshot labels based on season progress
+    # - Enhanced web pages with server statistics
+    # - Real-time API data fetching
+    api_integration.full_data_update()
 
 if __name__ == "__main__":
     main()
