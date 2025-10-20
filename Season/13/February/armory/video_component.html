@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
     <title>PoD Twitch Armory</title>
     <link rel="stylesheet" type="text/css" href="./css/pod.css" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -9,6 +9,18 @@
 
 </head>
 <body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
     <div id="alertBanner" style="display: none; padding: 10px; background-color: #ffcc00; color: #333;">
         The streamer hasn't set up their account name. Please let them know to configure it!
     </div>

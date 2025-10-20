@@ -2,12 +2,24 @@
     <!DOCTYPE html>
     <html>
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <title>Notazons Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
 
         <div class="top-buttons">
             <a href="hcHome.html" class="top-button home-button" onclick="setActive('Home')"></a>

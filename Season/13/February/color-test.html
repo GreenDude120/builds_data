@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Background Color Test</title>
@@ -27,6 +27,18 @@
     </style>
 </head>
 <body>
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
 <div class="left">
     <p>3a3f44 Currently in use, get rid of because conflict with blues?</p>
 <span style="color: lightblue;">This is in color lightblue (the one currently in use)</span>

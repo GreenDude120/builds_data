@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hover Popup</title>
@@ -40,6 +40,18 @@
     </style>
 </head>
 <body>
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
 
     <div class="hover-trigger">Hover Over Me</div>
     <div class="popup-container" id="popup">

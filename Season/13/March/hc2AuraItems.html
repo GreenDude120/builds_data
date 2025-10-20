@@ -2,13 +2,25 @@
     <!DOCTYPE html>
     <html>
     <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Hardcore 2AuraItems Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
     </head>
     <body class="not-main">
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
         <div class="hamburger" onclick="toggleMenu()">
             <div class="line"></div>
             <div class="line"></div>

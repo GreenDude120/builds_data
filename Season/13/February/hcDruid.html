@@ -2,12 +2,24 @@
         <!DOCTYPE html>
         <html>
         <head>
-        <link rel="shortcut icon" type="image/x-icon" href="../../../icons/pod.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="icons/pod.ico">
             <title>Hardcore Druid Analysis Report</title>
         <link rel="stylesheet" type="text/css" href="./css/test-css.css">
 
         </head>
         <body class="not-main special-background-druid">
+        <div class="is-clipped">
+            <div id="navbar-placeholder"></div>
+            <script>
+            fetch("../../../templates/navbar.html")
+                .then(res => res.text())
+                .then(html => {
+                document.getElementById("navbar-placeholder").innerHTML = html;
+                });
+            </script>
+        </div>
+
+
     
     <div class="top-buttons">
         <a href="Home.html" class="top-button home-button" onclick="setActive('Home')"></a>
