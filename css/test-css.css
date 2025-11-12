@@ -1192,7 +1192,6 @@
     }
 
     .dropdown2-content a {
-        color: black;
         padding: 12px 16px;
         text-decoration: none;
         display: block;
@@ -1200,6 +1199,7 @@
    
     .dropdown2-content a:hover {
         background-color: #f0f0f0; /* Adds hover effect for links */
+        color: black;
     }
     
     .navbar-start .dropdown2:hover .dropdown2-content {
