@@ -115,6 +115,19 @@ function updatePODComponent(data) {
   
   // Items
   var wornItems = findWornItems(data["Equipped"]);
+  
+  // Store all weapon data globally for weapon swap functionality
+  window.weaponData = {
+    weapon1: wornItems["weapon1"] || null,
+    weapon2: wornItems["weapon2"] || null,
+    sweapon1: wornItems["sweapon1"] || null,
+    sweapon2: wornItems["sweapon2"] || null
+  };
+  
+  // Track weapon swap state (false = primary weapons, true = swap weapons)
+  // Both weapons swap together
+  window.weaponSwapState = false;
+  
   /*
   if ("weapon1" in wornItems) {
     // Only append the image without the tooltip
@@ -176,6 +189,9 @@ if ("weapon2" in wornItems) {
   if ("gloves" in wornItems) $("#hover-container-gloves").append(createImageHTML(wornItems["gloves"], "hover-container-gloves"));
   if ("boots" in wornItems) $("#hover-container-boots").append(createImageHTML(wornItems["boots"], "hover-container-boots"));
   if ("weapon2" in wornItems) $("#hover-container-weapon2").append(createImageHTML(wornItems["weapon2"], "hover-container-weapon2"));
+  
+  // Setup weapon swap click handlers
+  setupWeaponSwapHandlers();
   
   // Merc Items
   var mercWornItems = findWornItems(data["MercenaryEquipped"]);
@@ -409,6 +425,64 @@ function createImageHTML(itemObject, hoverContainerId) {
     //console.log("Tooltip appended with content:", imageHTML);  // Debugging check
 } 
     //console.log("Image url2:", imageHTML);  // Debugging check
+
+// Setup weapon swap click handlers
+function setupWeaponSwapHandlers() {
+    // Add click handler for weapon1 slot
+    $("#hover-container-weapon1").off('click').on('click', function(e) {
+        e.stopPropagation();
+        toggleWeaponSwap();
+    });
+    
+    // Add click handler for weapon2 slot
+    $("#hover-container-weapon2").off('click').on('click', function(e) {
+        e.stopPropagation();
+        toggleWeaponSwap();
+    });
+}
+
+// Toggle between primary and swap weapons (both weapons swap together)
+function toggleWeaponSwap() {
+    console.log("Toggling weapon swap");
+    
+    // Check if swap weapons exist
+    if (!window.weaponData.sweapon1 && !window.weaponData.sweapon2) {
+        console.log("No swap weapons available");
+        return;
+    }
+    
+    // Toggle the swap state for both weapons
+    window.weaponSwapState = !window.weaponSwapState;
+    const isSwapped = window.weaponSwapState;
+    
+    // Update weapon1
+    const $container1 = $("#hover-container-weapon1");
+    $container1.empty();
+    const weaponToDisplay1 = isSwapped ? window.weaponData.sweapon1 : window.weaponData.weapon1;
+    if (weaponToDisplay1) {
+        $container1.append(createImageHTML(weaponToDisplay1, "hover-container-weapon1"));
+        if (isSwapped) {
+            $container1.addClass('swapped');
+        } else {
+            $container1.removeClass('swapped');
+        }
+    }
+    
+    // Update weapon2
+    const $container2 = $("#hover-container-weapon2");
+    $container2.empty();
+    const weaponToDisplay2 = isSwapped ? window.weaponData.sweapon2 : window.weaponData.weapon2;
+    if (weaponToDisplay2) {
+        $container2.append(createImageHTML(weaponToDisplay2, "hover-container-weapon2"));
+        if (isSwapped) {
+            $container2.addClass('swapped');
+        } else {
+            $container2.removeClass('swapped');
+        }
+    }
+    
+    console.log("Swapped to " + (isSwapped ? "swap" : "primary") + " weapons");
+}
 
 
 
