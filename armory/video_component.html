@@ -603,7 +603,7 @@ function createImageHTML(itemObject, hoverContainerId) {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
     } 
-    else if (itemObject["Tag"] === "Bone Wand") {
+    else if (itemObject["Tag"] === "Bone Wand" || itemObject["Tag"] === "Grim Wand") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
     } 
     else if (["Fetish Trophy", "Succubus Skull", "Bloodlord Skull"].includes(itemObject["Tag"])) {
