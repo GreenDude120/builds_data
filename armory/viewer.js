@@ -345,17 +345,34 @@ function createImageHTML(itemObject, hoverContainerId) {
     let imageHTML = "";
     console.log("Tooltip appended with content:", tooltipContent);  // Debugging check
     if (itemObject["TextTag"] == "ring") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/ring2.gif" width="80%" height="80%" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/ring2.gif" width="80%" height="80%" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/ring2.gif" width="80%" height="80%" />`;
     }
     else if (itemObject["TextTag"] == "amulet") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/amulet2.gif" width="80%" height="80%" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/amulet2.gif" width="80%" height="80%" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/amulet2.gif" width="80%" height="80%" />`;
     }
-    else if (itemObject["TextTag"].startsWith("Synthesized ")) {
-    // Remove "Synthesized " from the beginning of TextTag
-        const baseTag = itemObject["TextTag"].replace("Synthesized ", "");
-        // Construct the URL using the modified baseTag
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img' src='https://pathofdiablo.com/p/armory/img/items/" 
-        + baseTag.toLowerCase().replace(/ /g, "_").replace(/'/g, "%27") + ".gif' width='55vw' height='auto' />`;
+//    else if (itemObject["Tag"] === "Bone Wand") {
+//    else if (/wand/i.test(itemObject["Tag"])) {
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;
+    else if (["Polished Wand", "Ghost Wand", "Lich Wand", "Unearthed Wand", "Petrified Wand", "Tomb Wand", "Grave Wand", "Bone Wand", "Grim Wand"].includes(itemObject["Tag"].replace(/^Synthesized /, ""))) {
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;
+        let baseTag = itemObject["Tag"].replace(/^Synthesized /, "");
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${baseTag.toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;    
+} 
+    else if (
+        (itemObject["Worn"] === "weapon1" || itemObject["Worn"] === "weapon2") &&
+        itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2
+    ) {
+        let imageName;
+        if (itemObject["TextTag"] && itemObject["TextTag"].startsWith("Synthesized ")) {
+            imageName = itemObject["Title"];
+        } else if (itemObject["Quality"] === "Unique" || itemObject["Quality"] === "Set") {
+            imageName = itemObject["Title"];
+        } else {
+            imageName = itemObject["Tag"].replace(/^Synthesized /, "");
+        }
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${imageName.toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;
     }
     else if (itemObject["Worn"] === "weapon1" && itemObject["Quality"] === "Unique" && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2) {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
@@ -365,25 +382,15 @@ function createImageHTML(itemObject, hoverContainerId) {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
     } 
-    else if (itemObject["Worn"] === "weapon1" && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2) {
-//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
-    } 
-    else if (itemObject["Worn"] === "weapon2" && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2) {
-//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
-    } 
-    else if (itemObject["Tag"] === "Bone Wand") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
-    } 
-    else if (["Fetish Trophy", "Succubus Skull", "Bloodlord Skull"].includes(itemObject["Tag"])) {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/homunculus.gif" width="90vw" height="auto" />`;
+    else if (["Minion Skull", "Overseer Skull", "Succubae Skull", "Bloodlord Skull", "Hellspawn Skull", "Mummified Trophy", "Fetish Trophy", "Sexton Trophy", "Cantor Trophy", "Hierophant Trophy", "Preserved Head", "Zombie Head", "Unraveller Head", "Gargoyle Head", "Demon Head"].includes(itemObject["Tag"])) {
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/homunculus.gif" width="80vw" height="auto" />`;
     } 
     else if (itemObject["Tag"] === "Blade Talons") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Magic") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
     } 
 //    else if (itemObject["Tag"] === "Shako") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="55vw" height="auto" />`;
@@ -391,25 +398,28 @@ function createImageHTML(itemObject, hoverContainerId) {
     else if (itemObject["Title"] === "Crown of Thieves") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="65vw" height="auto" />`;
     } 
-    else if (itemObject["Title"] === "Steelrend") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/war_gauntlets.gif" width="65vw" height="auto" />`;
-    } 
+//    else if (itemObject["Title"] === "Steelrend") {
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/war_gauntlets.gif" width="65vw" height="auto" />`;
+//    } 
     else if (itemObject["Quality"] === "Unique") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Set") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Rare") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Craft") {
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
     } 
     else if (itemObject["QualityCode"] === "q_runeword") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["Worn"] === "helmet") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="85vw" max-width="90%" height="auto" />`;

@@ -47,6 +47,16 @@ body {
     scrollbar-width: none; /* Firefox */
 }
 
+/* Hide scrollbars for all elements (Webkit browsers) */
+*::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Hide scrollbars for all elements (Firefox) */
+* {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
 }
