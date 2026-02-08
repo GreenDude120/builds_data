@@ -645,9 +645,10 @@ function createImageHTML(itemObject, hoverContainerId) {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
     } 
     else if (itemObject["QualityCode"] === "q_runeword") {
-//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
-    } 
+        const isSmall = itemObject["Size"] && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2;
+        const width = isSmall ? "45vw" : "90vw";
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="${width}" height="auto" />`;
+    }
     else if (itemObject["Worn"] === "helmet") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="85vw" max-width="90%" height="auto" />`;
     } 
