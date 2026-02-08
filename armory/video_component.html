@@ -588,7 +588,7 @@ function createImageHTML(itemObject, hoverContainerId) {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${baseTag.toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;    
 } 
     else if (
-        (itemObject["Worn"] === "weapon1" || itemObject["Worn"] === "weapon2") &&
+        (itemObject["Worn"] === "weapon1" || itemObject["Worn"] === "weapon2" || itemObject["Worn"] === "sweapon1" || itemObject["Worn"] === "sweapon2") &&
         itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2
     ) {
         let imageName;
@@ -638,11 +638,11 @@ function createImageHTML(itemObject, hoverContainerId) {
     } 
     else if (itemObject["Quality"] === "Rare") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Craft") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["QualityCode"] === "q_runeword") {
         const isSmall = itemObject["Size"] && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2;

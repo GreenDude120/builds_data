@@ -1,3 +1,8 @@
+/* Move weapon images down in weapon1 and weapon2 slots */
+#hover-container-weapon1 img,
+#hover-container-weapon2 img {
+    top: 24px;
+}
 * {
     margin: 0;
     padding: 0;
@@ -34,7 +39,8 @@ html, body {
 /*    padding: 5px; */
 /*    overflow: hidden; */
     overflow-y: auto;
-    scrollbar-width: none; /* Firefox */
+/*    scrollbar-width: none; /* Firefox */
+    overflow-x: hidden;
 }
 
 body {
@@ -49,13 +55,17 @@ body {
 
 /* Hide scrollbars for all elements (Webkit browsers) */
 *::-webkit-scrollbar {
-    display: none !important;
+/*    display: none !important; */
+    width: auto; /* Allow vertical scrollbar */
+    height: 0px; /* Hide horizontal scrollbar */
+
 }
 
 /* Hide scrollbars for all elements (Firefox) */
 * {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    scrollbar-width: auto !important; /* Allow vertical scrollbar */
+ /*   scrollbar-width: none !important;  */
+ /*   -ms-overflow-style: none !important;  */
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none;
