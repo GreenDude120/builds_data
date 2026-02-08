@@ -56,9 +56,13 @@ body {
 /* Hide scrollbars for all elements (Webkit browsers) */
 *::-webkit-scrollbar {
 /*    display: none !important; */
-    width: auto; /* Allow vertical scrollbar */
+    width: 8px; /* Allow vertical scrollbar */
     height: 0px; /* Hide horizontal scrollbar */
 
+}
+*::-webkit-scrollbar-thumb {
+    background: #888;   /* Show thumb, style as needed */
+    border-radius: 4px;
 }
 
 /* Hide scrollbars for all elements (Firefox) */
