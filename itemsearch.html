@@ -274,6 +274,13 @@
             return;
         }
 
+        // Update the address bar for shareable URL
+        updateAddressBarWithSearch(
+            document.getElementById('itemName').value,
+            document.getElementById('searchHardcore').checked,
+            document.getElementById('includeMercenaries').checked
+        );
+
         const result = findCharactersWithItemMatch(itemQuery);
         displayItemResults(result, itemQuery);
     }
@@ -603,7 +610,16 @@
         }
     });
 
-    // ...existing code...
+    // Update the address bar with current search parameters (for shareable URL)
+    function updateAddressBarWithSearch(item, isHardcore, includeMercs) {
+        const baseURL = window.location.origin + window.location.pathname;
+        const params = new URLSearchParams();
+        params.set('item', item);
+        params.set('league', isHardcore ? 'hc' : 'sc');
+        params.set('mercs', includeMercs ? '1' : '0');
+        const newUrl = baseURL + '?' + params.toString();
+        window.history.replaceState({}, '', newUrl);
+    }
     </script>
 
     </div>
