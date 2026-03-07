@@ -5,6 +5,7 @@
     <title>Character Item Search</title>
     <link rel="stylesheet" type="text/css" href="./css/test-css.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="item-bases.js"></script>
 </head>
 <body class="not-main" style="background-color: #000000; background-image: none;">
     <div class="is-clipped">
@@ -362,7 +363,45 @@
         return ast;
     }
 
-    // Expand certain generic terms (like "shield") into broader category checks
+    // --- Base item lookup using item-bases.js ---
+    let baseLookupByName = null;
+
+    function normalizeBaseLookupKey(name) {
+        if (!name) return '';
+        return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function ensureBaseLookupInitialized() {
+        if (baseLookupByName !== null) return;
+        if (typeof bases === 'undefined' || !bases) {
+            baseLookupByName = {};
+            return;
+        }
+
+        baseLookupByName = {};
+        for (const baseKey in bases) {
+            if (!Object.prototype.hasOwnProperty.call(bases, baseKey)) continue;
+            const displayName = baseKey.replace(/_/g, ' ');
+            const norm = normalizeBaseLookupKey(displayName);
+            if (!baseLookupByName[norm]) {
+                baseLookupByName[norm] = bases[baseKey];
+            }
+        }
+    }
+
+    function getBaseForItem(item) {
+        if (!item) return null;
+        ensureBaseLookupInitialized();
+        if (!baseLookupByName) return null;
+
+        const tag = item.Tag || item.TextTag;
+        if (!tag) return null;
+        const normTag = normalizeBaseLookupKey(tag);
+        return baseLookupByName[normTag] || null;
+    }
+
+    // Expand certain generic terms (like "shield") into broader category checks,
+    // using base item type/group information from item-bases.js when possible.
     function buildItemMatchFn(itemGetter) {
         return function(term) {
             const t = term.toLowerCase();
@@ -370,26 +409,130 @@
             // Category: any shield (Monarch, Aegis, class shields, etc.)
             if (t === 'shield' || t === 'shields') {
                 return itemGetter(item => {
+                    const base = getBaseForItem(item);
+                    if (base) {
+                        if (base.type === 'shield' || base.shield === true || base.group === 'offhand') {
+                            return true;
+                        }
+                    }
+
+                    // Fallback: generic name-based shield detection
+                    const tag = (item.Tag || '').toLowerCase();
+                    const textTag = (item.TextTag || '').toLowerCase();
+                    if (tag.includes('shield') || textTag.includes('shield')) return true;
+
+
+                    return shieldBases.some(baseName =>
+                        tag.includes(baseName) || textTag.includes(baseName)
+                    );
+                });
+            }
+
+            // Category: any helm / helmet (based primarily on slot and common base names)
+            if (t === 'helm' || t === 'helmet' || t === 'helms' || t === 'helmets') {
+                return itemGetter(item => {
+                    const base = getBaseForItem(item);
+                    if (base) {
+                        if (base.group === 'helm' || base.type === 'helm') {
+                            return true;
+                        }
+                    }
+
+                    // Fallback: slot-based and name-based helm detection
+                    const worn = (item.Worn || '').toLowerCase();
+                    if (worn === 'helmet') return true;
+
+                    const tag = (item.Tag || '').toLowerCase();
+                    const textTag = (item.TextTag || '').toLowerCase();
+                    const helmKeywords = [
+                        'helm', 'circlet', 'crown', 'coronet', 'tiara', 'diadem',
+                        'cap', 'hat', 'hood', 'mask', 'bone visage', 'armet',
+                        'spired helm'
+                    ];
+
+                    return helmKeywords.some(hk =>
+                        tag.includes(hk) || textTag.includes(hk)
+                    );
+                });
+            }
+
+            // Category: any body armor (chest piece)
+            if (t === 'armor' || t === 'armour' || t === 'armors' || t === 'armours') {
+                return itemGetter(item => {
+                    const base = getBaseForItem(item);
+                    if (base) {
+                        if (base.group === 'armor' || base.type === 'armor') {
+                            return true;
+                        }
+                    }
+
+                    // Fallback: slot-based and name-based armor detection
+                    const worn = (item.Worn || '').toLowerCase();
+                    if (worn === 'body') return true;
+
+                    const tag = (item.Tag || '').toLowerCase();
+                    const textTag = (item.TextTag || '').toLowerCase();
+                    const armorKeywords = [
+                        'armor', 'mail', 'plate', 'hide', 'shell', 'shroud',
+                        'fleece', 'hauberk', 'coat', 'cuirass',
+                        'breastplate', 'scale', 'chain'
+                    ];
+
+                    return armorKeywords.some(ak =>
+                        tag.includes(ak) || textTag.includes(ak)
+                    );
+                });
+            }
+
+            // Category: any weapon (one- or two-handed, including caster weapons but excluding shields)
+            if (t === 'weapon' || t === 'weapons') {
+                return itemGetter(item => {
+                    const base = getBaseForItem(item);
+                    if (base) {
+                        if (base.group === 'weapon' || base.WEAPON === true) {
+                            return true;
+                        }
+                        // Explicitly avoid counting shields as weapons when using base data
+                        if (base.type === 'shield' || base.shield === true) {
+                            return false;
+                        }
+                    }
+
+                    const worn = (item.Worn || '').toLowerCase();
                     const tag = (item.Tag || '').toLowerCase();
                     const textTag = (item.TextTag || '').toLowerCase();
 
-                    // Generic shields and specific shield bases
-                    if (tag.includes('shield') || textTag.includes('shield')) return true;
-
-                    // Known shield bases that don't contain the word "shield"
+                    // Known shield bases (to avoid counting them as weapons when in weapon slots)
                     const shieldBases = [
                         'monarch', 'aegis', 'ward', 'grim shield', 'tower shield',
                         'kite shield', 'bone shield', 'pavise', 'gilded shield',
                         'dragon shield', 'heater', 'luna', 'hyperion',
                         'sacred targe', 'sacred rondache', 'kurast shield',
                         'zakarum shield', 'vortex shield',
-                        // Necro heads
                         'trophy', 'preserved head', 'zombie head', 'mummified trophy',
                         'fetish trophy', 'hierophant trophy', 'heirophant trophy'
                     ];
 
-                    return shieldBases.some(base =>
-                        tag.includes(base) || textTag.includes(base)
+                    const isShieldBase = shieldBases.some(baseName =>
+                        tag.includes(baseName) || textTag.includes(baseName)
+                    );
+
+                    // Weapon slots but not recognized shield bases
+                    if (/^s?weapon[12]$/.test(worn) && !isShieldBase) {
+                        return true;
+                    }
+
+                    // Fallback: look for obvious weapon-type keywords in the base name
+                    const weaponKeywords = [
+                        'sword', 'axe', 'mace', 'hammer', 'flail', 'club', 'maul',
+                        'knife', 'dagger', 'javelin', 'spear', 'pike', 'poleaxe',
+                        'partizan', 'scythe', 'bow', 'crossbow', 'wand', 'staff',
+                        'orb', 'glaive', 'halberd', 'thresher', 'mancatcher',
+                        'war scepter', 'scepter', 'fist', 'claw'
+                    ];
+
+                    return weaponKeywords.some(wk =>
+                        tag.includes(wk) || textTag.includes(wk)
                     );
                 });
             }
