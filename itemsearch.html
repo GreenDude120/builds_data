@@ -410,21 +410,8 @@
             if (t === 'shield' || t === 'shields') {
                 return itemGetter(item => {
                     const base = getBaseForItem(item);
-                    if (base) {
-                        if (base.type === 'shield' || base.shield === true || base.group === 'offhand') {
-                            return true;
-                        }
-                    }
-
-                    // Fallback: generic name-based shield detection
-                    const tag = (item.Tag || '').toLowerCase();
-                    const textTag = (item.TextTag || '').toLowerCase();
-                    if (tag.includes('shield') || textTag.includes('shield')) return true;
-
-
-                    return shieldBases.some(baseName =>
-                        tag.includes(baseName) || textTag.includes(baseName)
-                    );
+                    if (!base) return false;
+                    return base.type === 'shield' || base.shield === true || base.group === 'offhand';
                 });
             }
 
@@ -489,51 +476,15 @@
                 return itemGetter(item => {
                     const base = getBaseForItem(item);
                     if (base) {
+                        if (base.type === 'shield' || base.shield === true || base.group === 'offhand') {
+                            return false;
+                        }
                         if (base.group === 'weapon' || base.WEAPON === true) {
                             return true;
                         }
-                        // Explicitly avoid counting shields as weapons when using base data
-                        if (base.type === 'shield' || base.shield === true) {
-                            return false;
-                        }
+                        return false;
                     }
-
-                    const worn = (item.Worn || '').toLowerCase();
-                    const tag = (item.Tag || '').toLowerCase();
-                    const textTag = (item.TextTag || '').toLowerCase();
-
-                    // Known shield bases (to avoid counting them as weapons when in weapon slots)
-                    const shieldBases = [
-                        'monarch', 'aegis', 'ward', 'grim shield', 'tower shield',
-                        'kite shield', 'bone shield', 'pavise', 'gilded shield',
-                        'dragon shield', 'heater', 'luna', 'hyperion',
-                        'sacred targe', 'sacred rondache', 'kurast shield',
-                        'zakarum shield', 'vortex shield',
-                        'trophy', 'preserved head', 'zombie head', 'mummified trophy',
-                        'fetish trophy', 'hierophant trophy', 'heirophant trophy'
-                    ];
-
-                    const isShieldBase = shieldBases.some(baseName =>
-                        tag.includes(baseName) || textTag.includes(baseName)
-                    );
-
-                    // Weapon slots but not recognized shield bases
-                    if (/^s?weapon[12]$/.test(worn) && !isShieldBase) {
-                        return true;
-                    }
-
-                    // Fallback: look for obvious weapon-type keywords in the base name
-                    const weaponKeywords = [
-                        'sword', 'axe', 'mace', 'hammer', 'flail', 'club', 'maul',
-                        'knife', 'dagger', 'javelin', 'spear', 'pike', 'poleaxe',
-                        'partizan', 'scythe', 'bow', 'crossbow', 'wand', 'staff',
-                        'orb', 'glaive', 'halberd', 'thresher', 'mancatcher',
-                        'war scepter', 'scepter', 'fist', 'claw'
-                    ];
-
-                    return weaponKeywords.some(wk =>
-                        tag.includes(wk) || textTag.includes(wk)
-                    );
+                    return false;
                 });
             }
 
