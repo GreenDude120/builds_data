@@ -9,7 +9,7 @@
 </head>
 <body style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
     <div id="alertBanner" style="display: none; padding: 10px; background-color: #ffcc00; color: #333;">
-        No ladder snapshot was found for this character.
+        The streamer hasn't set up their account name. Please let them know to configure it!
     </div>
     <div id="app" class="full-height"></div>
 <!--    <button onclick="retrieveCharacterData()" >Click me!</button> -->
@@ -233,50 +233,18 @@ function initializeCharacterSections() {
     });
 }
 
-function showAlert(message) {
-    const banner = document.getElementById("alertBanner");
-    if (!banner) {
-        return;
-    }
-
-    banner.textContent = message;
-    banner.style.display = "block";
-}
-
-function normalizeCharacterName(value) {
-    return String(value || "").trim().toLowerCase();
-}
-
-function ladderSnapshotPath() {
-    const mode = (getQueryParam("mode") || "sc").toLowerCase();
-//    return mode === "hc" ? "../hc_ladder.json" : "../sc_ladder.json";
-    return mode === "hc" ? "../Season/13/Final/hc_ladder.json" : "../Season/13/Final/sc_ladder.json";
-}
-
 async function fetchCharacterData(characterName) {
-    const snapshotPath = ladderSnapshotPath();
-    const modeLabel = snapshotPath.includes("hc_") ? "hardcore" : "softcore";
+    const url = `https://beta.pathofdiablo.com/api/characters/${encodeURIComponent(characterName)}/summary`;
 
     try {
-        const response = await fetch(snapshotPath, { cache: "force-cache" });
+        const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Snapshot load failed with status: ${response.status}`);
+            throw new Error(`API call failed with status: ${response.status}`);
         }
-
-        const ladderCharacters = await response.json();
-        const match = Array.isArray(ladderCharacters)
-            ? ladderCharacters.find(character => normalizeCharacterName(character["Name"]) === normalizeCharacterName(characterName))
-            : null;
-
-        if (!match) {
-            throw new Error(`Character ${characterName} was not found in the ${modeLabel} ladder snapshot.`);
-        }
-
-        document.getElementById("alertBanner").style.display = "none";
-        processCharacterData(match);
+        const data = await response.json();
+        processCharacterData(data);
     } catch (error) {
         console.error("Error fetching character data:", error);
-        showAlert(`No ${modeLabel} ladder snapshot was found for ${characterName}.`);
     }
 }
 
@@ -620,7 +588,7 @@ function createImageHTML(itemObject, hoverContainerId) {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${baseTag.toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="45vw" height="auto" />`;    
 } 
     else if (
-        (itemObject["Worn"] === "weapon1" || itemObject["Worn"] === "weapon2") &&
+        (itemObject["Worn"] === "weapon1" || itemObject["Worn"] === "weapon2" || itemObject["Worn"] === "sweapon1" || itemObject["Worn"] === "sweapon2") &&
         itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2
     ) {
         let imageName;
@@ -670,16 +638,17 @@ function createImageHTML(itemObject, hoverContainerId) {
     } 
     else if (itemObject["Quality"] === "Rare") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["Quality"] === "Craft") {
 //        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["Tag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
     } 
     else if (itemObject["QualityCode"] === "q_runeword") {
-//        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="100vw" height="auto" />`;
-        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="90vw" height="auto" />`;
-    } 
+        const isSmall = itemObject["Size"] && itemObject["Size"]["invheight"] < 5 && itemObject["Size"]["invwidth"] < 2;
+        const width = isSmall ? "45vw" : "90vw";
+        imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://beta.pathofdiablo.com/images/d2/${itemObject["TextTag"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="${width}" height="auto" />`;
+    }
     else if (itemObject["Worn"] === "helmet") {
         imageHTML = `<img id="${hoverContainerId}-${itemObject["Worn"]}-img" src="https://pathofdiablo.com/p/armory/img/items/${itemObject["Title"].toLowerCase().replace(/ /g, "_").replace(/'/g, "%27")}.gif" width="85vw" max-width="90%" height="auto" />`;
     } 
