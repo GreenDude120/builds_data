@@ -23,7 +23,29 @@ def generate_pie_chart(class_counts):
         print("⚠️ No characters found for pie chart.")
         return
 
-    armory = FontProperties(fname='armory/font/avqest.ttf')  # Update path if needed
+    try:
+        armory = FontProperties(fname='../armory/font/avqest.ttf')  # Update path for scripts dir
+    except:
+        armory = None  # Fallback if font not available
+
+    # Class color mapping
+    class_color_map = {
+        "ama": "rgb(255, 102, 105)",      # Amazon - Red
+        "asn": "rgb(255, 255, 255)",      # Assassin - White
+        "bar": "rgb(150, 105, 32)",       # Barbarian - Brown
+        "dru": "rgb(255, 186, 74)",       # Druid - Orange
+        "nec": "rgb(179, 255, 253)",      # Necromancer - Cyan
+        "pal": "rgb(255, 243, 112)",      # Paladin - Yellow
+        "sor": "rgb(188, 107, 255)"       # Sorceress - Lavender
+    }
+    
+    # Convert RGB strings to matplotlib format and map to classes in order
+    def rgb_to_matplotlib(rgb_string):
+        # Extract numbers from "rgb(r, g, b)" format
+        rgb_values = rgb_string.replace("rgb(", "").replace(")", "").split(",")
+        return tuple(int(v.strip()) / 255.0 for v in rgb_values)
+    
+    colors = [rgb_to_matplotlib(class_color_map.get(class_code, "rgb(128, 128, 128)")) for class_code in classes]
 
     def make_autopct(values):
         def my_autopct(pct):
@@ -38,13 +60,13 @@ def generate_pie_chart(class_counts):
 
     wedges, texts, autotexts = plt.pie(
         counts, labels=classes, autopct=make_autopct(counts), startangle=250,
-        colors=plt.cm.Paired.colors, radius=1.4,
-        textprops={'fontsize': 30, 'color': 'white', 'fontproperties': armory}
+        colors=colors, radius=1.4,
+        textprops={'fontsize': 30, 'color': 'white', 'fontproperties': armory if armory else None}
     )
 
     title = plt.title(
         f"Class Distribution of Top 1,000 Characters\n\nAs of {timestamp}",
-        pad=50, fontsize=45, fontproperties=armory, loc='left', color="white"
+        pad=50, fontsize=45, fontproperties=armory if armory else None, loc='left', color="white"
     )
     title.set_fontsize(45)  # 🔹 Force title size after creation
 
@@ -55,7 +77,8 @@ def generate_pie_chart(class_counts):
         autotext.set_color('black')
 
     plt.axis('equal')  # Ensures the pie chart is circular
-    plt.savefig("charts/1kclass_distribution.png", dpi=300, bbox_inches='tight', transparent=True)
+    os.makedirs("../charts", exist_ok=True)  # Ensure charts directory exists
+    plt.savefig("../charts/1kclass_distribution.png", dpi=300, bbox_inches='tight', transparent=True)
     plt.close()  # Avoid memory issues
     print("✅ Pie chart saved as 1kclass_distribution.png")
 
@@ -86,6 +109,18 @@ def fetch_1kladder_characters(base_ladder_url, pages):
             print(f"⚠️ Failed to fetch page {page}: {response.status_code}")
     return all_characters
 
+def strip_item_ids(char_data):
+    """Remove the 'id' property from each item under Equipped/MercenaryEquipped."""
+    for key in ("Equipped", "MercenaryEquipped"):
+        items = char_data.get(key)
+        if isinstance(items, list):
+            for item in items:
+                if isinstance(item, dict):
+                    item.pop("id", None)
+        elif isinstance(items, dict):
+            items.pop("id", None)
+    return char_data
+
 def fetch_char_summaries(characters):
     char_url = "https://beta.pathofdiablo.com/api/characters/{char_name}/summary"
     final_data = []
@@ -98,7 +133,7 @@ def fetch_char_summaries(characters):
 
         response = requests.get(char_url.format(char_name=char_name))
         if response.status_code == 200:
-            final_data.append(response.json())
+            final_data.append(strip_item_ids(response.json()))
         else:
             print(f"⚠️ Failed to fetch character summary: {char_name}")
     return final_data
@@ -224,10 +259,30 @@ def GetAllHCCharData():
 
     print(f"✅ Saved {len(character_data)} unique characters to hc_ladder.json")
 
+def copy_ladders_to_dailies():
+    """Copy sc_ladder.json and hc_ladder.json to dailies/ with a date-stamped filename."""
+    today = datetime.now().strftime('%m-%d')
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    dailies_dir = os.path.abspath(os.path.join(script_dir, '..', 'dailies'))
+    os.makedirs(dailies_dir, exist_ok=True)
+    for base in ['sc_ladder.json', 'hc_ladder.json']:
+        src = os.path.abspath(os.path.join(script_dir, '..', base))
+        if os.path.exists(src):
+            if base.startswith('sc_'):
+                dst = os.path.join(dailies_dir, f"{today}-sc_ladder.json")
+            elif base.startswith('hc_'):
+                dst = os.path.join(dailies_dir, f"{today}-hc_ladder.json")
+            else:
+                continue
+            import shutil
+            shutil.copy2(src, dst)
+            print(f"Copied {src} to {dst}")
+
 
 def main():
     GetAllCharData()
     GetAllHCCharData()
+#    copy_ladders_to_dailies()
 
 
 if __name__ == "__main__":

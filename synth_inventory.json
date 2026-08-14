@@ -56,7 +56,7 @@
     "base_type": "Synthesized Matriarchal Javelin",
     "title": "Thunderstroke",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+4 to Javelin and Spear Skills (Amazon Only)",
       "+33% Piercing Attack",
       "+511% Enhanced Damage",
@@ -165,7 +165,7 @@
     "base_type": "Synthesized Fanged Knife",
     "title": "The Jade Tan Do",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+1 to Druid Skill Levels",
       "+20% Faster Run/Walk",
       "+84% Increased Attack Speed",
@@ -214,7 +214,7 @@
     "base_type": "Synthesized Caduceus",
     "title": "Hand of Blessed Light",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "100% Chance to cast level 50 Holy Bolt when you Level-Up",
       "+2 to All Skills",
       "+2 to Paladin Skill Levels",
@@ -245,7 +245,7 @@
     "base_type": "Synthesized Polished Wand",
     "title": "Torch of Iro",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "100% Chance to cast level 29 Blaze when you Level-Up",
       "+5 to All Skills",
       "+1 to Necromancer Skill Levels",
@@ -273,7 +273,7 @@
     "base_type": "Synthesized Thresher",
     "title": "Soul Harvest",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "Melee attacks deal splash damage",
       "5% Chance to cast level 3 Frozen Orb on striking",
       "+2 to Cold Skills",
@@ -331,7 +331,7 @@
     "base_type": "Synthesized Polished Wand",
     "title": "Torch of Iro",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+5 to All Skills",
       "+1 to Necromancer Skill Levels",
       "+231% Enhanced Damage",
@@ -357,7 +357,7 @@
     "base_type": "Synthesized Crusader Bow",
     "title": "Wizendraw",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "100% Chance to cast level 43 Frost Nova when you Level-Up",
       "100% Chance to cast level 37 Blizzard when you Die",
       "+2 to Cold Skills",
@@ -417,7 +417,7 @@
     "base_type": "Synthesized Matriarchal Javelin",
     "title": "Titan's Revenge",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to All Skills",
       "+2 to Amazon Skill Levels",
       "+150% Enhanced Damage",
@@ -496,7 +496,7 @@
     "base_type": "Synthesized Hydra Bow",
     "title": "Windforce",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "400% Chance to cast level 31 War Cry when you Level-Up",
       "33% Chance to cast level 1 Decrepify on striking",
       "Adds 20-10 damage",
@@ -549,7 +549,7 @@
     "base_type": "Synthesized Large Siege Bow",
     "title": "Cliffkiller",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to Amazon Skill Levels",
       "+20 to Maximum Damage",
       "Ignore Target's Defense",
@@ -669,7 +669,7 @@
     "base_type": "Synthesized Grim Wand",
     "title": "Ume's Lament",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to Necromancer Skill Levels",
       "+3 to Druid Skill Levels",
       "+50% Increased Attack Speed",
@@ -693,7 +693,7 @@
     "base_type": "Synthesized Cryptic Axe",
     "title": "Pierre Tombale Couant",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+155% Increased Attack Speed",
       "+30% Faster Hit Recovery",
       "+544% Enhanced Damage",
@@ -890,7 +890,7 @@
     "base_type": "Synthesized Bone Wand",
     "title": "Gravenspine",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "100% Chance to cast level 29 Blaze when you Level-Up",
       "+2 to All Skills",
       "+2 to Poison and Bone Skills (Necromancer Only)",
@@ -920,7 +920,7 @@
     "base_type": "Synthesized Conquest Sword",
     "title": "Headstriker",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "6% Chance to cast level 1 Amplify Damage on striking",
       "+3 to Elemental Skills (Druid Only)",
       "+624% Enhanced Damage",
@@ -969,7 +969,7 @@
     "base_type": "Synthesized Matriarchal Javelin",
     "title": "Thunderstroke",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+22% Increased Attack Speed",
       "+25% Piercing Attack",
       "+360% Enhanced Damage",
@@ -1023,7 +1023,7 @@
     "base_type": "Synthesized Shadow Bow",
     "title": "Raven Claw",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "33% Chance to cast level 1 Decrepify on striking",
       "Fires Explosive Arrows or Bolts",
       "+313% Enhanced Damage",
@@ -1049,7 +1049,7 @@
     "base_type": "Synthesized Crowbill",
     "title": "Pompeii's Wrath",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "4% Chance to cast level 8 Volcano on striking",
       "9% Chance to cast level 16 Desecrate on attack",
       "+50% Increased Attack Speed",
@@ -1157,7 +1157,7 @@
     "base_type": "Synthesized Cedar Staff",
     "title": "Chromatic Ire",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 8 Poison Nova on striking",
       "6% Chance to cast level 5 Blizzard on striking",
       "+3 to Sorceress Skill Levels",
@@ -1260,7 +1260,7 @@
     "base_type": "Synthesized Ward Bow",
     "title": "Magewrath",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to Paladin Skill Levels",
       "+120% Increased Attack Speed",
       "+100% Piercing Attack",
@@ -1386,7 +1386,7 @@
     "base_type": "Synthesized Legendary Mallet",
     "title": "Stone Crusher",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "15% Chance to cast level 26 Ball Lightning on striking",
       "Indestructible",
       "+2 to All Skills",
@@ -1419,7 +1419,7 @@
     "base_type": "Synthesized Grim Wand",
     "title": "Ume's Lament",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+1 to Curses (Necromancer Only)",
       "+4 to Necromancer Skill Levels",
       "+30% Faster Cast Rate",
@@ -1468,7 +1468,7 @@
     "base_type": "Synthesized Polished Wand",
     "title": "Suicide Branch",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+1 to All Skills",
       "+80% Faster Cast Rate",
       "+50% Damage to Undead",
@@ -1570,7 +1570,7 @@
     "base_type": "Synthesized Mighty Scepter",
     "title": "The Redeemer",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to Druid Skill Levels",
       "+478% Enhanced Damage",
       "Adds 63-120 damage",
@@ -1596,7 +1596,7 @@
     "base_type": "Synthesized Champion Sword",
     "title": "Cloudcrack",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "33% Chance to cast level 1 Decrepify on striking",
       "+20% Increased Attack Speed",
       "+170% Enhanced Damage",
@@ -1773,7 +1773,7 @@
     "base_type": "Synthesized Long Sword",
     "title": "Hellplague",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "100% Chance to cast level 31 Meteor when you Die",
       "+4 to All Skills",
       "+2 to fire skills",
@@ -1803,7 +1803,7 @@
     "base_type": "Synthesized Crusader Bow",
     "title": "Eaglehorn",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+19% Increased Attack Speed",
       "+296% Enhanced Damage",
       "+184% Enhanced Maximum Damage (Based on Character Level)",
@@ -1853,7 +1853,7 @@
     "base_type": "Synthesized Polished Wand",
     "title": "Suicide Branch",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "Indestructible",
       "+3 to All Skills",
       "+30% Increased Attack Speed",
@@ -1960,7 +1960,7 @@
     "base_type": "Synthesized Colossus Sword",
     "title": "Ripsaw",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+100% Increased Attack Speed",
       "+20% Faster Hit Recovery",
       "+374% Enhanced Damage",
@@ -1986,7 +1986,7 @@
     "base_type": "Synthesized Grim Wand",
     "title": "Ume's Lament",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to Sorceress Skill Levels",
       "+2 to Necromancer Skill Levels",
       "+70% Faster Cast Rate",
@@ -2068,7 +2068,7 @@
     "base_type": "Synthesized Matriarchal Bow",
     "title": "Blood Raven's Charge",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "10% Chance to cast level 20 Charged Bolt on striking",
       "5% Chance to cast level 10 Chain Lightning on striking",
       "33% Chance to cast level 1 Decrepify on striking",
@@ -2118,7 +2118,7 @@
     "base_type": "Synthesized Executioner Sword",
     "title": "Swordguard",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 1 Decrepify on striking",
       "10% Chance to cast level 1 Confuse on striking",
       "+2 to Paladin Skill Levels",
@@ -2174,7 +2174,7 @@
     "base_type": "Synthesized Bone Knife",
     "title": "Wizardspike",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "Indestructible",
       "+3 to All Skills",
       "+20% Increased Attack Speed",
@@ -2300,7 +2300,7 @@
     "base_type": "Synthesized Great Bow",
     "title": "Rogue's Bow",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "200% Chance to cast level 31 War Cry when you Level-Up",
       "+50% Increased Attack Speed",
       "+305% Enhanced Damage",
@@ -2330,7 +2330,7 @@
     "base_type": "Synthesized Shadow Bow",
     "title": "Kuko Shakaku",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "2% Chance to cast level 6 Meteor on striking",
       "+2 to Necromancer Skill Levels",
       "+30% Increased Attack Speed",
@@ -2406,7 +2406,7 @@
     "base_type": "Synthesized Thresher",
     "title": "Athena's Wrath",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "Melee attacks deal splash damage",
       "33% Chance to cast level 3 Amplify Damage on striking",
       "+75% Increased Attack Speed",
@@ -2528,7 +2528,7 @@
     "base_type": "Synthesized Hydra Edge",
     "title": "Gleamscythe",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+50% Increased Attack Speed",
       "+511% Enhanced Damage",
       "Adds 45-85 damage",
@@ -2552,7 +2552,7 @@
     "base_type": "Synthesized Colossus Blade",
     "title": "Swordguard",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "20% Increased Chance of Blocking",
       "+295% Enhanced Damage",
       "Ignore Target's Defense",
@@ -2579,7 +2579,7 @@
     "base_type": "Synthesized Winged Axe",
     "title": "Lacerator",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "33% Chance to cast level 3 Amplify Damage on striking",
       "+10% Faster Cast Rate",
       "+250% Enhanced Damage",
@@ -2604,7 +2604,7 @@
     "base_type": "Synthesized Mithril Point",
     "title": "Heart Carver",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "50% Chance to cast level 20 Holy Bolt when struck",
       "+442% Enhanced Damage",
       "+5 to Minimum Damage",
@@ -2731,7 +2731,7 @@
     "base_type": "Synthesized Berserker Axe",
     "title": "Rakescar",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+232% Enhanced Damage",
       "+50 to Attack Rating",
       "+89 Wounds Bleed Damage Per Second (Based on Character Level)",
@@ -2757,7 +2757,7 @@
     "base_type": "Synthesized Thunder Maul",
     "title": "Earth Shifter",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "10% Chance to cast level 5 Frost Nova when struck",
       "100% Chance to cast level 31 War Cry when you Level-Up",
       "18% Chance to cast level 19 Fissure on striking",
@@ -2790,7 +2790,7 @@
     "base_type": "Synthesized Winged Harpoon",
     "title": "Gargoyle's Bite",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 8 Poison Nova on striking",
       "Indestructible",
       "+448% Enhanced Damage",
@@ -2817,7 +2817,7 @@
     "base_type": "Synthesized Ogre Maul",
     "title": "Bonesnap",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+504% Enhanced Damage",
       "Ignore Target's Defense",
       "+50% Damage to Undead",
@@ -2894,7 +2894,7 @@
     "base_type": "Synthesized Colossus Crossbow",
     "title": "Buriza-Do Kyanon",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+100% Increased Attack Speed",
       "+100% Piercing Attack",
       "+177% Enhanced Damage",
@@ -2979,7 +2979,7 @@
     "base_type": "Synthesized Glorious Axe",
     "title": "The Minotaur",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 6 Meteor on striking",
       "+100% Increased Attack Speed",
       "+439% Enhanced Damage",
@@ -3003,7 +3003,7 @@
     "base_type": "Synthesized Ettin Axe",
     "title": "Islestrike",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to All Skills",
       "+2 to Druid Skill Levels",
       "Fires Explosive Arrows or Bolts",
@@ -3055,7 +3055,7 @@
     "base_type": "Synthesized Colossus Blade",
     "title": "Swordguard",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+30% Increased Attack Speed",
       "+213% Enhanced Damage",
       "+20 to Maximum Damage",
@@ -3081,7 +3081,7 @@
     "base_type": "Synthesized Falchion",
     "title": "Gleamscythe",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 7 Fissure on striking",
       "+3 to Elemental Skills (Druid Only)",
       "+20% Increased Attack Speed",
@@ -3105,7 +3105,7 @@
     "base_type": "Synthesized Fanged Knife",
     "title": "Fleshripper",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+20% Increased Attack Speed",
       "+50% Faster Cast Rate",
       "+214% Enhanced Damage",
@@ -3255,7 +3255,7 @@
     "base_type": "Synthesized Mighty Scepter",
     "title": "Heaven's Light",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "4% Chance to cast level 10 Lower Resist on striking",
       "+2 to Poison Skills",
       "+2 to Paladin Skill Levels",
@@ -3330,7 +3330,7 @@
     "base_type": "Synthesized Rune Staff",
     "title": "Skull Collector",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+2 to All Skills",
       "+1 to Necromancer Skill Levels",
       "+92 to Maximum Damage (Based on Character Level)",
@@ -3383,7 +3383,7 @@
     "base_type": "Synthesized Maul",
     "title": "Bonesnap",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+5 to All Skills",
       "+30% Faster Cast Rate",
       "+92 to Maximum Damage (Based on Character Level)",
@@ -3409,7 +3409,7 @@
     "base_type": "Synthesized Long Staff",
     "title": "Serpent Lord",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "10% Chance to cast level 10 Ice Blast on striking",
       "+11% Increased Attack Speed",
       "+241% Enhanced Damage",
@@ -3457,7 +3457,7 @@
     "base_type": "Synthesized Highland Blade",
     "title": "Bing Sz Wang",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "5% Chance to cast level 3 Frozen Orb on striking",
       "+18% Increased Attack Speed",
       "+35% Piercing Attack",
@@ -3486,7 +3486,7 @@
     "base_type": "Synthesized Tomahawk",
     "title": "Coldkill",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "10% Chance to cast level 5 Frost Nova when struck",
       "10% Chance to cast level 10 Ice Blast on striking",
       "+30% Increased Attack Speed",
@@ -3560,7 +3560,7 @@
     "base_type": "Synthesized Jagged Star",
     "title": "Moonfall",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+70% Increased Attack Speed",
       "Adds 30-65 damage",
       "+100% Damage to Undead",
@@ -3585,7 +3585,7 @@
     "base_type": "Synthesized Falcata",
     "title": "Rixot's Keen",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+20% Increased Attack Speed",
       "+308% Enhanced Damage",
       "Adds 10-15 damage",
@@ -3611,7 +3611,7 @@
     "base_type": "Synthesized Ogre Maul",
     "title": "Bonesnap",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "2% Chance to cast level 5 Amplify Damage on striking",
       "+30% Increased Attack Speed",
       "+565% Enhanced Damage",
@@ -3664,7 +3664,7 @@
     "base_type": "Synthesized Matriarchal Spear",
     "title": "Stoneraven",
     "properties": [
-      "\u00ffc1Corrupted",
+      "ÿc1Corrupted",
       "+3 to Javelin and Spear Skills (Amazon Only)",
       "+2 to Amazon Skill Levels",
       "+228% Enhanced Damage",
