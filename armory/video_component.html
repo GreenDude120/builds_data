@@ -175,15 +175,16 @@
 <script>
     //let token = '';
 //let tuid = '';
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
 
 $(document).ready(function() {
     console.log("(document).ready worked");
 
     // Extract character name from URL if available
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
 
     let characterName = getQueryParam("charName");
 
@@ -248,13 +249,30 @@ function normalizeCharacterName(value) {
 }
 
 function ladderSnapshotPath() {
-    const mode = (getQueryParam("mode") || "sc").toLowerCase();
-//    return mode === "hc" ? "../hc_ladder.json" : "../sc_ladder.json";
-    return mode === "hc" ? "../Season/13/Final/hc_ladder.json" : "../Season/13/Final/sc_ladder.json";
+
+    const modeParam =
+        (getQueryParam("mode") || "")
+            .toLowerCase();
+
+    const filename =
+        window.location.pathname
+            .split("/")
+            .pop()
+            .toLowerCase();
+
+    const isHardcore =
+        modeParam === "hc" ||
+        filename.startsWith("hc");
+
+    return isHardcore
+        ? "../Season/13/Final/hc_ladder.json"
+        : "../Season/13/Final/sc_ladder.json";
+    //    return mode === "hc" ? "../hc_ladder.json" : "../sc_ladder.json";
 }
 
-async function fetchCharacterData(characterName) {
+/*async function fetchCharacterData(characterName) {
     const snapshotPath = ladderSnapshotPath();
+    console.log("Fetching character data for:", characterName, "from snapshot:", snapshotPath);
     const modeLabel = snapshotPath.includes("hc_") ? "hardcore" : "softcore";
 
     try {
@@ -277,6 +295,105 @@ async function fetchCharacterData(characterName) {
     } catch (error) {
         console.error("Error fetching character data:", error);
         showAlert(`No ${modeLabel} ladder snapshot was found for ${characterName}.`);
+    }
+}*/
+async function fetchCharacterData(characterName) {
+
+    const preferredPath = ladderSnapshotPath();
+
+    const alternatePath =
+        preferredPath.includes("hc_ladder.json")
+            ? "../Season/13/Final/sc_ladder.json"
+            : "../Season/13/Final/hc_ladder.json";
+
+    const snapshotPaths = [
+        preferredPath,
+        alternatePath
+    ];
+
+    console.log(
+        "Fetching character data for:",
+        characterName,
+        "Snapshots:",
+        snapshotPaths
+    );
+
+    let match = null;
+    let foundPath = null;
+
+    try {
+
+        for (const snapshotPath of snapshotPaths) {
+
+            console.log(
+                "Searching snapshot:",
+                snapshotPath
+            );
+
+            const response = await fetch(
+                snapshotPath,
+                { cache: "force-cache" }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Snapshot load failed with status: ${response.status}`
+                );
+            }
+
+            const ladderCharacters = await response.json();
+
+            match = Array.isArray(ladderCharacters)
+                ? ladderCharacters.find(
+                    character =>
+                        normalizeCharacterName(character["Name"]) ===
+                        normalizeCharacterName(characterName)
+                )
+                : null;
+
+            if (match) {
+
+                foundPath = snapshotPath;
+
+                console.log(
+                    "Character found in:",
+                    foundPath
+                );
+
+                break;
+            }
+        }
+
+        if (!match) {
+
+            throw new Error(
+                `Character ${characterName} was not found in either ladder snapshot.`
+            );
+        }
+
+        const modeLabel =
+            foundPath.includes("hc_ladder.json")
+                ? "hardcore"
+                : "softcore";
+
+        console.log(
+            `Found ${characterName} in the ${modeLabel} ladder snapshot.`
+        );
+
+        document.getElementById("alertBanner").style.display = "none";
+
+        processCharacterData(match);
+
+    } catch (error) {
+
+        console.error(
+            "Error fetching character data:",
+            error
+        );
+
+        showAlert(
+            `No ladder snapshot was found for ${characterName}.`
+        );
     }
 }
 
